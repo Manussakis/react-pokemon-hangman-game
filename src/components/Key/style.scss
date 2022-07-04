@@ -1,0 +1,26 @@
+.key {
+  width: 4rem;
+  height: 4rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  font-size: 1rem;
+  background-color: white;
+  margin: 0.1rem;
+  font-weight: bold;
+  box-shadow: 4px 4px 0 black;
+}
+
+.key--disable {
+  pointer-events: none;
+  background-color: var(--red);
+  box-shadow: 1px 1px 0 black;
+}
+
+.key--right-guess {
+  background-color: var(--lighrgreen);
+}
