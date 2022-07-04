@@ -1,14 +1,20 @@
 import React from 'react';
 import { Keyboard } from './components/Keyboard';
+import { WordInProgress } from './components/WordInProgress';
 
-const wordInProgress = ['', 'e', 'o', '', '', 'e'];
+import './App.css';
+
+const wordInProgress = ['_', 'e', 'o', '_', '_', 'e'];
 const guesses = ['o', 'e', 'a'];
 
 function App() {
   return (
     <>
       <main>
-        <Keyboard wordInProgress={ wordInProgress} guesses={ guesses}  />
+        <div className="container">
+          <WordInProgress wordInProgress={wordInProgress} />
+          <Keyboard wordInProgress={wordInProgress} guesses={guesses} />
+        </div>
       </main>
     </>
   );

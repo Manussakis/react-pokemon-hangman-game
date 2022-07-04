@@ -1,0 +1,14 @@
+.word-in-progress {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.word-in-progress__item {
+  padding: 0.5rem;
+  font-size: 3rem;
+  text-transform: uppercase;
+}
