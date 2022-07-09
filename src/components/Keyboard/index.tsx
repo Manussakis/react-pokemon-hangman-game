@@ -1,17 +1,24 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useAppContext } from '../../context/AppContext';
 import { KEYBOARD_LETTERS } from '../../library/constants';
 import { Key } from '../Key';
 import './style.scss';
 
-interface KeyboadProps {
-  wordInProgress: string[];
-  guesses: string[];
-};
+export const Keyboard = () => {
+  const { word, wordInProgress, guesses, updateWordInProgress, updateGuesses } = useAppContext();
 
-export const Keyboard = ({ wordInProgress, guesses }: KeyboadProps) => {
-  function onClickKey(letter: string) {
-    console.log(letter);
+  const checkResult = (word: string[], wordInProgress: string[]) => {
+    return word.join('') === wordInProgress.join('');
   }
+
+  const handleClick = (letter: string) => {
+    updateWordInProgress(letter);
+    updateGuesses(letter);
+  }
+
+  useEffect(() => {
+    console.log(checkResult(word, wordInProgress));
+  }, [word, wordInProgress]);
 
   return (
     <div className='keyboard'>
@@ -24,7 +31,7 @@ export const Keyboard = ({ wordInProgress, guesses }: KeyboadProps) => {
             const isDisable = guesses.includes(letter);
 
             return (
-              <Key key={letter} isDisable={isDisable} isInWord={isInWord} letter={letter} onClickKey={onClickKey}/>
+              <Key key={letter} isDisable={isDisable} isInWord={isInWord} letter={letter} onClick={handleClick}/>
             );
           })}
         </div>

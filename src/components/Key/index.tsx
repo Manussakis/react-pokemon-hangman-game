@@ -1,17 +1,16 @@
-import React from 'react';
 import './style.scss';
 
 interface KeyProps {
   letter: string;
   isDisable: boolean;
   isInWord: boolean;
-  onClickKey: (letter: string) => void;
+  onClick: (letter: string) => void;
 };
 
-export const Key = ({ letter, isDisable, isInWord, onClickKey }: KeyProps) => {
+export const Key = ({ letter, isDisable, isInWord, onClick }: KeyProps) => {
   return (
     <button className={`key key--${letter}${isDisable ? ' key--disable' : ''}${isInWord ? ' key--right-guess' : ''}`}
-      onClick={() => onClickKey(letter)}>
+      onClick={() => onClick(letter)}>
       {letter}
     </button>
   );

@@ -1,11 +1,10 @@
 import React from 'react';
+import { useAppContext } from '../../context/AppContext';
 import './style.css';
 
-interface WordInProgressProps {
-  wordInProgress: string[];
-}
+export const WordInProgress = () => {
+  const { wordInProgress } = useAppContext();
 
-export const WordInProgress = ({ wordInProgress }: WordInProgressProps) => {
   return (
     <ul className='word-in-progress'>
       {wordInProgress.map((slot, index) => {
