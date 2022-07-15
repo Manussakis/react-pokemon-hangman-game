@@ -1,10 +1,12 @@
-import React, { createContext, ReactElement, useContext, useEffect, useState } from 'react';
+import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
 import { api } from '../api';
+import { MAX_ATTEMPTS } from '../library/constants';
 
 interface AppContextValue {
   word: string[];
   wordInProgress: string[];
   guesses: string[];
+  remainingAttempts: number;
   updateWordInProgress: (letter: string) => void;
   updateGuesses: (letter: string) => void;
 };
@@ -15,10 +17,24 @@ interface AppContextProviderProps {
   children: ReactElement;
 }
 
-export const AppContextProvider = ({children}: AppContextProviderProps) => {
+enum LevelEnum {
+  Easy = 'easy',
+  Medium = 'medium',
+  Hard = 'hard',
+}
+
+const remainingAttemptsObj = {
+  [LevelEnum.Easy]: MAX_ATTEMPTS,
+  [LevelEnum.Medium]: 6,
+  [LevelEnum.Hard]: 3,
+};
+
+export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [word, setWord] = useState<string[]>([]);
   const [wordInProgress, setWordInProgress] = useState<string[]>([]);
   const [guesses, setGuesses] = useState<string[]>([]);
+  const [level, setLevel] = useState<LevelEnum>(LevelEnum.Medium);
+  const [remainingAttempts, setRemainingAttempts] = useState<number>(remainingAttemptsObj[level]);
 
   const updateWordInProgress = (letter: string) => {
     const newWordInProgress: string[] = [...wordInProgress];
@@ -29,6 +45,8 @@ export const AppContextProvider = ({children}: AppContextProviderProps) => {
           newWordInProgress[i] = letter;
         }
       })
+    } else {
+      decreaseRemainingAttempts();
     }
 
     setWordInProgress(newWordInProgress);
@@ -42,7 +60,13 @@ export const AppContextProvider = ({children}: AppContextProviderProps) => {
     setGuesses(newGuesses);
   }
 
+  const decreaseRemainingAttempts = () => {
+    setRemainingAttempts((prevRemainingAttempts) => prevRemainingAttempts - 1);
+  }
+
   useEffect(() => {
+    console.log(remainingAttempts);
+
     api().then(data => {
       const word = data.hair_color.split('');
       const wordInProgress = word.map(() => '_');
@@ -53,9 +77,15 @@ export const AppContextProvider = ({children}: AppContextProviderProps) => {
 
   }, []);
 
+  useEffect(() => {
+    if (remainingAttempts === 0) {
+      console.log('Fim de jogo');
+    }
+  }, [remainingAttempts])
+
   return (
-    <AppContext.Provider value={{word, wordInProgress, guesses, updateWordInProgress, updateGuesses}}>
-      { children}
+    <AppContext.Provider value={{ word, wordInProgress, guesses, remainingAttempts, updateWordInProgress, updateGuesses }}>
+      {children}
     </AppContext.Provider>
   )
 }
