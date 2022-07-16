@@ -5,6 +5,7 @@ import { Illustration } from './components/Illustration';
 import { useAppContext } from './context/AppContext';
 
 import './App.css';
+import { RemainingAttemptsDisplay } from './components/RemainingAttemptsDisplay';
 
 function App() {
   const {remainingAttempts} = useAppContext();
@@ -12,9 +13,12 @@ function App() {
     <>
       <main>
         <div className="container">
-          <Illustration remainingAttempts={remainingAttempts} />
-          <WordInProgress />
-          <Keyboard />
+          <div className="game-section">
+            <Illustration remainingAttempts={remainingAttempts} />
+            <RemainingAttemptsDisplay remainingAttempts={remainingAttempts} />
+            <WordInProgress />
+            <Keyboard />
+          </div>
         </div>
       </main>
     </>
