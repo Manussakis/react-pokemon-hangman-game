@@ -2,7 +2,7 @@ import { useAppContext } from '../../context/AppContext';
 import './style.css';
 
 export const WordInProgress = () => {
-  const { wordInProgress } = useAppContext();
+  const { gameState: { wordInProgress } } = useAppContext();
 
   return (
     <ul className='word-in-progress'>

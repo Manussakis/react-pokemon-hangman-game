@@ -1,24 +1,10 @@
-import { useEffect } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { KEYBOARD_LETTERS } from '../../library/constants';
 import { Key } from '../Key';
 import './style.scss';
 
 export const Keyboard = () => {
-  const { word, wordInProgress, guesses, updateWordInProgress, updateGuesses } = useAppContext();
-
-  const checkResult = (word: string[], wordInProgress: string[]) => {
-    return word.join('') === wordInProgress.join('');
-  }
-
-  const handleClick = (letter: string) => {
-    updateWordInProgress(letter);
-    updateGuesses(letter);
-  }
-
-  useEffect(() => {
-    console.log(checkResult(word, wordInProgress));
-  }, [word, wordInProgress]);
+  const { gameState: { wordInProgress, guesses }, onClickLetter } = useAppContext();
 
   return (
     <div className='keyboard'>
@@ -31,7 +17,7 @@ export const Keyboard = () => {
             const isDisable = guesses.includes(letter);
 
             return (
-              <Key key={letter} isDisable={isDisable} isInWord={isInWord} letter={letter} onClick={handleClick}/>
+              <Key key={letter} isDisable={isDisable} isInWord={isInWord} letter={letter} onClick={() => onClickLetter(letter)} />
             );
           })}
         </div>
