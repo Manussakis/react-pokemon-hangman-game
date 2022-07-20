@@ -2,7 +2,7 @@ import { Keyboard } from './components/Keyboard';
 import { WordInProgress } from './components/WordInProgress';
 import { Illustration } from './components/Illustration';
 import { Avatar } from './components/Avatar';
-import { RemainingAttemptsDisplay } from './components/RemainingAttemptsDisplay';
+import { AttemptsDisplay } from './components/AttemptsDisplay';
 
 import { useAppContext } from './context/AppContext';
 
@@ -14,9 +14,9 @@ function App() {
     <>
       <main>
         <div className="container">
+          <AttemptsDisplay remainingAttempts={remainingAttempts} />
           <Avatar name={name} image={image} />
           <Illustration remainingAttempts={remainingAttempts} />
-          <RemainingAttemptsDisplay remainingAttempts={remainingAttempts} />
           <WordInProgress wordInProgress={wordInProgress} />
           <Keyboard />
           <button onClick={onFindNewPokemon}>Find new Pokémon</button>

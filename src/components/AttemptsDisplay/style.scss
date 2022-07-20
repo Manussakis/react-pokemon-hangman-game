@@ -1,0 +1,24 @@
+.attempts-display__text {
+  margin-bottom: 6px;
+}
+
+.attempts-display__number {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.attempts-display__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.attempts-display__item + .attempts-display__item {
+  margin-left: 2px;
+}
+
+.attempts-display__icon {
+  width: 20px;
+  height: 20px;
+}
