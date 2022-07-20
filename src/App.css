@@ -4,9 +4,3 @@
   margin-right: auto;
 }
 
-.game-section {
-  background-color: antiquewhite;
-  padding: 1rem;
-  border-radius: var(--border-radius);
-  position: relative;
-}

@@ -9,19 +9,17 @@ import { useAppContext } from './context/AppContext';
 import './App.css';
 
 function App() {
-  const { gameState: { pokemonData: { name, image }, remainingAttempts }, onFindNewPokemon } = useAppContext();
+  const { gameState: { pokemonData: { name, image }, remainingAttempts, wordInProgress }, onFindNewPokemon } = useAppContext();
   return (
     <>
       <main>
         <div className="container">
           <Avatar name={name} image={image} />
+          <Illustration remainingAttempts={remainingAttempts} />
+          <RemainingAttemptsDisplay remainingAttempts={remainingAttempts} />
+          <WordInProgress wordInProgress={wordInProgress} />
+          <Keyboard />
           <button onClick={onFindNewPokemon}>Find new Pokémon</button>
-          <div className="game-section">
-            <Illustration remainingAttempts={remainingAttempts} />
-            <RemainingAttemptsDisplay remainingAttempts={remainingAttempts} />
-            <WordInProgress />
-            <Keyboard />
-          </div>
         </div>
       </main>
     </>

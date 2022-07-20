@@ -5,10 +5,25 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .word-in-progress__item {
-  padding: 0.5rem;
   font-size: 3rem;
   text-transform: uppercase;
+  width: 2.2rem;
+  height: 4rem;
+  border-bottom: 4px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.word-in-progress__item--has-dash {
+  border-bottom: 0;
+}
+
+.word-in-progress__item + .word-in-progress__item {
+  margin-left: 8px;
 }

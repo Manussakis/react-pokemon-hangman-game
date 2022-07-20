@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useContext, useEffect, useState, useCallback, useReducer } from 'react';
+import { createContext, ReactElement, useContext, useEffect, useCallback, useReducer, useRef } from 'react';
 import { getPokemonMaxCount, fetchPokemon } from '../api';
 import { MAX_ATTEMPTS } from '../library/constants';
 import { randomIntFromInterval, getPokemoImageUrl, setThreeDigits } from '../library/utils';
@@ -61,7 +61,7 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
       return {
         ...state,
         pokemonData: pokeData,
-        wordInProgress: pokemonName.split('').map(() => '_'),
+        wordInProgress: pokemonName.split('').map((char) => char === '-' ? '-' : ''),
         remainingAttempts: remainingAttemptsObj[LevelEnum.Medium],
         guesses: [],
       }
@@ -108,10 +108,10 @@ const gameStateInitialValue = {
   remainingAttempts: remainingAttemptsObj[LevelEnum.Medium],
 };
 
+let MAX_POKEMON_COUNT: number;
+
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const [level, setLevel] = useState<LevelEnum>(LevelEnum.Medium);
-  const [maxCount, setMaxCount] = useState<number>(0);
-  const [isFirstFetchCompleted, setIsFirstFetchCompleted] = useState(false);
+  const isFirstFetchCompleted = useRef(false);
   const [gameState, dispatchGameState] = useReducer(gameStateRuducer, gameStateInitialValue);
 
   const onClickLetter = (letter: string) => {
@@ -124,20 +124,25 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }
 
   const onFindNewPokemon = useCallback(async () => {
-    const randomId = randomIntFromInterval(1, maxCount);
-    const { name, id } = await fetchPokemon(randomId);
-    const image = getPokemoImageUrl(setThreeDigits(id));
+    const randomId = randomIntFromInterval(1, MAX_POKEMON_COUNT);
 
-    dispatchGameState({
-      type: EnumGameState.RESET_GAME,
-      payload: {
-        pokemonData: {
-          name,
-          image,
+    try {
+      const { name, id } = await fetchPokemon(randomId);
+      const image = getPokemoImageUrl(setThreeDigits(id));
+
+      dispatchGameState({
+        type: EnumGameState.RESET_GAME,
+        payload: {
+          pokemonData: {
+            name,
+            image,
+          }
         }
-      }
-    });
-  }, [maxCount]);
+      });
+    } catch(error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
     console.log('mount');
@@ -145,52 +150,44 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     const fetchData = async () => {
       const maxPokemonsCount = await getPokemonMaxCount();
       const randomPokemonId = randomIntFromInterval(1, maxPokemonsCount);
-      const { name, id } = await fetchPokemon(randomPokemonId);
+      const { name, id } = await fetchPokemon(648);
+      const image = getPokemoImageUrl(setThreeDigits(id));
 
       const pokemonDataObj = {
         name,
-        image: getPokemoImageUrl(setThreeDigits(id)),
+        image,
       }
 
       console.log(pokemonDataObj);
 
       return {
         maxPokemonsCount,
-        pokemonDataObj
+        pokemonDataObj,
       };
     };
 
-    fetchData().then(({ maxPokemonsCount, pokemonDataObj }) => {
-      setMaxCount(maxPokemonsCount);
-      setIsFirstFetchCompleted(true);
+    fetchData()
+      .then(({ maxPokemonsCount, pokemonDataObj }) => {
+        MAX_POKEMON_COUNT = maxPokemonsCount;
+        isFirstFetchCompleted.current = true;
 
-      dispatchGameState({
-        type: EnumGameState.RESET_GAME,
-        payload: {
-          pokemonData: pokemonDataObj,
-        }
-      });
-    });
+        dispatchGameState({
+          type: EnumGameState.RESET_GAME,
+          payload: {
+            pokemonData: pokemonDataObj,
+          }
+        });
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
-    if (gameState.remainingAttempts === 0) {
+    if (isFirstFetchCompleted.current && gameState.remainingAttempts === 0) {
       console.log('You lost!');
-    }
-  }, [gameState.remainingAttempts]);
-
-  useEffect(() => {
-    const { wordInProgress, pokemonData } = gameState;
-
-    if (isFirstFetchCompleted && wordInProgress.join('') === pokemonData.name) {
+    } else if (isFirstFetchCompleted.current && gameState.wordInProgress.join('') === gameState.pokemonData.name) {
       console.log('You win!');
     }
-  }, [isFirstFetchCompleted, gameState]);
-
-  useEffect(() => {
-    console.log(gameState);
-
-  }, [gameState]);
+  }, [gameState.remainingAttempts,gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
     <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon }}>
