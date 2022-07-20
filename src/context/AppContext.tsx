@@ -25,18 +25,6 @@ interface AppContextProviderProps {
   children: ReactElement;
 }
 
-enum LevelEnum {
-  Easy = 'easy',
-  Medium = 'medium',
-  Hard = 'hard',
-}
-
-const remainingAttemptsObj = {
-  [LevelEnum.Easy]: MAX_ATTEMPTS,
-  [LevelEnum.Medium]: 6,
-  [LevelEnum.Hard]: 3,
-};
-
 enum EnumGameState {
   RESET_GAME = 'RESET_GAME',
   UPDATE_GAME = 'UPDATE_GAME',
@@ -62,7 +50,7 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
         ...state,
         pokemonData: pokeData,
         wordInProgress: pokemonName.split('').map((char) => char === '-' ? '-' : ''),
-        remainingAttempts: remainingAttemptsObj[LevelEnum.Medium],
+        remainingAttempts: MAX_ATTEMPTS,
         guesses: [],
       }
 
@@ -105,7 +93,7 @@ const gameStateInitialValue = {
   },
   wordInProgress: [],
   guesses: [],
-  remainingAttempts: remainingAttemptsObj[LevelEnum.Medium],
+  remainingAttempts: MAX_ATTEMPTS,
 };
 
 let MAX_POKEMON_COUNT: number;
