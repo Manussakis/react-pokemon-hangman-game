@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  --primary: #09132D;
+  --surface: #F9F8FF;
   --white: #ffffff;
   --lighrgreen: #9df2ed;
   --red: #ff7a7a;
