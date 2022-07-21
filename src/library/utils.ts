@@ -3,11 +3,7 @@ export const randomIntFromInterval = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-export const getPokemoImageUrl = (id: string) => {
-  return `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
-};
-
-export const setThreeDigits = (num: number): string => {
+const setThreeDigits = (num: number): string => {
   const numDigitsLength = String(num).length;
 
   if (numDigitsLength === 1) {
@@ -19,4 +15,10 @@ export const setThreeDigits = (num: number): string => {
   }
 
   return String(num);
+};
+
+export const getPokemoImageUrl = (id: number) => {
+  const idString = setThreeDigits(id);
+
+  return `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${idString}.png`;
 };

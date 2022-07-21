@@ -10,9 +10,6 @@ interface AttemptsDisplayProps {
 export const AttemptsDisplay = ({ remainingAttempts }: AttemptsDisplayProps) => {
   const allPokeballs = Array.from(Array(MAX_ATTEMPTS).keys());
 
-  console.log(allPokeballs);
-
-
   return (
     <div className="attempts-display">
       <div className="attempts-display__text">
@@ -25,7 +22,7 @@ export const AttemptsDisplay = ({ remainingAttempts }: AttemptsDisplayProps) => 
             <PokeballLight className="attempts-display__icon" />;
 
           return (
-            <li className="attempts-display__item">
+            <li key={key} className="attempts-display__item">
               {icon}
             </li>
           );
