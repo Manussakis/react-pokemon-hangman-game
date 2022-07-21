@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   --primary: #09132D;
+  --hint: #686868;
   --surface: #F9F8FF;
   --white: #ffffff;
   --lighrgreen: #9df2ed;
@@ -21,3 +22,5 @@ body {
 button {
   cursor: pointer;
 }
+
+@import './style/utilities';

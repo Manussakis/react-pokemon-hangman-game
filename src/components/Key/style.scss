@@ -5,20 +5,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid black;
+  border: 2px solid var(--primary);
   border-radius: 0.25rem;
   text-transform: uppercase;
   font-size: 1rem;
   background-color: white;
   margin: 0.1rem;
   font-weight: bold;
-  box-shadow: 4px 4px 0 black;
+  box-shadow: 4px 4px 0 var(--primary);
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: 2px 2px 0 var(--primary);
+    transform: translate(2px, 2px);
+  }
+
+  &:active {
+    box-shadow: 1px 1px 0 var(--primary);
+    transform: translate(3px, 3px);
+  }
 }
 
 .key--disable {
   pointer-events: none;
   background-color: var(--red);
-  box-shadow: 1px 1px 0 black;
+  box-shadow: 1px 1px 0 var(--primary);
+  transform: translate(3px, 3px);
 }
 
 .key--right-guess {
