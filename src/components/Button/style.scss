@@ -34,9 +34,15 @@
     transform: translate(2px, 2px);
   }
 
-  &:active {
+  &:active,
+  &[disabled] {
     box-shadow: 1px 1px 0 var(--primary);
     transform: translate(3px, 3px);
+  }
+
+  &[disabled] {
+    opacity: 0.2;
+    cursor: not-allowed;
   }
 }
 

@@ -14,11 +14,12 @@ interface GameState {
   wordInProgress: string[];
   guesses: string[];
   remainingAttempts: number;
+  hasTip: boolean;
 }
 
 interface AppContextValue {
   gameState: GameState;
-  onClickLetter: (letter: string) => void;
+  onClickLetter: (letter: string, isTip?: boolean) => void;
   onFindNewPokemon: () => void;
 };
 
@@ -36,6 +37,7 @@ interface GameStateAction {
   payload?: {
     pokemonData?: PokemonData;
     letter?: string;
+    isTip?: boolean;
   };
 }
 
@@ -53,6 +55,7 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
         wordInProgress: pokemonName.split('').map((char) => char === '-' ? '-' : ''),
         remainingAttempts: MAX_ATTEMPTS,
         guesses: [],
+        hasTip: true,
       }
 
     case EnumGameState.UPDATE_GAME:
@@ -60,6 +63,7 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
       const newWordInProgress: string[] = [...wordInProgress];
       const newGuesses: string[] = [...guesses];
       const letter = action.payload?.letter as string;
+      const isTip =  action.payload?.isTip as boolean;
       let newRemainingAttempts: number;
 
       newGuesses.push(letter);
@@ -81,6 +85,7 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
         wordInProgress: newWordInProgress,
         remainingAttempts: newRemainingAttempts,
         guesses: newGuesses,
+        hasTip: !isTip,
       }
     default:
       throw new Error("This action type doesn't exist.")
@@ -96,6 +101,7 @@ const gameStateInitialValue: GameState = {
   wordInProgress: [],
   guesses: [],
   remainingAttempts: MAX_ATTEMPTS,
+  hasTip: true,
 };
 
 let MAX_POKEMON_COUNT: number;
@@ -104,11 +110,12 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const isFirstFetchCompleted = useRef(false);
   const [gameState, dispatchGameState] = useReducer(gameStateRuducer, gameStateInitialValue);
 
-  const onClickLetter = (letter: string) => {
+  const onClickLetter = (letter: string, isTip?: boolean) => {
     dispatchGameState({
       type: EnumGameState.UPDATE_GAME,
       payload: {
         letter,
+        isTip,
       }
     });
   }

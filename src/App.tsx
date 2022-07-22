@@ -19,7 +19,8 @@ function App() {
         flavorText
       },
       remainingAttempts,
-      wordInProgress
+      wordInProgress,
+      hasTip,
     },
     onFindNewPokemon,
     onClickLetter,
@@ -33,7 +34,7 @@ function App() {
     const hiddenLetters = name.split('').filter(l => !wordInProgress.includes(l));
     const letter = hiddenLetters[randomIntFromInterval(0, hiddenLetters.length - 1)];
 
-    onClickLetter(letter);
+    onClickLetter(letter, true);
   }
 
   return (
@@ -42,7 +43,7 @@ function App() {
         <div className="container">
           <div className="flex align-center justify-between">
             <AttemptsDisplay remainingAttempts={remainingAttempts} />
-            <Button type={ButtonTypeEnum.Primary} onClick={handleUseMyTip}>Use my tip</Button>
+            <Button type={ButtonTypeEnum.Primary} onClick={handleUseMyTip} disabled={!hasTip}>Use my tip</Button>
           </div>
           <Avatar name={name} image={image} flavorText={flavorText} />
           <WordInProgress wordInProgress={wordInProgress} />

@@ -4,7 +4,13 @@ import { Key } from '../Key';
 import './style.scss';
 
 export const Keyboard = () => {
-  const { gameState: { wordInProgress, guesses }, onClickLetter } = useAppContext();
+  const {
+    gameState: {
+      wordInProgress,
+      guesses,
+    },
+    onClickLetter,
+  } = useAppContext();
 
   return (
     <div className='keyboard'>
