@@ -8,12 +8,32 @@ import { ButtonTypeEnum } from './components/Button/enums';
 import { useAppContext } from './context/AppContext';
 
 import './App.css';
+import { randomIntFromInterval } from './library/utils';
 
 function App() {
-  const { gameState: { pokemonData: { name, image, flavorText }, remainingAttempts, wordInProgress }, onFindNewPokemon } = useAppContext();
+  const {
+    gameState: {
+      pokemonData: {
+        name,
+        image,
+        flavorText
+      },
+      remainingAttempts,
+      wordInProgress
+    },
+    onFindNewPokemon,
+    onClickLetter,
+  } = useAppContext();
 
   function openModal() {
     console.log('Open modal');
+  }
+
+  function handleUseMyTip() {
+    const hiddenLetters = name.split('').filter(l => !wordInProgress.includes(l));
+    const letter = hiddenLetters[randomIntFromInterval(0, hiddenLetters.length - 1)];
+
+    onClickLetter(letter);
   }
 
   return (
@@ -22,7 +42,7 @@ function App() {
         <div className="container">
           <div className="flex align-center justify-between">
             <AttemptsDisplay remainingAttempts={remainingAttempts} />
-            <Button type={ButtonTypeEnum.Primary} onClick={openModal}>Use my tip</Button>
+            <Button type={ButtonTypeEnum.Primary} onClick={handleUseMyTip}>Use my tip</Button>
           </div>
           <Avatar name={name} image={image} flavorText={flavorText} />
           <WordInProgress wordInProgress={wordInProgress} />
