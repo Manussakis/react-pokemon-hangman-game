@@ -81,7 +81,7 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
       if (state.pokemonData.name === typedName) {
         return {
           ...state,
-          status: GameStatusEnum.WON,
+          wordInProgress: state.pokemonData.name.split(''),
         }
       }
 
@@ -175,6 +175,9 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       const maxPokemonsCount = await getPokemonMaxCount();
       const randomPokemonId = randomIntFromInterval(1, maxPokemonsCount);
       const pokemonData = await fetchPokemon(randomPokemonId);
+
+      // @TODO delete it.
+      console.log(pokemonData.name);
 
       return {
         maxPokemonsCount,
