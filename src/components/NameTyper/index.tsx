@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { useAppContext } from "../../context/AppContext";
+import { useState } from "react";
 import { Button } from "../Button";
 import { ButtonTypeEnum } from "../Button/enums";
 import { WordInProgress } from "../WordInProgress";
+
+import './style.scss';
 
 interface NameTyperProps {
   wordInProgress: string[];
@@ -29,12 +30,15 @@ export const NameTyper = ({ wordInProgress, onSubmitTypedName, onCancel }: NameT
   return (
     <div>
       <WordInProgress wordInProgress={wordInProgress} onType={onType} acceptInput />
-      <Button type={ButtonTypeEnum.PRIMARY} onClick={handleSubmitTypedName} disabled={tempName.includes('')}>
-        Confirm name
-      </Button>
-      <Button type={ButtonTypeEnum.LINK} onClick={onCancel}>
-        Cancel
-      </Button>
+      <div className="nametyper__buttons">
+        <Button type={ButtonTypeEnum.PRIMARY} onClick={handleSubmitTypedName} disabled={tempName.includes('')}>
+          Confirm name
+        </Button>
+        <br />
+        <Button type={ButtonTypeEnum.LINK} onClick={onCancel}>
+          Cancel
+        </Button>
+      </div>
     </div>
   )
 }
