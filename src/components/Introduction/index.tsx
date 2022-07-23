@@ -10,7 +10,7 @@ export const Introduction = () => {
   const { onStartGame } = useAppContext();
 
   return(
-    <div className="introduction">
+    <div className="introduction text-center">
       <Pokeball className="introduction__icon" />
       <h1>Can you spell any Pokémon name?</h1>
       <div className="introduction__content">
