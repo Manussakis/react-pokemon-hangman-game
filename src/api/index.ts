@@ -1,13 +1,7 @@
 import axios from 'axios';
-import { PokemonData } from '../context/AppContext';
+import { PokemonData } from '../context/type';
 import { getPokemoImageUrl } from '../library/utils';
-
-interface FlavorTextEntry {
-  flavor_text: string;
-  language: {
-    name: string;
-  }
-}
+import { FlavorTextEntry } from './types';
 
 export const api = axios.create({
   baseURL: 'https://pokeapi.co/api/v2/'

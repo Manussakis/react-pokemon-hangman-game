@@ -2,51 +2,31 @@ import { createContext, ReactElement, useContext, useEffect, useCallback, useRed
 import { getPokemonMaxCount, fetchPokemon } from '../api';
 import { MAX_ATTEMPTS } from '../library/constants';
 import { randomIntFromInterval } from '../library/utils';
-
-export interface PokemonData {
-  name: string;
-  image: string;
-  flavorText: string;
-};
-
-interface GameState {
-  pokemonData: PokemonData;
-  wordInProgress: string[];
-  guesses: string[];
-  remainingAttempts: number;
-  hasTip: boolean;
-}
-
-interface AppContextValue {
-  gameState: GameState;
-  onClickLetter: (letter: string, isTip?: boolean) => void;
-  onFindNewPokemon: () => void;
-};
+import { GameActionTypeEnum, GameStatusEnum } from './enums';
+import { AppContextValue, GameState, GameStateAction } from './type';
 
 interface AppContextProviderProps {
   children: ReactElement;
 }
 
-enum EnumGameState {
-  RESET_GAME = 'RESET_GAME',
-  UPDATE_GAME = 'UPDATE_GAME',
-}
-
-interface GameStateAction {
-  type: EnumGameState;
-  payload?: {
-    pokemonData?: PokemonData;
-    letter?: string;
-    isTip?: boolean;
-  };
-}
-
 export const AppContext = createContext({} as AppContextValue);
 
 const gameStateRuducer = (state: GameState, action: GameStateAction): GameState => {
+  let newRemainingAttempts: number;
+
   switch (action.type) {
-    case EnumGameState.RESET_GAME:
-      const pokeData = action.payload?.pokemonData as PokemonData;
+    case GameActionTypeEnum.START_GAME:
+      return {
+        ...state,
+        status: GameStatusEnum.RUNNING
+      }
+
+    case GameActionTypeEnum.RESET_GAME:
+      if (!action.payload?.pokemonData) {
+        throw new Error(`The action type ${GameActionTypeEnum.RESET_GAME} requires a payload object with the property "pokemonData".`)
+      }
+
+      const pokeData = action.payload.pokemonData;
       const pokemonName = pokeData.name as string;
 
       return {
@@ -58,13 +38,16 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
         hasTip: true,
       }
 
-    case EnumGameState.UPDATE_GAME:
-      const { pokemonData, wordInProgress, guesses } = state;
+    case GameActionTypeEnum.CLICK_LETTER:
+      if (!action.payload?.letter) {
+        throw new Error(`The action type ${GameActionTypeEnum.CLICK_LETTER} requires a payload object with the property "letter".`)
+      }
+
+      const { pokemonData, wordInProgress, guesses, hasTip } = state;
       const newWordInProgress: string[] = [...wordInProgress];
       const newGuesses: string[] = [...guesses];
-      const letter = action.payload?.letter as string;
+      const { letter } = action.payload;
       const isTip =  action.payload?.isTip as boolean;
-      let newRemainingAttempts: number;
 
       newGuesses.push(letter);
 
@@ -85,10 +68,42 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
         wordInProgress: newWordInProgress,
         remainingAttempts: newRemainingAttempts,
         guesses: newGuesses,
-        hasTip: !isTip,
+        hasTip: !hasTip ? hasTip : !isTip,
+      };
+
+    case GameActionTypeEnum.SUBMIT_TYPED_NAME:
+      if (!action.payload?.typedName) {
+        throw new Error(`The action ${GameActionTypeEnum.SUBMIT_TYPED_NAME} requires a payload object with the property "typedName".`);
       }
+
+      const { typedName } = action.payload;
+
+      if (state.pokemonData.name === typedName) {
+        return {
+          ...state,
+          status: GameStatusEnum.WON,
+        }
+      }
+
+      newRemainingAttempts = state.remainingAttempts - 1;
+
+      return {
+        ...state,
+        remainingAttempts: newRemainingAttempts,
+      }
+
+    case GameActionTypeEnum.UPDATE_STATUS:
+      if (!action.payload?.status) {
+        throw new Error(`The action ${GameActionTypeEnum.UPDATE_STATUS} requires a payload object with the property "status".`);
+      }
+
+      return {
+        ...state,
+        status: action.payload.status,
+      }
+
     default:
-      throw new Error("This action type doesn't exist.")
+      throw new Error("This action type doesn't exist.");
   }
 };
 
@@ -102,6 +117,7 @@ const gameStateInitialValue: GameState = {
   guesses: [],
   remainingAttempts: MAX_ATTEMPTS,
   hasTip: true,
+  status: GameStatusEnum.BEFORE_STARTING,
 };
 
 let MAX_POKEMON_COUNT: number;
@@ -112,7 +128,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   const onClickLetter = (letter: string, isTip?: boolean) => {
     dispatchGameState({
-      type: EnumGameState.UPDATE_GAME,
+      type: GameActionTypeEnum.CLICK_LETTER,
       payload: {
         letter,
         isTip,
@@ -127,7 +143,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       const pokemonData = await fetchPokemon(randomId);
 
       dispatchGameState({
-        type: EnumGameState.RESET_GAME,
+        type: GameActionTypeEnum.RESET_GAME,
         payload: {
           pokemonData,
         }
@@ -136,6 +152,21 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       console.log(error);
     }
   }, []);
+
+  const onStartGame = useCallback(() => {
+    dispatchGameState({
+      type: GameActionTypeEnum.START_GAME,
+    });
+  }, [dispatchGameState]);
+
+  function onSubmitTypedName(typedName: string) {
+    dispatchGameState({
+      type: GameActionTypeEnum.SUBMIT_TYPED_NAME,
+      payload: {
+        typedName,
+      },
+    })
+  }
 
   useEffect(() => {
     console.log('mount');
@@ -157,7 +188,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         isFirstFetchCompleted.current = true;
 
         dispatchGameState({
-          type: EnumGameState.RESET_GAME,
+          type: GameActionTypeEnum.RESET_GAME,
           payload: {
             pokemonData,
           }
@@ -168,14 +199,24 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   useEffect(() => {
     if (isFirstFetchCompleted.current && gameState.remainingAttempts === 0) {
-      console.log('You lost!');
+      dispatchGameState({
+        type: GameActionTypeEnum.UPDATE_STATUS,
+        payload: {
+          status: GameStatusEnum.LOST
+        }
+      });
     } else if (isFirstFetchCompleted.current && gameState.wordInProgress.join('') === gameState.pokemonData.name) {
-      console.log('You win!');
+      dispatchGameState({
+        type: GameActionTypeEnum.UPDATE_STATUS,
+        payload: {
+          status: GameStatusEnum.WON,
+        }
+      });
     }
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
-    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon }}>
+    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon, onSubmitTypedName, onStartGame }}>
       {children}
     </AppContext.Provider>
   )

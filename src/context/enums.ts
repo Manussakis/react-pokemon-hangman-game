@@ -1,0 +1,14 @@
+export enum GameStatusEnum {
+  BEFORE_STARTING,
+  RUNNING,
+  WON,
+  LOST,
+}
+
+export enum GameActionTypeEnum {
+  START_GAME = 'START_GAME',
+  RESET_GAME = 'RESET_GAME',
+  CLICK_LETTER = 'CLICK_LETTER',
+  SUBMIT_TYPED_NAME = 'SEND_TYPED_NAME',
+  UPDATE_STATUS = 'UPDATE_STATUS',
+}
