@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useContext, useEffect, useCallback, useReducer, useRef } from 'react';
+import { createContext, useContext, useEffect, useCallback, useReducer, useRef, ReactNode } from 'react';
 import { getPokemonMaxCount, fetchPokemon } from '../api';
 import { MAX_ATTEMPTS } from '../library/constants';
 import { randomIntFromInterval } from '../library/utils';
@@ -6,7 +6,7 @@ import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { AppContextValue, GameState, GameStateAction } from './type';
 
 interface AppContextProviderProps {
-  children: ReactElement;
+  children: ReactNode;
 }
 
 export const AppContext = createContext({} as AppContextValue);

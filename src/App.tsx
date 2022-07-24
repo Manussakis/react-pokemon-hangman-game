@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Modal from 'react-modal';
 import { Keyboard } from './components/Keyboard';
 import { WordInProgress } from './components/WordInProgress';
@@ -14,6 +14,8 @@ import './App.css';
 import { randomIntFromInterval } from './library/utils';
 import { GameStatusEnum } from './context/enums';
 import { Introduction } from './components/Introduction';
+import { DialogContextProvider } from './context/DialogContext';
+import { Dialog } from './components/Dialog';
 
 Modal.setAppElement('#root');
 
@@ -50,6 +52,7 @@ function App() {
   } = useAppContext();
 
   const [modalIsOpen, setIsOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   function openModal() {
     setIsOpen(true);
@@ -98,7 +101,14 @@ function App() {
                   </div>
                 </div>
                 <div className="text-center">
-                  <Button type={ButtonTypeEnum.PRIMARY} onClick={onFindNewPokemon}>Restart</Button>
+                  <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Restart</Button>
+                  <DialogContextProvider>
+                    <Dialog title="Confirm restart game?" triggerRef={buttonRef} onConfirm={onFindNewPokemon}>
+                      <p>
+                        After confirming it, a new random Pokémon will be loaded.
+                      </p>
+                    </Dialog>
+                  </DialogContextProvider>
                 </div>
               </div>
               <Modal
