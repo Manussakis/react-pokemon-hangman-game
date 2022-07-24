@@ -1,13 +1,9 @@
-import { createContext, useContext, useEffect, useCallback, useReducer, useRef, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useCallback, useReducer, useRef } from 'react';
 import { getPokemonMaxCount, fetchPokemon } from '../../api';
 import { MAX_ATTEMPTS } from '../../library/constants';
 import { randomIntFromInterval } from '../../library/utils';
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
-import { AppContextValue, GameState, GameStateAction } from './type';
-
-interface AppContextProviderProps {
-  children: ReactNode;
-}
+import { AppContextValue, GameState, GameStateAction, AppContextProviderProps } from './type';
 
 export const AppContext = createContext({} as AppContextValue);
 
@@ -21,9 +17,9 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
         status: GameStatusEnum.RUNNING
       }
 
-    case GameActionTypeEnum.RESET_GAME:
+    case GameActionTypeEnum.GET_NEW_POKEMON:
       if (!action.payload?.pokemonData) {
-        throw new Error(`The action type ${GameActionTypeEnum.RESET_GAME} requires a payload object with the property "pokemonData".`)
+        throw new Error(`The action type ${GameActionTypeEnum.GET_NEW_POKEMON} requires a payload object with the property "pokemonData".`)
       }
 
       const pokeData = action.payload.pokemonData;
@@ -47,7 +43,7 @@ const gameStateRuducer = (state: GameState, action: GameStateAction): GameState 
       const newWordInProgress: string[] = [...wordInProgress];
       const newGuesses: string[] = [...guesses];
       const { letter } = action.payload;
-      const isTip =  action.payload?.isTip as boolean;
+      const isTip = action.payload?.isTip as boolean;
 
       newGuesses.push(letter);
 
@@ -136,14 +132,15 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     });
   }
 
-  const onFindNewPokemon = useCallback(async () => {
-    const randomId = randomIntFromInterval(1, MAX_POKEMON_COUNT);
-
+  const getNewPokemon = useCallback(async (pokemonId: number) => {
     try {
-      const pokemonData = await fetchPokemon(randomId);
+      const pokemonData = await fetchPokemon(pokemonId);
+
+      // @TODO delete it.
+      console.log(pokemonData.name);
 
       dispatchGameState({
-        type: GameActionTypeEnum.RESET_GAME,
+        type: GameActionTypeEnum.GET_NEW_POKEMON,
         payload: {
           pokemonData,
         }
@@ -153,11 +150,18 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     }
   }, []);
 
+  const onFindNewPokemon = useCallback(async () => {
+    const randomPokemonId = randomIntFromInterval(1, MAX_POKEMON_COUNT);
+
+    getNewPokemon(randomPokemonId);
+
+  }, [getNewPokemon]);
+
   const onStartGame = useCallback(() => {
     dispatchGameState({
       type: GameActionTypeEnum.START_GAME,
     });
-  }, [dispatchGameState]);
+  }, []);
 
   function onSubmitTypedName(typedName: string) {
     dispatchGameState({
@@ -171,34 +175,22 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   useEffect(() => {
     console.log('mount');
 
-    const fetchData = async () => {
-      const maxPokemonsCount = await getPokemonMaxCount();
-      const randomPokemonId = randomIntFromInterval(1, maxPokemonsCount);
-      const pokemonData = await fetchPokemon(randomPokemonId);
+    const startApp = async () => {
+      try {
+        const maxPokemonsCount = await getPokemonMaxCount();
+        const randomPokemonId = randomIntFromInterval(1, maxPokemonsCount);
 
-      // @TODO delete it.
-      console.log(pokemonData.name);
-
-      return {
-        maxPokemonsCount,
-        pokemonData,
-      };
-    };
-
-    fetchData()
-      .then(({ maxPokemonsCount, pokemonData }) => {
         MAX_POKEMON_COUNT = maxPokemonsCount;
         isFirstFetchCompleted.current = true;
 
-        dispatchGameState({
-          type: GameActionTypeEnum.RESET_GAME,
-          payload: {
-            pokemonData,
-          }
-        });
-      })
-      .catch((error) => console.log(error));
-  }, []);
+        getNewPokemon(randomPokemonId);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    startApp();
+  }, [getNewPokemon]);
 
   useEffect(() => {
     if (isFirstFetchCompleted.current && gameState.remainingAttempts === 0) {

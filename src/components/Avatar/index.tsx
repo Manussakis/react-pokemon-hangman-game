@@ -8,5 +8,5 @@ export const Avatar = ({ flavorText, image }: AvatarProps) => {
     <div className="avatar-wrapper">
       <img src={image} alt={flavorText} />
     </div>
-  )
+  );
 }

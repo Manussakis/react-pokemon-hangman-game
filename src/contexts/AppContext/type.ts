@@ -1,4 +1,9 @@
+import { ReactNode } from 'react';
 import { GameActionTypeEnum, GameStatusEnum } from "./enums";
+
+export type AppContextProviderProps = {
+  children: ReactNode;
+}
 
 export type PokemonData = {
   name: string;

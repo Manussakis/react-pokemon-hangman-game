@@ -8,13 +8,9 @@ export const api = axios.create({
 });
 
 export const getPokemonMaxCount = async () => {
-  try {
-    const res = await api.get('pokemon-species');
+  const res = await api.get('pokemon-species');
 
-    return res.data.count;
-  } catch(error: any) {
-    console.log(error.message)
-  }
+  return res.data.count;
 }
 
 export const fetchPokemon = async (id: number): Promise<PokemonData> => {
