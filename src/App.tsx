@@ -1,21 +1,24 @@
 import { useRef, useState } from 'react';
 import Modal from 'react-modal';
+
 import { Keyboard } from './components/Keyboard';
 import { WordInProgress } from './components/WordInProgress';
 import { Avatar } from './components/Avatar';
 import { AttemptsDisplay } from './components/AttemptsDisplay';
 import { Button } from './components/Button';
-import { ButtonTypeEnum } from './components/Button/enums';
 import { NameTyper } from './components/NameTyper';
+import { Dialog } from './components/Dialog';
+import { Introduction } from './components/Introduction';
 
-import { useAppContext } from './context/AppContext';
+import { GameStatusEnum } from './contexts/AppContext/enums';
+import { ButtonTypeEnum } from './components/Button/enums';
+
+import { useAppContext } from './contexts/AppContext';
+import { DialogContextProvider } from './contexts/DialogContext';
+
+import { randomIntFromInterval } from './library/utils';
 
 import './App.css';
-import { randomIntFromInterval } from './library/utils';
-import { GameStatusEnum } from './context/enums';
-import { Introduction } from './components/Introduction';
-import { DialogContextProvider } from './context/DialogContext';
-import { Dialog } from './components/Dialog';
 
 Modal.setAppElement('#root');
 

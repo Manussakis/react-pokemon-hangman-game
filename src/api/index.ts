@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PokemonData } from '../context/type';
+import { PokemonData } from '../contexts/AppContext/type';
 import { getPokemoImageUrl } from '../library/utils';
 import { FlavorTextEntry } from './types';
 

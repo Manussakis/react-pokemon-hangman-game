@@ -1,4 +1,4 @@
-import { PokemonData } from '../../context/type';
+import { PokemonData } from '../../contexts/AppContext/type';
 import './style.scss';
 
 interface AvatarProps extends PokemonData { }

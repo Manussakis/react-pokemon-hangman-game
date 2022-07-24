@@ -1,4 +1,4 @@
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext } from '../../contexts/AppContext';
 import { KEYBOARD_LETTERS } from '../../library/constants';
 import { Key } from '../Key';
 import './style.scss';

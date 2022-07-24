@@ -3,7 +3,7 @@ import { ButtonTypeEnum } from '../Button/enums';
 import { Button } from '../Button';
 import { DialogProps } from './types';
 import { useEffect } from 'react';
-import { useDialogContext } from '../../context/DialogContext';
+import { useDialogContext } from '../../contexts/DialogContext';
 
 import './style.scss';
 
