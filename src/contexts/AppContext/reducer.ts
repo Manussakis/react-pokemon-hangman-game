@@ -62,27 +62,6 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
         hasTip: !hasTip ? hasTip : !isTip,
       };
 
-    case GameActionTypeEnum.SUBMIT_TYPED_NAME:
-      if (!action.payload?.typedName) {
-        throw new Error(`The action ${GameActionTypeEnum.SUBMIT_TYPED_NAME} requires a payload object with the property "typedName".`);
-      }
-
-      const { typedName } = action.payload;
-
-      if (state.pokemonData.name === typedName) {
-        return {
-          ...state,
-          wordInProgress: state.pokemonData.name.split(''),
-        }
-      }
-
-      newRemainingAttempts = state.remainingAttempts - 1;
-
-      return {
-        ...state,
-        remainingAttempts: newRemainingAttempts,
-      }
-
     case GameActionTypeEnum.UPDATE_STATUS:
       if (!action.payload?.status) {
         throw new Error(`The action ${GameActionTypeEnum.UPDATE_STATUS} requires a payload object with the property "status".`);

@@ -24,7 +24,6 @@ export type AppContextValue = {
   gameState: GameState;
   onClickLetter: (letter: string, isTip?: boolean) => void;
   onFindNewPokemon: () => void;
-  onSubmitTypedName: (name: string) => void;
   onStartGame: () => void;
 };
 

@@ -68,15 +68,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     });
   }, []);
 
-  function onSubmitTypedName(typedName: string) {
-    dispatchGameState({
-      type: GameActionTypeEnum.SUBMIT_TYPED_NAME,
-      payload: {
-        typedName,
-      },
-    })
-  }
-
   useEffect(() => {
     console.log('mount');
 
@@ -116,7 +107,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
-    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon, onSubmitTypedName, onStartGame }}>
+    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon, onStartGame }}>
       {children}
     </AppContext.Provider>
   )
