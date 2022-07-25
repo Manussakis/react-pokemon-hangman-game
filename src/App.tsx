@@ -31,6 +31,7 @@ function App() {
       hasTip,
       status,
     },
+    isLoadingPokemon,
     onFindNewPokemon,
     onClickLetter,
   } = useAppContext();
@@ -56,7 +57,7 @@ function App() {
                 <AttemptsDisplay remainingAttempts={remainingAttempts} />
                 <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={!hasTip}>Use my tip</Button>
               </div>
-              <Avatar name={name} image={image} flavorText={flavorText} />
+              <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon}/>
               <WordInProgress wordInProgress={wordInProgress} />
               <Keyboard />
               <div className="text-center">

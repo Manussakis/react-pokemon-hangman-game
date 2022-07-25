@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useCallback, useReducer, useRef } from 'react';
+import { createContext, useContext, useEffect, useCallback, useReducer, useRef, useState } from 'react';
 import { getPokemonMaxCount, fetchPokemon } from '../../api';
 import { MAX_ATTEMPTS } from '../../library/constants';
 import { randomIntFromInterval } from '../../library/utils';
@@ -25,6 +25,7 @@ let MAX_POKEMON_COUNT: number;
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const isFirstFetchCompleted = useRef(false);
+  const [isLoadingPokemon, setIsLoadingPokemon] = useState(false);
   const [gameState, dispatchGameState] = useReducer(gameStateRuducer, gameStateInitialValue);
 
   const onClickLetter = (letter: string, isTip?: boolean) => {
@@ -38,6 +39,8 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }
 
   const getNewPokemon = useCallback(async (pokemonId: number) => {
+    setIsLoadingPokemon(true);
+
     try {
       const pokemonData = await fetchPokemon(pokemonId);
 
@@ -52,6 +55,8 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoadingPokemon(false);
     }
   }, []);
 
@@ -107,7 +112,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
-    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon, onStartGame }}>
+    <AppContext.Provider value={{ gameState, isLoadingPokemon, onClickLetter, onFindNewPokemon, onStartGame }}>
       {children}
     </AppContext.Provider>
   )

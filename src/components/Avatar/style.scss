@@ -1,11 +1,31 @@
 .avatar-wrapper {
   width: 300px;
+  height: 300px;
   margin: 0 auto;
   border-radius: 999px;
   background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   img {
     display: block;
     width: 100%;
   }
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.avatar__loading-icon {
+  width: 100px;
+  height: 100px;
+  animation: rotating 2s linear infinite;
 }

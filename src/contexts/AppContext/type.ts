@@ -22,6 +22,7 @@ export type GameState = {
 
 export type AppContextValue = {
   gameState: GameState;
+  isLoadingPokemon: boolean;
   onClickLetter: (letter: string, isTip?: boolean) => void;
   onFindNewPokemon: () => void;
   onStartGame: () => void;
