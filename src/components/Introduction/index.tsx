@@ -9,7 +9,7 @@ import './style.scss';
 export const Introduction = () => {
   const { onStartGame } = useAppContext();
 
-  return(
+  return (
     <div className="introduction text-center">
       <Pokeball className="introduction__icon" />
       <h1>Can you spell any Pokémon name?</h1>

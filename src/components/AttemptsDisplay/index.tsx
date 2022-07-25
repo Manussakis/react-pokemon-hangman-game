@@ -1,11 +1,10 @@
 import { MAX_ATTEMPTS } from '../../library/constants';
 import { ReactComponent as Pokeball } from '../../assets/pokeball.svg';
 import { ReactComponent as PokeballLight } from '../../assets/pokeball-light.svg';
-import './style.scss';
 
-interface AttemptsDisplayProps {
-  remainingAttempts: number;
-}
+import { AttemptsDisplayProps } from './types';
+
+import './style.scss';
 
 export const AttemptsDisplay = ({ remainingAttempts }: AttemptsDisplayProps) => {
   const allPokeballs = Array.from(Array(MAX_ATTEMPTS).keys());
@@ -29,5 +28,5 @@ export const AttemptsDisplay = ({ remainingAttempts }: AttemptsDisplayProps) => 
         })}
       </ul>
     </div>
-  )
+  );
 }

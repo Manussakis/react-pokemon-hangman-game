@@ -1,8 +1,7 @@
+import { WordInProgressProps } from './types';
+
 import './style.scss';
 
-interface WordInProgressProps {
-  wordInProgress: string[];
-}
 
 export const WordInProgress = ({ wordInProgress }: WordInProgressProps) => {
   return (

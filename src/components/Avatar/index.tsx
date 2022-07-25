@@ -1,7 +1,6 @@
-import { PokemonData } from '../../contexts/AppContext/type';
-import './style.scss';
+import { AvatarProps } from './types';
 
-interface AvatarProps extends PokemonData { }
+import './style.scss';
 
 export const Avatar = ({ flavorText, image }: AvatarProps) => {
   return (

@@ -75,5 +75,5 @@ export const Dialog = ({
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleOnConfirm}>{confirmButton}</Button>
       </footer>
     </Modal>
-  )
+  );
 }

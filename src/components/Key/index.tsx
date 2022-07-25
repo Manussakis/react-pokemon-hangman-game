@@ -1,11 +1,6 @@
-import './style.scss';
+import { KeyProps } from './types';
 
-interface KeyProps {
-  letter: string;
-  isDisable: boolean;
-  isInWord: boolean;
-  onClick: (letter: string) => void;
-};
+import './style.scss';
 
 export const Key = ({ letter, isDisable, isInWord, onClick }: KeyProps) => {
   return (
