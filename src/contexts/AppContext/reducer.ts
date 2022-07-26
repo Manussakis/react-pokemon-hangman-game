@@ -1,6 +1,6 @@
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { GameState, GameStateAction, PokemonData } from './type';
-import { MAX_ATTEMPTS } from '../../library/constants';
+import { MAX_ATTEMPTS } from '../../utils/constants';
 
 export const gameStateRuducer = (state: GameState, action: GameStateAction): GameState => {
   let newRemainingAttempts: number;

@@ -15,7 +15,7 @@ import { ButtonTypeEnum } from './components/Button/enums';
 import { useAppContext } from './contexts/AppContext';
 import { DialogContextProvider } from './contexts/DialogContext';
 
-import { randomIntFromInterval } from './library/utils';
+import { randomIntFromInterval } from './utils/functions';
 
 import './App.css';
 

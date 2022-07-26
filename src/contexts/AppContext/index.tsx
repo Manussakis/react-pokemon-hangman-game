@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useCallback, useReducer, useRef, useState } from 'react';
 import { getPokemonMaxCount, fetchPokemon } from '../../api';
-import { MAX_ATTEMPTS } from '../../library/constants';
-import { randomIntFromInterval } from '../../library/utils';
+import { MAX_ATTEMPTS } from '../../utils/constants';
+import { randomIntFromInterval } from '../../utils/functions';
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { AppContextValue, GameState, AppContextProviderProps } from './type';
 import { gameStateRuducer } from './reducer';

@@ -1,4 +1,4 @@
-import { MAX_ATTEMPTS } from '../../library/constants';
+import { MAX_ATTEMPTS } from '../../utils/constants';
 import { ReactComponent as Pokeball } from '../../assets/pokeball.svg';
 import { ReactComponent as PokeballLight } from '../../assets/pokeball-light.svg';
 

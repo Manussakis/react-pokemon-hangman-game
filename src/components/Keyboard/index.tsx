@@ -1,6 +1,6 @@
 import { useAppContext } from '../../contexts/AppContext';
 import { GameStatusEnum } from '../../contexts/AppContext/enums';
-import { KEYBOARD_LETTERS } from '../../library/constants';
+import { KEYBOARD_LETTERS } from '../../utils/constants';
 import { Key } from '../Key';
 
 import './style.scss';

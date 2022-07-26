@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PokemonData } from '../contexts/AppContext/type';
-import { getPokemoImageUrl } from '../library/utils';
+import { getPokemoImageUrl } from '../utils/functions';
 import { FlavorTextEntry } from './types';
 
 export const api = axios.create({
