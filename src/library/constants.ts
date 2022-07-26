@@ -4,4 +4,4 @@ export const KEYBOARD_LETTERS = [
   ['z','x','c','v','b','n','m']
 ];
 
-export const MAX_ATTEMPTS = 6;
+export const MAX_ATTEMPTS = 2;

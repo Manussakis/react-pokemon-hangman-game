@@ -12,4 +12,6 @@
   flex-wrap: wrap;
 }
 
-
+.keyboard--disabled {
+  pointer-events: none;
+}

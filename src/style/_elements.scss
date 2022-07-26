@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+  --primary: #{$primary};
+  --hint: #{$hint};
+  --surface: #{$surface};
+  --white: #{$white};
+  --lightgreen: #{$lightgreen};
+  --red: #{$red};
+  --border-radius: #{$border-radius};
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--surface);
+  line-height: 1.5;
+}
+
+button {
+  cursor: pointer;
+}

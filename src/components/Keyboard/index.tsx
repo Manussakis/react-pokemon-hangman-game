@@ -1,4 +1,5 @@
 import { useAppContext } from '../../contexts/AppContext';
+import { GameStatusEnum } from '../../contexts/AppContext/enums';
 import { KEYBOARD_LETTERS } from '../../library/constants';
 import { Key } from '../Key';
 
@@ -9,12 +10,15 @@ export const Keyboard = () => {
     gameState: {
       wordInProgress,
       guesses,
+      status,
     },
     onClickLetter,
   } = useAppContext();
 
+  const disableKeyboard = status === GameStatusEnum.WON || status === GameStatusEnum.LOST ? ' keyboard--disabled' : '';
+
   return (
-    <div className='keyboard'>
+    <div className={`keyboard${disableKeyboard}`}>
       {KEYBOARD_LETTERS.map((row, index) => (
         // Using index in the key property shouldn't be a problem here since
         // the order of the rows in the Keyboard will never change.

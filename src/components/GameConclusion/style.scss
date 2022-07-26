@@ -1,0 +1,24 @@
+@use "sass:color";
+@import '../../style/variables';
+
+.game-conclusion__image {
+  display: block;
+  width: 100%;
+}
+
+.game-conclusion__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba($surface, 0.98);
+}
+
+.game-conclusion__buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.game-conclusion__buttons > * {
+  margin-bottom: 1rem;
+}

@@ -1,15 +1,16 @@
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
-import { GameState, GameStateAction } from './type';
+import { GameState, GameStateAction, PokemonData } from './type';
 import { MAX_ATTEMPTS } from '../../library/constants';
 
 export const gameStateRuducer = (state: GameState, action: GameStateAction): GameState => {
   let newRemainingAttempts: number;
+  let pokemonData: PokemonData;
 
   switch (action.type) {
     case GameActionTypeEnum.START_GAME:
       return {
         ...state,
-        status: GameStatusEnum.RUNNING
+        status: GameStatusEnum.RUNNING,
       }
 
     case GameActionTypeEnum.GET_NEW_POKEMON:
@@ -17,16 +18,22 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
         throw new Error(`The action type ${GameActionTypeEnum.GET_NEW_POKEMON} requires a payload object with the property "pokemonData".`)
       }
 
-      const pokeData = action.payload.pokemonData;
-      const pokemonName = pokeData.name as string;
+      pokemonData = action.payload.pokemonData;
+      const pokemonName = pokemonData.name as string;
+      let status = GameStatusEnum.BEFORE_STARTING;
+
+      if (state.status !== GameStatusEnum.BEFORE_STARTING) {
+        status = GameStatusEnum.RUNNING;
+      }
 
       return {
         ...state,
-        pokemonData: pokeData,
+        pokemonData,
         wordInProgress: pokemonName.split('').map((char) => char === '-' ? '-' : ''),
         remainingAttempts: MAX_ATTEMPTS,
         guesses: [],
         hasTip: true,
+        status,
       }
 
     case GameActionTypeEnum.CLICK_LETTER:
@@ -34,7 +41,8 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
         throw new Error(`The action type ${GameActionTypeEnum.CLICK_LETTER} requires a payload object with the property "letter".`)
       }
 
-      const { pokemonData, wordInProgress, guesses, hasTip } = state;
+      pokemonData = state.pokemonData;
+      const { wordInProgress, guesses, hasTip } = state;
       const newWordInProgress: string[] = [...wordInProgress];
       const newGuesses: string[] = [...guesses];
       const { letter } = action.payload;

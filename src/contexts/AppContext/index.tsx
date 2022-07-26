@@ -67,6 +67,15 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   }, [getNewPokemon]);
 
+  const onTryAgain = useCallback(() => {
+    dispatchGameState({
+      type: GameActionTypeEnum.GET_NEW_POKEMON,
+      payload: {
+        pokemonData: gameState.pokemonData
+      }
+    });
+  }, [gameState.pokemonData]);
+
   const onStartGame = useCallback(() => {
     dispatchGameState({
       type: GameActionTypeEnum.START_GAME,
@@ -112,7 +121,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
-    <AppContext.Provider value={{ gameState, isLoadingPokemon, onClickLetter, onFindNewPokemon, onStartGame }}>
+    <AppContext.Provider value={{ gameState, isLoadingPokemon, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain }}>
       {children}
     </AppContext.Provider>
   )

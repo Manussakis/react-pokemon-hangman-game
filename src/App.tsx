@@ -7,6 +7,7 @@ import { AttemptsDisplay } from './components/AttemptsDisplay';
 import { Button } from './components/Button';
 import { Dialog } from './components/Dialog';
 import { Introduction } from './components/Introduction';
+import { GameConclusion } from './components/GameConclusion';
 
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
@@ -45,6 +46,9 @@ function App() {
     onClickLetter(letter, true);
   }
 
+  const showConclusion = status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
+  const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
+
   return (
     <>
       <main>
@@ -55,7 +59,9 @@ function App() {
             <>
               <div className="flex align-center justify-between">
                 <AttemptsDisplay remainingAttempts={remainingAttempts} />
-                <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={!hasTip}>Use my tip</Button>
+                <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>
+                  {hasTip ? 'Use my tip' : 'Tip was used'}
+                </Button>
               </div>
               <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon}/>
               <WordInProgress wordInProgress={wordInProgress} />
@@ -68,6 +74,8 @@ function App() {
                   </Dialog>
                 </DialogContextProvider>
               </div>
+              {/* {showConclusion && <GameConclusion result={status} />} */}
+              <GameConclusion result={status} />
             </>
           )}
         </div>
