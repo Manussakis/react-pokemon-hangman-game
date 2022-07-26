@@ -51,7 +51,7 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
 
   if (result === GameStatusEnum.WON) {
     content = <div className="text-center">
-      <img className="game-conclusion__image" src="https://media2.giphy.com/media/xuXzcHMkuwvf2/giphy.gif" alt="" />
+      <img className="game-conclusion__image" src="https://media2.giphy.com/media/xuXzcHMkuwvf2/giphy.gif" alt="Pikachu is sad" />
       <h2>You're a Pokémon expert!</h2>
       <p>Let's see how you do with the next Pokémon.</p>
       <div className="game-conclusion__buttons">
@@ -61,7 +61,7 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
     </div>
   } else if (result === GameStatusEnum.LOST) {
     content = <div className="text-center">
-      <img className="game-conclusion__image" src="https://media3.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="" />
+      <img className="game-conclusion__image" src="https://media3.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="Pikachu is happy" />
       <h2>Ops!<br />Your available attempts have gone.</h2>
       <p>You can either try again or find a new Pokémon.</p>
       <div className="game-conclusion__buttons">
@@ -73,16 +73,20 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={close}
-      overlayClassName="game-conclusion__overlay"
-      style={customStyles}
-      contentLabel="Game result"
-    >
-      <div className="container container--small">
-        {content}
-      </div>
-    </Modal>
+    <>
+      <img style={{display: 'none'}} src="https://media3.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="" />
+      <img style={{display: 'none'}} src="https://media2.giphy.com/media/xuXzcHMkuwvf2/giphy.gif" alt="" />
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={close}
+        overlayClassName="game-conclusion__overlay"
+        style={customStyles}
+        contentLabel="Game result"
+      >
+        <div className="container container--small">
+          {content}
+        </div>
+      </Modal>
+    </>
   );
 }
