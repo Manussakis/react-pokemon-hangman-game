@@ -8,6 +8,7 @@ import { Button } from './components/Button';
 import { Dialog } from './components/Dialog';
 import { Introduction } from './components/Introduction';
 import { GameConclusion } from './components/GameConclusion';
+import { Container } from './components/Container';
 
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
@@ -38,6 +39,7 @@ function App() {
   } = useAppContext();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
 
   function handleUseMyTip() {
     const hiddenLetters = name.split('').filter(l => !wordInProgress.includes(l));
@@ -46,13 +48,10 @@ function App() {
     onClickLetter(letter, true);
   }
 
-  const showConclusion = status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
-  const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
-
   return (
     <>
       <main>
-        <div className="container">
+        <Container>
           {status === GameStatusEnum.BEFORE_STARTING ? (
             <Introduction />
           ) : (
@@ -63,7 +62,7 @@ function App() {
                   {hasTip ? 'Use my tip' : 'Tip was used'}
                 </Button>
               </div>
-              <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon}/>
+              <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
               <WordInProgress wordInProgress={wordInProgress} />
               <Keyboard />
               <div className="text-center">
@@ -74,11 +73,10 @@ function App() {
                   </Dialog>
                 </DialogContextProvider>
               </div>
-              {/* {showConclusion && <GameConclusion result={status} />} */}
               <GameConclusion result={status} />
             </>
           )}
-        </div>
+        </Container>
       </main>
     </>
   );

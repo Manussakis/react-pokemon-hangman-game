@@ -1,13 +1,3 @@
-.container {
-  max-width: 34rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.container--small {
-  max-width: 30rem;
-}
-
 .ReactModal__Body--open,
 .ReactModal__Html--open {
   overflow: hidden;

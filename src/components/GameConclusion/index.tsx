@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
+
 import Modal from 'react-modal';
-import { GameStatusEnum } from '../../contexts/AppContext/enums';
+import { Button } from '../Button';
+import { Container } from '../Container';
+
 import { GameConclusionProps } from './type';
 
-import './style.scss';
+import { GameStatusEnum } from '../../contexts/AppContext/enums';
 import { ButtonTypeEnum } from '../Button/enums';
-import { Button } from '../Button';
+
 import { useAppContext } from '../../contexts/AppContext';
+
+import './style.scss';
+import { ContainerSizesEnum } from '../Container/enums';
 
 Modal.setAppElement('#root');
 
@@ -83,9 +89,9 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
         style={customStyles}
         contentLabel="Game result"
       >
-        <div className="container container--small">
+        <Container size={ContainerSizesEnum.SMALL}>
           {content}
-        </div>
+        </Container>
       </Modal>
     </>
   );
