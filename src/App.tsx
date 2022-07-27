@@ -51,35 +51,37 @@ function App() {
 
   return (
     <>
-      <main>
+      <div className="app">
         <Container>
           {status === GameStatusEnum.BEFORE_STARTING ? (
             <Introduction />
           ) : (
             <>
-              <div className="flex align-center justify-between">
+              <header className="app__header">
                 <AttemptsDisplay remainingAttempts={remainingAttempts} />
                 <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>
                   {hasTip ? 'Use my tip' : 'Tip was used'}
                 </Button>
-              </div>
-              <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
-              <WordInProgress wordInProgress={wordInProgress} />
-              <Keyboard />
-              <div className="app__buttons">
-                {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
-                <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Get new Pokémon</Button>
-                <DialogContextProvider>
-                  <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onFindNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
-                    <p>After confirming it, a new random Pokémon will be loaded.</p>
-                  </Dialog>
-                </DialogContextProvider>
-              </div>
+              </header>
+              <main>
+                <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
+                <WordInProgress wordInProgress={wordInProgress} />
+                <Keyboard />
+                <div className="app__buttons">
+                  {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
+                  <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Get new Pokémon</Button>
+                  <DialogContextProvider>
+                    <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onFindNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
+                      <p>After confirming it, a new random Pokémon will be loaded.</p>
+                    </Dialog>
+                  </DialogContextProvider>
+                </div>
+              </main>
               <GameConclusion result={status} />
             </>
           )}
         </Container>
-      </main>
+      </div>
     </>
   );
 }

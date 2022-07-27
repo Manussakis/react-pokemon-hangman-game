@@ -26,40 +26,72 @@
 .button--primary {
   text-decoration: none;
   border: 2px solid var(--primary);
-  box-shadow: 4px 4px 0 var(--primary);
+  box-shadow: 2px 2px 0 var(--primary);
 
   &:hover,
   &:focus {
-    box-shadow: 2px 2px 0 var(--primary);
-    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--primary);
+    transform: translate(1px, 1px);
   }
 
   &:active,
   &[disabled] {
-    box-shadow: 1px 1px 0 var(--primary);
-    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0 var(--primary);
+    transform: translate(2px, 2px);
   }
 
   &[disabled] {
     opacity: 0.2;
     cursor: not-allowed;
   }
+
+  @media only screen and (min-width: 550px) {
+    box-shadow: 4px 4px 0 var(--primary);
+
+    &:hover,
+    &:focus {
+      box-shadow: 2px 2px 0 var(--primary);
+      transform: translate(2px, 2px);
+    }
+
+    &:active,
+    &[disabled] {
+      box-shadow: 1px 1px 0 var(--primary);
+      transform: translate(3px, 3px);
+    }
+  }
 }
 
 .button--secondary {
   text-decoration: none;
   border: 2px solid var(--hint);
-  box-shadow: 4px 4px 0 var(--hint);
+  box-shadow: 2px 2px 0 var(--hint);
 
   &:hover,
   &:focus {
-    box-shadow: 2px 2px 0 var(--hint);
-    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--hint);
+    transform: translate(1px, 1px);
   }
 
   &:active {
-    box-shadow: 1px 1px 0 var(--hint);
-    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0 var(--hint);
+    transform: translate(2px, 2px);
+  }
+
+  @media only screen and (min-width: 550px) {
+    box-shadow: 4px 4px 0 var(--hint);
+
+    &:hover,
+    &:focus {
+      box-shadow: 2px 2px 0 var(--hint);
+      transform: translate(2px, 2px);
+    }
+
+    &:active,
+    &[disabled] {
+      box-shadow: 1px 1px 0 var(--hint);
+      transform: translate(3px, 3px);
+    }
   }
 }
 

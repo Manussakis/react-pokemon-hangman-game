@@ -5,7 +5,7 @@ import './style.scss';
 
 export const WordInProgress = ({ wordInProgress }: WordInProgressProps) => {
   return (
-    <ul className='word-in-progress'>
+    <ul className="word-in-progress">
       {wordInProgress.map((slot, index) => {
         const dashModifier = slot === '-' ? ' word-in-progress__item--has-dash' : '';
 

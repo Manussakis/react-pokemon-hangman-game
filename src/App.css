@@ -1,6 +1,16 @@
-.ReactModal__Body--open,
-.ReactModal__Html--open {
-  overflow: hidden;
+.app {
+  padding: 1rem;
+}
+
+.app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.app__main {
+  padding: 1rem;
 }
 
 .app__buttons {
@@ -12,4 +22,9 @@
 
 .app__buttons button:first-of-type {
   margin-bottom: 1rem;
+}
+
+.ReactModal__Body--open,
+.ReactModal__Html--open {
+  overflow: hidden;
 }
