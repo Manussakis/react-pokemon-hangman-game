@@ -72,7 +72,7 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
       <p>You can either try again or find a new Pokémon.</p>
       <div className="game-conclusion__buttons">
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleTryAgain}>Try again</Button>
-        <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Find new Pokémon</Button>
+        <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Get new Pokémon</Button>
         <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>Close</Button>
       </div>
     </div>

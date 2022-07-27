@@ -60,7 +60,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     }
   }, []);
 
-  const onFindNewPokemon = useCallback(async () => {
+  const onFindNewPokemon = useCallback(() => {
     const randomPokemonId = randomIntFromInterval(1, MAX_POKEMON_COUNT);
 
     getNewPokemon(randomPokemonId);

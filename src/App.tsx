@@ -36,6 +36,7 @@ function App() {
     isLoadingPokemon,
     onFindNewPokemon,
     onClickLetter,
+    onTryAgain,
   } = useAppContext();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -65,10 +66,11 @@ function App() {
               <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
               <WordInProgress wordInProgress={wordInProgress} />
               <Keyboard />
-              <div className="text-center">
-                <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Restart</Button>
+              <div className="app__buttons">
+                {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
+                <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Get new Pokémon</Button>
                 <DialogContextProvider>
-                  <Dialog title="Confirm restart game?" triggerRef={buttonRef} onConfirm={onFindNewPokemon}>
+                  <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onFindNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
                     <p>After confirming it, a new random Pokémon will be loaded.</p>
                   </Dialog>
                 </DialogContextProvider>

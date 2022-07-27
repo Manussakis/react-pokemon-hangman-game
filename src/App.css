@@ -2,3 +2,14 @@
 .ReactModal__Html--open {
   overflow: hidden;
 }
+
+.app__buttons {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.app__buttons button:first-of-type {
+  margin-bottom: 1rem;
+}
