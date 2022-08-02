@@ -46,9 +46,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     try {
       const pokemonData = await fetchPokemon(pokemonId);
 
-      // @TODO delete it.
-      console.log(pokemonData.name);
-
       dispatchGameState({
         type: GameActionTypeEnum.GET_NEW_POKEMON,
         payload: {
@@ -86,8 +83,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, []);
 
   useEffect(() => {
-    console.log('mount');
-
     const startApp = async () => {
       setHasError(false);
 
