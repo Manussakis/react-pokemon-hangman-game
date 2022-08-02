@@ -99,3 +99,21 @@
   border: 0;
   background-color: transparent;
 }
+
+.button__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.button__text {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.button--disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}

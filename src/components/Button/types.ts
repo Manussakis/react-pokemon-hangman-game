@@ -4,6 +4,10 @@ import { ButtonTypeEnum } from "./enums";
 export type ButtonProps = {
   type: ButtonTypeEnum;
   children: ReactNode;
+  icon?: ReactNode;
+  href?: string;
+  target?: string;
   disabled?: boolean|undefined;
   onClick?: (e: MouseEvent) => void;
+  ref?: HTMLAnchorElement | HTMLButtonElement | undefined
 }
