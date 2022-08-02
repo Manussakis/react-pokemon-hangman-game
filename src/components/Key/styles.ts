@@ -1,4 +1,7 @@
-.key {
+import styled, { css } from "styled-components";
+import { StyledKeyProps } from "./types";
+
+export const StyledKey = styled.button<StyledKeyProps>`
   width: 9%;
   height: 3rem;
   padding: 0.5rem;
@@ -24,31 +27,15 @@
     box-shadow: 0px 0px 0 var(--primary);
     transform: translate(2px, 2px);
   }
-}
 
-.key--disable {
-  pointer-events: none;
-  background-color: var(--red);
-  box-shadow: 0px 0px 0 var(--primary);
-  transform: translate(1px, 1px);
-}
-
-.key--right-guess {
-  background-color: var(--lightgreen);
-}
-
-@media only screen and (min-width: 480px) {
-  .key {
+  @media only screen and (min-width: 480px) {
     width: 2.5rem;
     margin: 0.1rem;
   }
-}
 
-@media only screen and (min-width: 550px) {
-  .key {
+  @media only screen and (min-width: 550px) {
     width: 3rem;
     margin: 0.2rem;
-
     box-shadow: 4px 4px 0 var(--primary);
 
     &:hover {
@@ -62,9 +49,23 @@
     }
   }
 
-  .key--disable {
-    box-shadow: 1px 1px 0 var(--primary);
-    transform: translate(3px, 3px);
-  }
-}
+  ${(props) =>
+    props.isDisabled &&
+    css`
+      pointer-events: none;
+      background-color: var(--red);
+      box-shadow: 0px 0px 0 var(--primary);
+      transform: translate(1px, 1px);
 
+      @media only screen and (min-width: 550px) {
+        box-shadow: 1px 1px 0 var(--primary);
+        transform: translate(3px, 3px);
+      }
+    `}
+
+  ${(props) =>
+    props.isRightGuess &&
+    css`
+      background-color: var(--lightgreen);
+    `}
+`;

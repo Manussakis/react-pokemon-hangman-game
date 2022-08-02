@@ -1,12 +1,11 @@
 import { KeyProps } from './types';
 
-import './style.scss';
+import { StyledKey } from './styles';
 
 export const Key = ({ letter, isDisable, isInWord, onClick }: KeyProps) => {
   return (
-    <button className={`key key--${letter}${isDisable ? ' key--disable' : ''}${isInWord ? ' key--right-guess' : ''}`}
-      onClick={() => onClick(letter)}>
+    <StyledKey isDisabled={isDisable} isRightGuess={isInWord} onClick={() => onClick(letter)}>
       {letter}
-    </button>
+    </StyledKey>
   );
 };
