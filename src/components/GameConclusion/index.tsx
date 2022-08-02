@@ -68,11 +68,11 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
   } else if (result === GameStatusEnum.LOST) {
     content = <div className="text-center">
       <img className="game-conclusion__image" src="https://media3.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="Pikachu is happy" />
-      <h2>Ops!<br />Your available attempts have gone.</h2>
-      <p>You can either try again or find a new Pokémon.</p>
+      <h2>Game Over!<br />Your available attempts have gone.</h2>
+      <p>You can either try again or load a new Pokémon.</p>
       <div className="game-conclusion__buttons">
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleTryAgain}>Try again</Button>
-        <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Get new Pokémon</Button>
+        <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Load new Pokémon</Button>
         <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>Close</Button>
       </div>
     </div>

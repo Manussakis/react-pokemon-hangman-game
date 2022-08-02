@@ -69,7 +69,7 @@ function App() {
             <Keyboard />
             <div className="app__buttons">
               {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
-              <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Get new Pokémon</Button>
+              <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
               <DialogContextProvider>
                 <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onFindNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
                   <p>After confirming it, a new random Pokémon will be loaded.</p>
