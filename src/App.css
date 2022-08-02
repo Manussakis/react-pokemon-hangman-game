@@ -1,5 +1,8 @@
 .app {
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
 }
 
 .app__header {
@@ -10,7 +13,7 @@
 }
 
 .app__main {
-  padding: 1rem;
+  padding-bottom: 3rem;
 }
 
 .app__buttons {
@@ -22,6 +25,18 @@
 
 .app__buttons button:first-of-type {
   margin-bottom: 1rem;
+}
+
+.app__footer {
+  text-align: center;
+  background-color: var(--darksurface);
+  margin-top: auto;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.app__footer-content {
+  margin-top: 2rem;
 }
 
 .ReactModal__Body--open,
