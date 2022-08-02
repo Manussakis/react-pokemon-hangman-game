@@ -1,12 +1,11 @@
 import { ContainerSizesEnum } from './enums';
 import { ContainerProps } from './types';
-
-import './style.css';
+import { StyledContainer } from './styles';
 
 export const Container = ({ size = ContainerSizesEnum.MEDIUM, children }: ContainerProps) => {
   return (
-    <div className={`container container--${size}`}>
+    <StyledContainer size={size}>
       {children}
-    </div>
+    </StyledContainer>
   );
 }

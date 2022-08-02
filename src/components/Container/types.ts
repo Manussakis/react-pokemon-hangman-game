@@ -5,3 +5,7 @@ export type ContainerProps = {
   size?: ContainerSizesEnum;
   children: ReactNode;
 }
+
+export type StyledContainerProps = {
+  size?: ContainerSizesEnum;
+}
