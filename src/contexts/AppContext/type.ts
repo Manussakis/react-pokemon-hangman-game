@@ -20,9 +20,14 @@ export type GameState = {
   status: GameStatusEnum;
 };
 
+export type ErrorObj = {
+  message: string;
+}
+
 export type AppContextValue = {
   gameState: GameState;
   isLoadingPokemon: boolean;
+  hasError: boolean;
   onClickLetter: (letter: string, isTip?: boolean) => void;
   onFindNewPokemon: () => void;
   onTryAgain: () => void;

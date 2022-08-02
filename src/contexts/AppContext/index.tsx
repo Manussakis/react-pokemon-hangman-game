@@ -26,6 +26,7 @@ let MAX_POKEMON_COUNT: number;
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const isFirstFetchCompleted = useRef(false);
   const [isLoadingPokemon, setIsLoadingPokemon] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [gameState, dispatchGameState] = useReducer(gameStateRuducer, gameStateInitialValue);
 
   const onClickLetter = (letter: string, isTip?: boolean) => {
@@ -40,6 +41,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   const getNewPokemon = useCallback(async (pokemonId: number) => {
     setIsLoadingPokemon(true);
+    setHasError(false);
 
     try {
       const pokemonData = await fetchPokemon(pokemonId);
@@ -54,6 +56,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         }
       });
     } catch (error) {
+      setHasError(true);
       console.log(error);
     } finally {
       setIsLoadingPokemon(false);
@@ -86,6 +89,8 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     console.log('mount');
 
     const startApp = async () => {
+      setHasError(false);
+
       try {
         const maxPokemonsCount = await getPokemonMaxCount();
         const randomPokemonId = randomIntFromInterval(1, maxPokemonsCount);
@@ -95,6 +100,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
         getNewPokemon(randomPokemonId);
       } catch (error) {
+        setHasError(true)
         console.log(error);
       }
     };
@@ -121,7 +127,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
-    <AppContext.Provider value={{ gameState, isLoadingPokemon, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain }}>
+    <AppContext.Provider value={{ gameState, isLoadingPokemon, hasError, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain }}>
       {children}
     </AppContext.Provider>
   )

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-
+import { useAppContext } from './contexts/AppContext';
+import { DialogContextProvider } from './contexts/DialogContext';
 import { Keyboard } from './components/Keyboard';
 import { WordInProgress } from './components/WordInProgress';
 import { Avatar } from './components/Avatar';
@@ -10,16 +11,19 @@ import { Introduction } from './components/Introduction';
 import { GameConclusion } from './components/GameConclusion';
 import { Container } from './components/Container';
 import { ReactComponent as Github } from './assets/github-icon.svg';
-
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
-
-import { useAppContext } from './contexts/AppContext';
-import { DialogContextProvider } from './contexts/DialogContext';
-
 import { randomIntFromInterval } from './utils/functions';
 
-import './App.css';
+import {
+  StyledWrapper,
+  StyledHeader,
+  StyledError,
+  StyledMain,
+  StyledButtons,
+  StyledFooter,
+  StyledFooterContent
+} from './styles';
 
 function App() {
   const {
@@ -35,6 +39,7 @@ function App() {
       status,
     },
     isLoadingPokemon,
+    hasError,
     onFindNewPokemon,
     onClickLetter,
     onTryAgain,
@@ -51,47 +56,54 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <StyledWrapper>
       <Container>
       {status === GameStatusEnum.BEFORE_STARTING ? (
         <Introduction />
       ) : (
-        <>
-          <header className="app__header">
-            <AttemptsDisplay remainingAttempts={remainingAttempts} />
-            <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>
-              {hasTip ? 'Use my tip' : 'Tip was used'}
-            </Button>
-          </header>
-          <main className="app__main">
-            <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
-            <WordInProgress wordInProgress={wordInProgress} />
-            <Keyboard />
-            <div className="app__buttons">
-              {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
-              <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
-              <DialogContextProvider>
-                <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onFindNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
-                  <p>After confirming it, a new random Pokémon will be loaded.</p>
-                </Dialog>
-              </DialogContextProvider>
-            </div>
-          </main>
-          <GameConclusion result={status} />
-        </>
+        hasError ? (
+          <StyledError style={{paddingTop: '1rem'}}>
+            Ops! Something went wrong <br />
+            It was not possible to load a Pokémon
+          </StyledError>
+        ) : (
+          <>
+            <StyledHeader>
+              <AttemptsDisplay remainingAttempts={remainingAttempts} />
+              <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>
+                {hasTip ? 'Use my tip' : 'Tip was used'}
+              </Button>
+            </StyledHeader>
+            <StyledMain>
+              <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
+              <WordInProgress wordInProgress={wordInProgress} />
+              <Keyboard />
+              <StyledButtons>
+                {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
+                <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
+                <DialogContextProvider>
+                  <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onFindNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
+                    <p>After confirming it, a new random Pokémon will be loaded.</p>
+                  </Dialog>
+                </DialogContextProvider>
+              </StyledButtons>
+            </StyledMain>
+            <GameConclusion result={status} />
+          </>
+        )
       )}
       </Container>
-      <footer className="app__footer">
+      <StyledFooter>
         <Container>
           <Button type={ButtonTypeEnum.PRIMARY} icon={<Github />} href="https://github.com/manussakis/react-pokemon-game">
             Github
           </Button>
-          <p className="app__footer-content">
+          <StyledFooterContent>
             Made with React by <a href="https://github.com/manussakis">Gabriel Manussakis</a>
-          </p>
+          </StyledFooterContent>
         </Container>
-      </footer>
-    </div>
+      </StyledFooter>
+    </StyledWrapper>
   );
 }
 

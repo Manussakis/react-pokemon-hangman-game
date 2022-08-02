@@ -1,46 +1,48 @@
-.app {
+import styled from "styled-components";
+
+export const StyledError = styled.div`
+  text-align: center;
+  padding-top: 2rem;
+`;
+
+export const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-}
+`;
 
-.app__header {
+export const StyledHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
   padding-top: 1rem;
-}
+`;
 
-.app__main {
+export const StyledMain = styled.main`
   padding-bottom: 3rem;
-}
+`;
 
-.app__buttons {
+export const StyledButtons = styled.div`
   margin-top: 2rem;
   display: flex;
   align-items: center;
   flex-direction: column;
-}
 
-.app__buttons button:first-of-type {
-  margin-bottom: 1rem;
-}
+  button:first-of-type {
+    margin-bottom: 1rem;
+  }
+`;
 
-.app__footer {
+export const StyledFooter = styled.footer`
   text-align: center;
   background-color: var(--darksurface);
   margin-top: auto;
   padding-top: 2rem;
   padding-bottom: 1rem;
-}
+`;
 
-.app__footer-content {
+export const StyledFooterContent = styled.p`
   margin-top: 2rem;
-}
-
-.ReactModal__Body--open,
-.ReactModal__Html--open {
-  overflow: hidden;
-}
+`;
