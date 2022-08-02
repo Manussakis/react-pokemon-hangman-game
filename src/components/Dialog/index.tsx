@@ -5,7 +5,7 @@ import { DialogProps } from './types';
 import { useEffect } from 'react';
 import { useDialogContext } from '../../contexts/DialogContext';
 
-import './style.scss';
+import { StyledTitle, StyledFooter } from './styles';
 
 Modal.setAppElement('#root');
 
@@ -66,14 +66,14 @@ export const Dialog = ({
     >
       {title && (
         <header>
-          <h2 className="dialog__title">{title}</h2>
+          <StyledTitle>{title}</StyledTitle>
         </header>
       )}
       {children}
-      <footer className="dialog__footer">
+      <StyledFooter>
         <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>{cancelButton}</Button>
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleOnConfirm}>{confirmButton}</Button>
-      </footer>
+      </StyledFooter>
     </Modal>
   );
 }
