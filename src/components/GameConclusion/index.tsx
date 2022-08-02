@@ -8,7 +8,7 @@ import { GameStatusEnum } from '../../contexts/AppContext/enums';
 import { ButtonTypeEnum } from '../Button/enums';
 import { ContainerSizesEnum } from '../Container/enums';
 
-import { StyledImage, StyledButtons } from './styles';
+import { StyledContent, StyledImage, StyledButtons } from './styles';
 import './styles.scss';
 
 Modal.setAppElement('#root');
@@ -53,7 +53,7 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
   }, [result])
 
   if (result === GameStatusEnum.WON) {
-    content = <div className="text-center">
+    content = <StyledContent>
       <StyledImage src="https://media2.giphy.com/media/xuXzcHMkuwvf2/giphy.gif" alt="Pikachu is sad" />
       <h2>You're a Pokémon expert!</h2>
       <p>Let's see how you do with the next Pokémon.</p>
@@ -61,9 +61,9 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Next Pokémon</Button>
         <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>Close</Button>
       </StyledButtons>
-    </div>
+    </StyledContent>
   } else if (result === GameStatusEnum.LOST) {
-    content = <div className="text-center">
+    content = <StyledContent>
       <StyledImage src="https://media3.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="Pikachu is happy" />
       <h2>Game Over!<br />Your available attempts have gone.</h2>
       <p>You can either try again or load a new Pokémon.</p>
@@ -72,7 +72,7 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Load new Pokémon</Button>
         <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>Close</Button>
       </StyledButtons>
-    </div>
+    </StyledContent>
   }
 
   return (
