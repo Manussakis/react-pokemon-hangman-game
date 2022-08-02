@@ -1,6 +1,6 @@
 import { AvatarProps } from './types';
 
-import { StyledAvatar, StyledImage, StyledPokeball } from './style';
+import { StyledAvatar, StyledImage, StyledPokeball } from './styles';
 
 export const Avatar = ({ flavorText, image, isLoading }: AvatarProps) => {
   return (
