@@ -1,32 +1,35 @@
 import { MAX_ATTEMPTS } from '../../utils/constants';
-import { ReactComponent as Pokeball } from '../../assets/pokeball.svg';
-import { ReactComponent as PokeballLight } from '../../assets/pokeball-light.svg';
 
 import { AttemptsDisplayProps } from './types';
 
-import './style.scss';
+import {
+  StyledText,
+  StyledNumber,
+  StyledList,
+  StyledItem,
+  StyledPokeball,
+  StyledPokeballLight
+} from './styles';
 
 export const AttemptsDisplay = ({ remainingAttempts }: AttemptsDisplayProps) => {
   const allPokeballs = Array.from(Array(MAX_ATTEMPTS).keys());
 
   return (
-    <div className="attempts-display">
-      <div className="attempts-display__text">
-        Attempts - <span className="attempts-display__number">{`${remainingAttempts}/${MAX_ATTEMPTS}`}</span>
-      </div>
-      <ul className="attempts-display__list">
-        {allPokeballs.map((key) => {
-          const icon = (key + 1) <= remainingAttempts ?
-            <Pokeball className="attempts-display__icon" /> :
-            <PokeballLight className="attempts-display__icon" />;
+    <div>
+      <StyledText>
+        Attempts - <StyledNumber>{`${remainingAttempts}/${MAX_ATTEMPTS}`}</StyledNumber>
+      </StyledText>
+      <StyledList>
+        {allPokeballs.map((attemptNum) => {
+          const icon = (attemptNum + 1) <= remainingAttempts ? <StyledPokeball /> : <StyledPokeballLight />;
 
           return (
-            <li key={key} className="attempts-display__item">
+            <StyledItem key={attemptNum}>
               {icon}
-            </li>
+            </StyledItem>
           );
         })}
-      </ul>
+      </StyledList>
     </div>
   );
 }
