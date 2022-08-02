@@ -1,7 +1,12 @@
 import { forwardRef } from "react";
 import { ButtonProps } from "./types";
 
-import './style.scss';
+import {
+  StyledButton,
+  StyledLinkButton,
+  StyledButtonIcon,
+  StyledButtonText,
+} from './styles';
 
 export const Button = forwardRef<any, ButtonProps>(({
   type,
@@ -10,12 +15,12 @@ export const Button = forwardRef<any, ButtonProps>(({
   disabled = false,
   icon,
   href = '',
-  target = '_blank'
+  target = '_blank',
 }, ref) => {
   const buttonContent = icon ? (
     <>
-      <span className="button__icon">{icon}</span>
-      <span className="button__text">{children}</span>
+      <StyledButtonIcon>{icon}</StyledButtonIcon>
+      <StyledButtonText>{children}</StyledButtonText>
     </>
   ) : (
     <>
@@ -25,13 +30,13 @@ export const Button = forwardRef<any, ButtonProps>(({
 
   return (
     href ? (
-      <a href={href} target={target} ref={ref} className={`button button--${type}${disabled ? ' button--disabled' : ''}`} onClick={onClick}>
+      <StyledLinkButton buttonType={type} href={href} target={target} ref={ref} isDisabled={disabled} onClick={onClick}>
         {buttonContent}
-      </a>
+      </StyledLinkButton>
     ) : (
-      <button ref={ref} className={`button button--${type}`} onClick={onClick} disabled={disabled}>
+      <StyledButton buttonType={type} ref={ref} onClick={onClick} disabled={disabled}>
         {buttonContent}
-      </button>
+      </StyledButton>
     )
   );
 });

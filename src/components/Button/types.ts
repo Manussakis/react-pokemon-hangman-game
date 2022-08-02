@@ -11,3 +11,11 @@ export type ButtonProps = {
   onClick?: (e: MouseEvent) => void;
   ref?: HTMLAnchorElement | HTMLButtonElement | undefined
 }
+
+export interface StyledButtonType {
+  buttonType: ButtonTypeEnum;
+}
+
+export interface StyledLinkButtonType extends StyledButtonType{
+  isDisabled: boolean;
+}
