@@ -1,16 +1,15 @@
-import { ReactComponent as Pokeball } from '../../assets/pokeball.svg';
 import { AvatarProps } from './types';
 
-import './style.scss';
+import { StyledAvatar, StyledImage, StyledPokeball } from './style';
 
 export const Avatar = ({ flavorText, image, isLoading }: AvatarProps) => {
   return (
-    <div className="avatar-wrapper">
+    <StyledAvatar>
       {isLoading ? (
-        <Pokeball className="avatar__loading-icon" />
+        <StyledPokeball />
       ) : (
-        <img src={image} alt={flavorText} />
+        <StyledImage src={image} alt={flavorText} />
       )}
-    </div>
+    </StyledAvatar>
   );
 }
