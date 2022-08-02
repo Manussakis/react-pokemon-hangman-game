@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
-
 import Modal from 'react-modal';
+import { useAppContext } from '../../contexts/AppContext';
 import { Button } from '../Button';
 import { Container } from '../Container';
-
 import { GameConclusionProps } from './type';
-
 import { GameStatusEnum } from '../../contexts/AppContext/enums';
 import { ButtonTypeEnum } from '../Button/enums';
-
-import { useAppContext } from '../../contexts/AppContext';
-
-import './style.scss';
 import { ContainerSizesEnum } from '../Container/enums';
+
+import { StyledImage, StyledButtons } from './styles';
+import './styles.scss';
 
 Modal.setAppElement('#root');
 
@@ -57,24 +54,24 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
 
   if (result === GameStatusEnum.WON) {
     content = <div className="text-center">
-      <img className="game-conclusion__image" src="https://media2.giphy.com/media/xuXzcHMkuwvf2/giphy.gif" alt="Pikachu is sad" />
+      <StyledImage src="https://media2.giphy.com/media/xuXzcHMkuwvf2/giphy.gif" alt="Pikachu is sad" />
       <h2>You're a Pokémon expert!</h2>
       <p>Let's see how you do with the next Pokémon.</p>
-      <div className="game-conclusion__buttons">
+      <StyledButtons>
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Next Pokémon</Button>
         <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>Close</Button>
-      </div>
+      </StyledButtons>
     </div>
   } else if (result === GameStatusEnum.LOST) {
     content = <div className="text-center">
-      <img className="game-conclusion__image" src="https://media3.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="Pikachu is happy" />
+      <StyledImage src="https://media3.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="Pikachu is happy" />
       <h2>Game Over!<br />Your available attempts have gone.</h2>
       <p>You can either try again or load a new Pokémon.</p>
-      <div className="game-conclusion__buttons">
+      <StyledButtons>
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleTryAgain}>Try again</Button>
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Load new Pokémon</Button>
         <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>Close</Button>
-      </div>
+      </StyledButtons>
     </div>
   }
 

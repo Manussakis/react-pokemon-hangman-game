@@ -1,0 +1,8 @@
+@use "sass:color";
+@import '../../style/variables';
+
+.game-conclusion__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba($surface, 0.98);
+}
