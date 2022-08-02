@@ -1,24 +1,22 @@
 import { WordInProgressProps } from './types';
-
-import './style.scss';
-
+import { StyledList, StyledItem } from './styles';
 
 export const WordInProgress = ({ wordInProgress }: WordInProgressProps) => {
   return (
-    <ul className="word-in-progress">
+    <StyledList>
       {wordInProgress.map((slot, index) => {
-        const dashModifier = slot === '-' ? ' word-in-progress__item--has-dash' : '';
+        const dashModifier = slot === '-';
 
         // Using index in the key property shouldn't be a problem here since
         // the order of the letters will never change.
         const key = `slot-${index}`;
 
         return (
-          <li key={key} className={`word-in-progress__item${dashModifier}`}>
+          <StyledItem key={key} hasDash={dashModifier}>
             {slot}
-          </li>
+          </StyledItem>
         );
       })}
-    </ul>
+    </StyledList>
   )
 }
