@@ -3,6 +3,7 @@
   --primary: #{$primary};
   --hint: #{$hint};
   --surface: #{$surface};
+  --darksurface: #{$darksurface};
   --white: #{$white};
   --lightgreen: #{$lightgreen};
   --red: #{$red};
@@ -22,4 +23,9 @@ body {
 
 button {
   cursor: pointer;
+}
+
+p a {
+  text-decoration: underline;
+  color: inherit;
 }
