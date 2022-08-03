@@ -1,3 +1,5 @@
+[![React Pokémon Hangman Game](public/banner.png)](https://pokemon-hangman-game.netlify.app/)
+
 # React Pokémon Hangman Game
 
 The Pokémon version of the hangman game.
