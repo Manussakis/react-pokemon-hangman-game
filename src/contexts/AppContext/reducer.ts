@@ -1,6 +1,7 @@
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { GameState, GameStateAction, PokemonData } from './type';
 import { MAX_ATTEMPTS } from '../../utils/constants';
+import { convertStrToEmptyArray } from '../../utils/functions';
 
 export const gameStateRuducer = (state: GameState, action: GameStateAction): GameState => {
   let newRemainingAttempts: number;
@@ -29,7 +30,7 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
       return {
         ...state,
         pokemonData,
-        wordInProgress: pokemonName.split('').map((char) => char === '-' ? '-' : ''),
+        wordInProgress: convertStrToEmptyArray(pokemonName),
         remainingAttempts: MAX_ATTEMPTS,
         guesses: [],
         hasTip: true,

@@ -24,3 +24,7 @@ export const getPokemoImageUrl = (id: number) => {
 
   return `${POKEMON_IMG_BASE_URL}${idString}.${POKEMON_IMG_FILE_EXT}`;
 };
+
+export const convertStrToEmptyArray = (text: string) => {
+  return text.split('').map((char) => char === '-' ? '-' : '');
+};

@@ -1,4 +1,4 @@
-import { randomIntFromInterval, getPokemoImageUrl } from './functions';
+import { randomIntFromInterval, getPokemoImageUrl, convertStrToEmptyArray } from './functions';
 import { POKEMON_IMG_BASE_URL, POKEMON_IMG_FILE_EXT } from './constants';
 
 describe('Utils functions', () => {
@@ -18,4 +18,12 @@ describe('Utils functions', () => {
 
     expect(url).toBe(finalUrl);
   });
+
+  test('converts text to empty array', () => {
+    const pokemonName = 'type-null';
+    const result = convertStrToEmptyArray(pokemonName);
+    const expectedArray = ['', '', '', '', '-', '', '', '', '']
+
+    expect(result).toStrictEqual(expectedArray);
+  })
 })

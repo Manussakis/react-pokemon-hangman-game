@@ -8,7 +8,7 @@ import { gameStateRuducer } from './reducer';
 
 export const AppContext = createContext({} as AppContextValue);
 
-const gameStateInitialValue: GameState = {
+export const gameStateInitialValue: GameState = {
   pokemonData: {
     name: '',
     image: '',
