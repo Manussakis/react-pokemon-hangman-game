@@ -11,7 +11,10 @@ import { ContainerSizesEnum } from '../Container/enums';
 import { StyledContent, StyledImage, StyledButtons } from './styles';
 import './styles.scss';
 
-Modal.setAppElement('#root');
+// https://github.com/reactjs/react-modal/issues/632#issuecomment-378755186
+if (process.env.NODE_ENV !== 'test') {
+  Modal.setAppElement('#root');
+}
 
 const customStyles = {
   content: {

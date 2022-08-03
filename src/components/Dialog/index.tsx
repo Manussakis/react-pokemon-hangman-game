@@ -7,7 +7,10 @@ import { useDialogContext } from '../../contexts/DialogContext';
 
 import { StyledTitle, StyledFooter } from './styles';
 
-Modal.setAppElement('#root');
+// https://github.com/reactjs/react-modal/issues/632#issuecomment-378755186
+if (process.env.NODE_ENV !== 'test') {
+  Modal.setAppElement('#root');
+}
 
 const customStyles = {
   content: {
