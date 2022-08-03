@@ -1,6 +1,6 @@
 {
-  "name": "Pok\u00e9mon Game",
-  "short_name": "Pok\u00e9mon Game",
+  "name": "Pok\u00e9mon Hangman Game",
+  "short_name": "Pok\u00e9mon Hangman Game",
   "icons": [
     {
       "src": "android-chrome-192x192.png",

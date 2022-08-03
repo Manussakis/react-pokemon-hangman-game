@@ -95,7 +95,7 @@ function App() {
       </Container>
       <StyledFooter>
         <Container>
-          <Button type={ButtonTypeEnum.PRIMARY} icon={<Github />} href="https://github.com/manussakis/react-pokemon-game">
+          <Button type={ButtonTypeEnum.PRIMARY} icon={<Github />} href="https://github.com/manussakis/react-pokemon-hangman-game">
             Github
           </Button>
           <StyledFooterContent>
