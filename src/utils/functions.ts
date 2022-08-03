@@ -1,3 +1,5 @@
+import { POKEMON_IMG_BASE_URL, POKEMON_IMG_FILE_EXT } from './constants';
+
 // https://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
 export const randomIntFromInterval = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -20,5 +22,5 @@ const setThreeDigits = (num: number): string => {
 export const getPokemoImageUrl = (id: number) => {
   const idString = setThreeDigits(id);
 
-  return `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${idString}.png`;
+  return `${POKEMON_IMG_BASE_URL}${idString}.${POKEMON_IMG_FILE_EXT}`;
 };

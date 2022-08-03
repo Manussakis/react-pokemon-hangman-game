@@ -5,3 +5,7 @@ export const KEYBOARD_LETTERS = [
 ];
 
 export const MAX_ATTEMPTS = 6;
+
+export const POKEMON_IMG_BASE_URL = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/';
+
+export const POKEMON_IMG_FILE_EXT = 'png';
