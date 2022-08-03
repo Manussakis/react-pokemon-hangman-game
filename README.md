@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# React Pokémon Hangman Game
+
+The Pokémon version of the hangman game.
+
+## [Play the game](https://pokemon-hangman-game.netlify.app/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
