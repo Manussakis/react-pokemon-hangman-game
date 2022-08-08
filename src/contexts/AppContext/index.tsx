@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useCallback, useReducer, useRef, useState } from 'react';
 import { getPokemonMaxCount, fetchPokemon } from '../../api';
-import { MAX_ATTEMPTS } from '../../utils/constants';
+import { MAX_ATTEMPTS, DELAY_BEFORE_RESULT } from '../../utils/constants';
 import { randomIntFromInterval } from '../../utils/functions';
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { AppContextValue, GameState, AppContextProviderProps } from './type';
@@ -30,13 +30,18 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [gameState, dispatchGameState] = useReducer(gameStateRuducer, gameStateInitialValue);
 
   const onClickLetter = (letter: string, isTip?: boolean) => {
-    dispatchGameState({
-      type: GameActionTypeEnum.CLICK_LETTER,
-      payload: {
-        letter,
-        isTip,
-      }
-    });
+    if (
+      gameState.remainingAttempts > 0 &&
+      gameState.wordInProgress.join('') !== gameState.pokemonData.name
+    ) {
+      dispatchGameState({
+        type: GameActionTypeEnum.CLICK_LETTER,
+        payload: {
+          letter,
+          isTip,
+        }
+      });
+    }
   }
 
   const getNewPokemon = useCallback(async (pokemonId: number) => {
@@ -105,19 +110,23 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   useEffect(() => {
     if (isFirstFetchCompleted.current && gameState.remainingAttempts === 0) {
-      dispatchGameState({
-        type: GameActionTypeEnum.UPDATE_STATUS,
-        payload: {
-          status: GameStatusEnum.LOST
-        }
-      });
+      setTimeout(() => {
+        dispatchGameState({
+          type: GameActionTypeEnum.UPDATE_STATUS,
+          payload: {
+            status: GameStatusEnum.LOST
+          }
+        });
+      }, DELAY_BEFORE_RESULT);
     } else if (isFirstFetchCompleted.current && gameState.wordInProgress.join('') === gameState.pokemonData.name) {
-      dispatchGameState({
-        type: GameActionTypeEnum.UPDATE_STATUS,
-        payload: {
-          status: GameStatusEnum.WON,
-        }
-      });
+      setTimeout(() => {
+        dispatchGameState({
+          type: GameActionTypeEnum.UPDATE_STATUS,
+          payload: {
+            status: GameStatusEnum.WON,
+          }
+        });
+      }, DELAY_BEFORE_RESULT);
     }
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
