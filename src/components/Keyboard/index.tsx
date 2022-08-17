@@ -18,7 +18,7 @@ export const Keyboard = () => {
   const disableKeyboard = status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
 
   return (
-    <StyledWrapper isDisabled={disableKeyboard}>
+    <StyledWrapper isDisabled={disableKeyboard} aria-hidden={disableKeyboard} data-testid="keyboard-wrapper">
       {KEYBOARD_LETTERS.map((row, index) => (
         // Using index in the key property shouldn't be a problem here since
         // the order of the rows in the Keyboard will never change.
