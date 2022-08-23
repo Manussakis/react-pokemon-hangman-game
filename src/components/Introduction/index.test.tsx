@@ -6,7 +6,7 @@ import { AppContextValue } from '../../contexts/AppContext/type';
 const onStartGame = jest.fn();
 
 const appContexValue: AppContextValue = {
-  gameState: gameStateInitialValue,
+  gameState: {...gameStateInitialValue},
   hasError: false,
   isLoadingPokemon: false,
   onClickLetter: () => {},
