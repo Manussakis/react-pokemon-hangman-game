@@ -3,7 +3,7 @@ import { StyledList, StyledItem } from './styles';
 
 export const WordInProgress = ({ wordInProgress }: WordInProgressProps) => {
   return (
-    <StyledList>
+    <StyledList aria-label="word in progress">
       {wordInProgress.map((slot, index) => {
         const dashModifier = slot === '-';
 
