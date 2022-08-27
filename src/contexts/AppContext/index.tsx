@@ -85,7 +85,9 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     dispatchGameState({
       type: GameActionTypeEnum.START_GAME,
     });
-  }, []);
+
+    onFindNewPokemon();
+  }, [onFindNewPokemon]);
 
   useEffect(() => {
     const startApp = async () => {
@@ -93,12 +95,10 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
       try {
         const maxPokemonsCount = await getPokemonMaxCount();
-        const randomPokemonId = randomIntFromInterval(1, maxPokemonsCount);
 
         MAX_POKEMON_COUNT = maxPokemonsCount;
         isFirstFetchCompleted.current = true;
 
-        getNewPokemon(randomPokemonId);
       } catch (error) {
         setHasError(true)
         console.log(error);
@@ -106,7 +106,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     };
 
     startApp();
-  }, [getNewPokemon]);
+  }, []);
 
   useEffect(() => {
     if (isFirstFetchCompleted.current && gameState.remainingAttempts === 0) {
