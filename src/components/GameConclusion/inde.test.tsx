@@ -51,4 +51,13 @@ describe('GameConclusion component', () => {
 
     expect(mockOnTryAgain).toHaveBeenCalledTimes(1);
   });
+
+  test('closes', () => {
+    const { dialog } = renderWithAppContext(GameStatusEnum.LOST);
+    const closeButton = within(dialog).getByRole('button', {name: /close/i});
+
+    fireEvent.click(closeButton);
+
+    expect(dialog).not.toBeInTheDocument();
+  });
 });
