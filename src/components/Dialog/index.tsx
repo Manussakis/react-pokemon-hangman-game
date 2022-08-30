@@ -66,6 +66,7 @@ export const Dialog = ({
       onRequestClose={close}
       style={customStyles}
       contentLabel={label}
+      ariaHideApp={false}
     >
       {title && (
         <header>

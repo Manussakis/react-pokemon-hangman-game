@@ -6,7 +6,7 @@ export const Avatar = ({ flavorText, image, isLoading }: AvatarProps) => {
   return (
     <StyledAvatar>
       {isLoading ? (
-        <StyledPokeball />
+        <StyledPokeball role="image" aria-label="Loading Pokémon" />
       ) : (
         <StyledImage src={image} alt={flavorText} />
       )}
