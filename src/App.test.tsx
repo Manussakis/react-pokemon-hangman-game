@@ -33,7 +33,7 @@ async function initGame() {
   await waitForElementToBeRemoved(screen.queryByRole('image', { name: LOADING_POKEMON_IMAGE_NAME }));
 }
 
-describe('App', () => {
+describe('App component', () => {
   beforeEach(() => {
     mockedGetPokemonMaxCount.mockReset();
     mockedFetchPokemon.mockReset();
@@ -80,10 +80,10 @@ describe('App', () => {
 
     fireEvent.click(resetButton);
 
-    const modal = await screen.findByRole('dialog');
-    const modalConfirmButton = within(modal).getByRole('button', { name: /confirm/i} );
+    const dialog = await screen.findByRole('dialog');
+    const dialogConfirmButton = within(dialog).getByRole('button', { name: /confirm/i} );
 
-    fireEvent.click(modalConfirmButton);
+    fireEvent.click(dialogConfirmButton);
 
     await waitForElementToBeRemoved(screen.queryByRole('image', { name: LOADING_POKEMON_IMAGE_NAME }));
 
