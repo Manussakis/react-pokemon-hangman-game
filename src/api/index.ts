@@ -19,7 +19,14 @@ export const fetchPokemon = async (id: number): Promise<PokemonData> => {
   const image = getPokemoImageUrl(id);
   const flavorTextEnglishObj = flavorTextEntries.find((obj: FlavorTextEntry) => obj.language?.name === 'en');
 
-  const flavorText =  flavorTextEnglishObj ? flavorTextEnglishObj.flavor_text : '';
+  let flavorText =  flavorTextEnglishObj ? flavorTextEnglishObj.flavor_text : '';
+  if (flavorText.toLowerCase().includes(name)) {
+    flavorText = flavorText.replace(name.toUpperCase(), `${flavorText.indexOf(name.toUpperCase()) ? 'i' : 'I'}t`);
+
+    // This handles some weird edge cases.
+    const properName = name[0].toUpperCase() + name.substr(1);
+    flavorText = flavorText.replace(properName, `${flavorText.indexOf(properName) ? 'i' : 'I'}t`);
+  }
 
   return {
     name,
