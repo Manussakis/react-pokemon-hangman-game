@@ -88,6 +88,8 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
         overlayClassName="game-conclusion__overlay"
         style={customStyles}
         contentLabel="Game result"
+        // https://github.com/reactjs/react-modal/issues/632#issuecomment-421114610
+        ariaHideApp={process.env.NODE_ENV !== 'test'}
       >
         <Container size={ContainerSizesEnum.SMALL}>
           {content}

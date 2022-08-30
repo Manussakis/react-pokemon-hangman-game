@@ -66,7 +66,8 @@ export const Dialog = ({
       onRequestClose={close}
       style={customStyles}
       contentLabel={label}
-      ariaHideApp={false}
+      // https://github.com/reactjs/react-modal/issues/632#issuecomment-421114610
+      ariaHideApp={process.env.NODE_ENV !== 'test'}
     >
       {title && (
         <header>
