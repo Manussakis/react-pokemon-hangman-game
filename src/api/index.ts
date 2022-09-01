@@ -20,17 +20,37 @@ export const fetchPokemon = async (id: number): Promise<PokemonData> => {
   const flavorTextEnglishObj = flavorTextEntries.find((obj: FlavorTextEntry) => obj.language?.name === 'en');
 
   let flavorText =  flavorTextEnglishObj ? flavorTextEnglishObj.flavor_text : '';
-  if (flavorText.toLowerCase().includes(name)) {
-    flavorText = flavorText.replace(name.toUpperCase(), `${flavorText.indexOf(name.toUpperCase()) ? 'i' : 'I'}t`);
-
-    // This handles some weird edge cases.
-    const properName = name[0].toUpperCase() + name.substr(1);
-    flavorText = flavorText.replace(properName, `${flavorText.indexOf(properName) ? 'i' : 'I'}t`);
-  }
+  flavorText = replacePokemonName(flavorText, name);
 
   return {
     name,
     image,
     flavorText,
   };
+}
+
+const replacePokemonName = (text: string, name: string) => {
+  if (text.toLowerCase().includes(name)) {
+    const properName = name[0].toUpperCase() + name.substr(1);
+    const words = text.toLowerCase().split(' ');
+
+    let wordIndex = words.findIndex((word) => word === name.toUpperCase());
+    let previousWord = words[wordIndex - 1];
+    if (previousWord === 'a' || previousWord === 'this') {
+      previousWord = `${text.indexOf(name.toUpperCase()) ? 't' : 'T'}his`
+      words[wordIndex] = 'Pokémon'
+    }
+
+    wordIndex = words.findIndex((word) => word === properName);
+    previousWord = words[wordIndex - 1];
+    if (previousWord === 'a' || previousWord === 'this') {
+      previousWord = `${text.indexOf(properName) ? 't' : 'T'}his`
+      words[wordIndex] = 'Pokémon'
+    }
+
+    text = text.replace(name.toUpperCase(), `${text.indexOf(name.toUpperCase()) ? 't' : 'T'}his Pokémon`);
+    text = text.replace(properName, `${text.indexOf(properName) ? 'T' : 't'}his Pokémon`);
+    text = text.replace(`${properName}'s`, `${text.indexOf(properName) ? 'T' : 't'}his Pokémon's`);
+  }
+  return text;
 }
