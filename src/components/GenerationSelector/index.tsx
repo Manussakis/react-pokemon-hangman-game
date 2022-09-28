@@ -4,8 +4,8 @@ export const GenerationSelector = () => {
   return (
     <>
       <div>
-        <h4>Game level</h4>
-        <p>Up to which Pokémon generation do you want to play?</p>
+        <h4>Choose the Pokémon Generation</h4>
+        <p>The higher the generation, the more uncommon Pokémons you will come across.</p>
       </div>
       <GenerationBar></GenerationBar>
     </>
