@@ -11,10 +11,12 @@ import { Dialog } from './components/Dialog';
 import { Introduction } from './components/Introduction';
 import { GameConclusion } from './components/GameConclusion';
 import { Container } from './components/Container';
+import { Divider } from './components/Divider';
 import { ReactComponent as Github } from './assets/github-icon.svg';
 import { ReactComponent as ExpandMore } from './assets/expand-more-icon.svg';
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
+import { DividerSpacingEnum } from './components/Divider/enums';
 import { randomIntFromInterval } from './utils/functions';
 
 import {
@@ -22,6 +24,8 @@ import {
   StyledHeaderTop,
   StyledHeaderBottom,
   StyledCollapsebleButton,
+  StyledGenerationBarOuter,
+  StyledFooterGenerationBar,
   StyledError,
   StyledMain,
   StyledButtons,
@@ -82,12 +86,18 @@ function App() {
                   onClick={() => setIsGenerationBarOpen(() => !isGenerationBarOpen) }>
                     Generation <span className="font-bold">{generation}</span> <ExpandMore />
                 </StyledCollapsebleButton>
-              </StyledHeaderTop>
+              </StyledHeaderTop>              
               {isGenerationBarOpen && (
-                <div style={{marginTop: '1rem'}}>
+                <StyledGenerationBarOuter>
                   <GenerationBar></GenerationBar>
-                </div>
+                  <StyledFooterGenerationBar>
+                    <Button type={ButtonTypeEnum.PRIMARY} onClick={() => setIsGenerationBarOpen(false)}>
+                      Close
+                    </Button>
+                  </StyledFooterGenerationBar>
+                </StyledGenerationBarOuter>
               )}
+              <Divider spacing={DividerSpacingEnum.SM} />
               <StyledHeaderBottom>
                 <AttemptsDisplay remainingAttempts={remainingAttempts} />
                 <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>

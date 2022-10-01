@@ -21,12 +21,8 @@ export const StyledHeaderBottom = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 `;
-
-type StyledCollapsebleButton = {
-  active: boolean;
-}
 
 export const StyledCollapsebleButton = styled.button<{isOpen: boolean}>`
   display: inline-block;
@@ -41,6 +37,16 @@ export const StyledCollapsebleButton = styled.button<{isOpen: boolean}>`
     transition: transform 0.2s ease-in-out;
     transform: ${props => props.isOpen ? 'rotate(180deg) translate(0, 2px)' : 'rotate(0) translate(0)'};
   }
+`;
+
+export const StyledGenerationBarOuter = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`;
+
+export const StyledFooterGenerationBar = styled.div`
+  margin-top: 1rem;
+  text-align: right;
 `;
 
 export const StyledMain = styled.main`
