@@ -75,13 +75,17 @@ function App() {
     }
   }
 
+  function onCancelLoadNewPokemon() {
+    setSelectedGeneration(generation);
+  }
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
     } else {
       onFindNewPokemon(); 
     }
-  }, [generation]);
+  }, [generation, onFindNewPokemon]);
 
   return (
     <StyledWrapper>
@@ -116,8 +120,14 @@ function App() {
                 {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
                 <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
                 <DialogContextProvider>
-                  <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onConfirmLoadNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
-                    <p>If you want, change the Generation.<br />After confirming it, a new random Pokémon will be loaded.</p>
+                  <Dialog 
+                    title="Are you sure?" 
+                    triggerRef={buttonRef} 
+                    onConfirm={onConfirmLoadNewPokemon}
+                    onCancel={onCancelLoadNewPokemon}
+                    confirmButton="Yes, confirm"
+                    cancelButton="No, cancel">
+                      <p>If you want, change the Generation.<br />After confirming it, a new random Pokémon will be loaded.</p>
                     <GenerationBar generation={generation} onChange={onChangeGen} />
                   </Dialog>
                 </DialogContextProvider>
