@@ -74,8 +74,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, []);
 
   const onFindNewPokemon = useCallback(() => {
-    const { generation } = gameState;
-    const totalPokemons = GENERATIONS.filter(gen => +gen.name === generation)[0].pokemonsTotal;
+    const totalPokemons = GENERATIONS.filter(gen => +gen.name === gameState.generation)[0].pokemonsTotal;
     const randomPokemonId = randomIntFromInterval(1, totalPokemons);
 
     getNewPokemon(randomPokemonId);
