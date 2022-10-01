@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useCallback, useReducer, useRef, useState } from 'react';
-import { getPokemonMaxCount, fetchPokemon } from '../../api';
+import { fetchPokemon } from '../../api';
 import { MAX_ATTEMPTS, DELAY_BEFORE_RESULT, GENERATIONS } from '../../utils/constants';
 import { randomIntFromInterval } from '../../utils/functions';
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
@@ -22,10 +22,8 @@ export const gameStateInitialValue: GameState = {
   generation: +GENERATIONS[0].name,
 };
 
-let MAX_POKEMON_COUNT: number;
-
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const isFirstFetchCompleted = useRef(false);
+  const hasGameBeenStarted = useRef(false);
   const [isLoadingPokemon, setIsLoadingPokemon] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [gameState, dispatchGameState] = useReducer(gameStateRuducer, gameStateInitialValue);
@@ -76,7 +74,8 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, []);
 
   const onFindNewPokemon = useCallback(() => {
-    const randomPokemonId = randomIntFromInterval(1, MAX_POKEMON_COUNT);
+    const totalPokemons = GENERATIONS.filter(gen => +gen.name === gameState.generation)[0].pokemonsTotal;
+    const randomPokemonId = randomIntFromInterval(1, totalPokemons);
 
     getNewPokemon(randomPokemonId);
 
@@ -95,31 +94,14 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     dispatchGameState({
       type: GameActionTypeEnum.START_GAME,
     });
+    
+    hasGameBeenStarted.current = true;
 
     onFindNewPokemon();
   }, [onFindNewPokemon]);
 
   useEffect(() => {
-    const startApp = async () => {
-      setHasError(false);
-
-      try {
-        const maxPokemonsCount = await getPokemonMaxCount();
-
-        MAX_POKEMON_COUNT = maxPokemonsCount;
-        isFirstFetchCompleted.current = true;
-
-      } catch (error) {
-        setHasError(true)
-        console.log(error);
-      }
-    };
-
-    startApp();
-  }, []);
-
-  useEffect(() => {
-    if (isFirstFetchCompleted.current && gameState.remainingAttempts === 0) {
+    if (gameState.remainingAttempts === 0) {
       setTimeout(() => {
         dispatchGameState({
           type: GameActionTypeEnum.UPDATE_STATUS,
@@ -128,7 +110,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
           }
         });
       }, DELAY_BEFORE_RESULT);
-    } else if (isFirstFetchCompleted.current && gameState.wordInProgress.join('') === gameState.pokemonData.name) {
+    } else if (hasGameBeenStarted.current && gameState.wordInProgress.join('') === gameState.pokemonData.name) {
       setTimeout(() => {
         dispatchGameState({
           type: GameActionTypeEnum.UPDATE_STATUS,

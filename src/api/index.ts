@@ -7,12 +7,6 @@ export const api = axios.create({
   baseURL: 'https://pokeapi.co/api/v2/'
 });
 
-export const getPokemonMaxCount = async () => {
-  const res = await api.get('pokemon-species');
-
-  return res.data.count;
-}
-
 export const fetchPokemon = async (id: number): Promise<PokemonData> => {
   const res = await api.get(`pokemon-species/${id}`);
   const { name, flavor_text_entries: flavorTextEntries } = res.data;

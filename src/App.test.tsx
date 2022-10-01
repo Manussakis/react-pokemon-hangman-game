@@ -2,17 +2,15 @@ import App from './App';
 import { AppContextProvider } from './contexts/AppContext';
 import { fireEvent, render, screen, waitForElementToBeRemoved, within } from '@testing-library/react';
 import { PokemonData } from './contexts/AppContext/type';
-import { getPokemonMaxCount, fetchPokemon} from './api/index';
+import { fetchPokemon} from './api/index';
 
 const WORD_IN_PROGRESS_NAME = /word in progress/i;
 const LOADING_POKEMON_IMAGE_NAME = /loading pokémon/i;
 
 jest.mock('./api/index');
 
-const mockedGetPokemonMaxCount = jest.mocked(getPokemonMaxCount);
 const mockedFetchPokemon = jest.mocked(fetchPokemon);
 
-const promiseMaxCount = Promise.resolve(905);
 const promisePokemonData: Promise<PokemonData> = Promise.resolve({
   name: 'pikachu',
   image: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png',
@@ -35,10 +33,7 @@ async function initGame() {
 
 describe('App component', () => {
   beforeEach(() => {
-    mockedGetPokemonMaxCount.mockReset();
     mockedFetchPokemon.mockReset();
-
-    mockedGetPokemonMaxCount.mockReturnValueOnce(promiseMaxCount);
     mockedFetchPokemon.mockReturnValueOnce(promisePokemonData);
   });
 

@@ -75,13 +75,14 @@ describe('Game state reducer', () => {
       generation: 1
     };
 
-    const expectedState = {
+    const expectedState: GameState = {
       pokemonData: { ...pikachuPokemonData },
       wordInProgress: [ '', '', '', '', '', '', '' ],
       guesses: [],
       remainingAttempts: MAX_ATTEMPTS,
       hasTip: true,
       status: GameStatusEnum.RUNNING,
+      generation: 1,
     };
 
     const newState = gameStateRuducer(runningState, action);
