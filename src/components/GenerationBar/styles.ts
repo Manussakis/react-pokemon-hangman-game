@@ -4,9 +4,23 @@ import { StyledTrackProps, StyledGenerationButtonProps } from "./types";
 const buttonSizeSM = 1.8;
 const buttonSizeMD = 2;
 
+export const StyledGenerationBarContainer = styled.div`
+  padding: 1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  background-color: var(--white);
+  text-align: center;
+
+  @media only screen and (min-width: 440px) {
+    border-radius: 8px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+`;
+
 export const StyledGenerationHeading = styled.div`
   font-weight: 600;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.4rem;
 `;
 
 export const StyledGenerationBarWrapper = styled.div`

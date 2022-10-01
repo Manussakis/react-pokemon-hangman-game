@@ -1,6 +1,7 @@
 import { useAppContext } from '../../contexts/AppContext';
 import { GENERATIONS, IGeneration } from '../../utils/constants';
 import {
+  StyledGenerationBarContainer,
   StyledGenerationHeading,
   StyledGenerationBarWrapper,
   StyledRail,
@@ -20,7 +21,7 @@ export const GenerationBar = () => {
   const trackWidth = (generation * trackFragment) - trackFragment;
   
   return (
-    <>
+    <StyledGenerationBarContainer>
       <StyledGenerationHeading>Generations</StyledGenerationHeading>
       <StyledGenerationBarWrapper>
         <StyledRail>
@@ -48,6 +49,6 @@ export const GenerationBar = () => {
         <StyledGenerationLine />
         <StyledGenerationTotalPokemonsHeading>Total Pokémons in generation</StyledGenerationTotalPokemonsHeading>
       </StyledGenerationBarWrapper>
-    </>
+    </StyledGenerationBarContainer>
   );
 }

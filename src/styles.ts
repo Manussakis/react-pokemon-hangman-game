@@ -12,7 +12,11 @@ export const StyledWrapper = styled.div`
   min-height: 100vh;
 `;
 
-export const StyledHeader = styled.header`
+export const StyledHeaderTop = styled.div`
+  margin-top: 1rem;
+`;
+
+export const StyledHeaderBottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;

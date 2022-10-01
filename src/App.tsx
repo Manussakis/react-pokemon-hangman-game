@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useAppContext } from './contexts/AppContext';
 import { DialogContextProvider } from './contexts/DialogContext';
+import { GenerationBar } from './components/GenerationBar';
 import { Keyboard } from './components/Keyboard';
 import { WordInProgress } from './components/WordInProgress';
 import { Avatar } from './components/Avatar';
@@ -17,7 +18,8 @@ import { randomIntFromInterval } from './utils/functions';
 
 import {
   StyledWrapper,
-  StyledHeader,
+  StyledHeaderTop,
+  StyledHeaderBottom,
   StyledError,
   StyledMain,
   StyledButtons,
@@ -37,6 +39,7 @@ function App() {
       wordInProgress,
       hasTip,
       status,
+      generation,
     },
     isLoadingPokemon,
     hasError,
@@ -45,6 +48,7 @@ function App() {
     onTryAgain,
   } = useAppContext();
 
+  const [isGenerationBarOpen, setIsGenerationBarOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
 
@@ -68,12 +72,24 @@ function App() {
           </StyledError>
         ) : (
           <>
-            <StyledHeader>
-              <AttemptsDisplay remainingAttempts={remainingAttempts} />
-              <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>
-                {hasTip ? 'Use my tip' : 'Tip was used'}
-              </Button>
-            </StyledHeader>
+            <header>
+              <StyledHeaderTop>
+                Generation <span className="font-bold">{generation}</span>
+                {' '}
+                <button onClick={() => setIsGenerationBarOpen(() => !isGenerationBarOpen) }>{isGenerationBarOpen ? 'Close generation bar' : 'Open generation bar'}</button>
+              </StyledHeaderTop>
+              {isGenerationBarOpen && (
+                <div style={{marginTop: '1rem'}}>
+                  <GenerationBar></GenerationBar>
+                </div>
+              )}
+              <StyledHeaderBottom>
+                <AttemptsDisplay remainingAttempts={remainingAttempts} />
+                <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>
+                  {hasTip ? 'Use my tip' : 'Tip was used'}
+                </Button>
+              </StyledHeaderBottom>
+            </header>
             <StyledMain>
               <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
               <WordInProgress wordInProgress={wordInProgress} />
