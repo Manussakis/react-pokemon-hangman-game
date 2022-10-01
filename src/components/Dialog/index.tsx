@@ -24,7 +24,7 @@ const customStyles = {
     border: '0',
     borderRadius: '8px',
     padding: '2rem',
-    maxWidth: '24rem',
+    maxWidth: '34rem',
   },
 };
 
