@@ -5,7 +5,7 @@ export const StyledWrapper =  styled.div`
   padding-top: 2rem;
   padding-bottom: 3rem;
   margin: 0 auto;
-  max-width: 400px;
+  max-width: 34rem;
   text-align: center;
 
   @media screen and (min-width: 480px) {

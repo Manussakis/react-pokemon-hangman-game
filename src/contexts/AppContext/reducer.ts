@@ -81,6 +81,16 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
         status: action.payload.status,
       }
 
+    case GameActionTypeEnum.CHANGE_GENERATION:
+      if (!action.payload?.generation) {
+        throw new Error(`The action type ${GameActionTypeEnum.CHANGE_GENERATION} requires a payload object with the property "generation".`)
+      }
+
+      return {
+        ...state,
+        generation: action.payload.generation,
+      }
+
     default:
       throw new Error("This action type doesn't exist.");
   }

@@ -11,3 +11,43 @@ export const POKEMON_IMG_BASE_URL = 'https://assets.pokemon.com/assets/cms2/img/
 export const POKEMON_IMG_FILE_EXT = 'png';
 
 export const DELAY_BEFORE_RESULT = 1000;
+
+export interface IGeneration {
+  name: string;
+  pokemonsTotal: number;
+}
+
+export const GENERATIONS: IGeneration[] = [
+  {
+    name: '1',
+    pokemonsTotal: 151,
+  },
+  {
+    name: '2',
+    pokemonsTotal: 251,
+  },
+  {
+    name: '3',
+    pokemonsTotal: 386,
+  },
+  {
+    name: '4',
+    pokemonsTotal: 493,
+  },
+  {
+    name: '5',
+    pokemonsTotal: 649,
+  },
+  {
+    name: '6',
+    pokemonsTotal: 721,
+  },
+  {
+    name: '7',
+    pokemonsTotal: 809,
+  },
+  {
+    name: '8',
+    pokemonsTotal: 905,
+  },
+]

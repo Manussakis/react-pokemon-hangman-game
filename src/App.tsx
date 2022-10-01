@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useAppContext } from './contexts/AppContext';
 import { DialogContextProvider } from './contexts/DialogContext';
+import { GenerationBar } from './components/GenerationBar';
 import { Keyboard } from './components/Keyboard';
 import { WordInProgress } from './components/WordInProgress';
 import { Avatar } from './components/Avatar';
@@ -10,14 +11,21 @@ import { Dialog } from './components/Dialog';
 import { Introduction } from './components/Introduction';
 import { GameConclusion } from './components/GameConclusion';
 import { Container } from './components/Container';
+import { Divider } from './components/Divider';
 import { ReactComponent as Github } from './assets/github-icon.svg';
+import { ReactComponent as ExpandMore } from './assets/expand-more-icon.svg';
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
+import { DividerSpacingEnum } from './components/Divider/enums';
 import { randomIntFromInterval } from './utils/functions';
 
 import {
   StyledWrapper,
-  StyledHeader,
+  StyledHeaderTop,
+  StyledHeaderBottom,
+  StyledCollapsebleButton,
+  StyledGenerationBarOuter,
+  StyledFooterGenerationBar,
   StyledError,
   StyledMain,
   StyledButtons,
@@ -37,6 +45,7 @@ function App() {
       wordInProgress,
       hasTip,
       status,
+      generation,
     },
     isLoadingPokemon,
     hasError,
@@ -45,6 +54,7 @@ function App() {
     onTryAgain,
   } = useAppContext();
 
+  const [isGenerationBarOpen, setIsGenerationBarOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
 
@@ -68,12 +78,33 @@ function App() {
           </StyledError>
         ) : (
           <>
-            <StyledHeader>
-              <AttemptsDisplay remainingAttempts={remainingAttempts} />
-              <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>
-                {hasTip ? 'Use my tip' : 'Tip was used'}
-              </Button>
-            </StyledHeader>
+            <header>
+              <StyledHeaderTop>
+                <StyledCollapsebleButton
+                  aria-label={isGenerationBarOpen ? 'Collapse generation bar' : 'Expand generation bar'}
+                  isOpen={isGenerationBarOpen}
+                  onClick={() => setIsGenerationBarOpen(() => !isGenerationBarOpen) }>
+                    Generation <span className="font-bold">{generation}</span> <ExpandMore />
+                </StyledCollapsebleButton>
+              </StyledHeaderTop>              
+              {isGenerationBarOpen && (
+                <StyledGenerationBarOuter>
+                  <GenerationBar></GenerationBar>
+                  <StyledFooterGenerationBar>
+                    <Button type={ButtonTypeEnum.PRIMARY} onClick={() => setIsGenerationBarOpen(false)}>
+                      Close generation bar
+                    </Button>
+                  </StyledFooterGenerationBar>
+                </StyledGenerationBarOuter>
+              )}
+              <Divider spacing={DividerSpacingEnum.SM} />
+              <StyledHeaderBottom>
+                <AttemptsDisplay remainingAttempts={remainingAttempts} />
+                <Button type={ButtonTypeEnum.PRIMARY} onClick={handleUseMyTip} disabled={useTipDisabled}>
+                  {hasTip ? 'Use my tip' : 'Tip was used'}
+                </Button>
+              </StyledHeaderBottom>
+            </header>
             <StyledMain>
               <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
               <WordInProgress wordInProgress={wordInProgress} />
