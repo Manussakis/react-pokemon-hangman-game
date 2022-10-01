@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useCallback, useReducer, useRef, useState } from 'react';
 import { getPokemonMaxCount, fetchPokemon } from '../../api';
-import { MAX_ATTEMPTS, DELAY_BEFORE_RESULT } from '../../utils/constants';
+import { MAX_ATTEMPTS, DELAY_BEFORE_RESULT, GENERATIONS } from '../../utils/constants';
 import { randomIntFromInterval } from '../../utils/functions';
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { AppContextValue, GameState, AppContextProviderProps } from './type';
@@ -19,6 +19,7 @@ export const gameStateInitialValue: GameState = {
   remainingAttempts: MAX_ATTEMPTS,
   hasTip: true,
   status: GameStatusEnum.BEFORE_STARTING,
+  generation: +GENERATIONS[0].name,
 };
 
 let MAX_POKEMON_COUNT: number;
@@ -42,6 +43,15 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         }
       });
     }
+  }
+
+  const onChangeGeneration = (generation: number) => {
+    dispatchGameState({
+      type: GameActionTypeEnum.CHANGE_GENERATION,
+      payload: {
+        generation
+      }
+    });
   }
 
   const getNewPokemon = useCallback(async (pokemonId: number) => {
@@ -131,7 +141,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
-    <AppContext.Provider value={{ gameState, isLoadingPokemon, hasError, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain }}>
+    <AppContext.Provider value={{ gameState, isLoadingPokemon, hasError, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain, onChangeGeneration }}>
       {children}
     </AppContext.Provider>
   )

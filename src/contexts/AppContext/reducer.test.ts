@@ -1,7 +1,7 @@
 import { gameStateRuducer } from './reducer';
 import { gameStateInitialValue } from './index';
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
-import { PokemonData } from './type';
+import { GameState, PokemonData } from './type';
 import { MAX_ATTEMPTS } from '../../utils/constants';
 
 const pikachuPokemonData: PokemonData = {
@@ -38,13 +38,14 @@ describe('Game state reducer', () => {
         letter: clickedLetter,
       }
     };
-    const runningState = {
+    const runningState: GameState = {
       pokemonData: { ...pikachuPokemonData },
       wordInProgress: [ '', '', '', '', '', '', '' ],
       guesses: [],
       remainingAttempts: 6,
       hasTip: true,
       status: GameStatusEnum.RUNNING,
+      generation: 1
     };
 
     const expectedState = {
@@ -64,13 +65,14 @@ describe('Game state reducer', () => {
         pokemonData: { ...pikachuPokemonData }
       }
     };
-    const runningState = {
+    const runningState: GameState = {
       pokemonData: { ...murkrowPokemonData },
       wordInProgress: [ 'm', 'u', '', '', '', 'o', '' ],
       guesses: ['m', 'u', 'o', 'i'],
       remainingAttempts: 5,
       hasTip: false,
       status: GameStatusEnum.RUNNING,
+      generation: 1
     };
 
     const expectedState = {
@@ -94,13 +96,14 @@ describe('Game state reducer', () => {
         status: GameStatusEnum.LOST
       }
     };
-    const runningState = {
+    const runningState: GameState = {
       pokemonData: { ...murkrowPokemonData },
       wordInProgress: [ 'm', 'u', '', '', '', 'o', '' ],
       guesses: ['m', 'u', 'o', 'i', 'y', 'q', 'c', 'z', 'x'],
       remainingAttempts: 0,
       hasTip: false,
       status: GameStatusEnum.RUNNING,
+      generation: 1
     };
     const expectedState = {
       ...runningState,

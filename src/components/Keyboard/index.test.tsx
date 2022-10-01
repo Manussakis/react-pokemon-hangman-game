@@ -25,7 +25,8 @@ describe('Keyboard component', () => {
       onClickLetter: () => {},
       onFindNewPokemon: () => {},
       onTryAgain: () => {},
-      onStartGame: () => {}
+      onStartGame: () => {},
+      onChangeGeneration: () => {},
     };
 
     appContexValue.gameState.status = GameStatusEnum.WON;

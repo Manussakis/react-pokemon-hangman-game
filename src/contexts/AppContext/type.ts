@@ -18,6 +18,7 @@ export type GameState = {
   remainingAttempts: number;
   hasTip: boolean;
   status: GameStatusEnum;
+  generation: number;
 };
 
 export type ErrorObj = {
@@ -32,6 +33,7 @@ export type AppContextValue = {
   onFindNewPokemon: () => void;
   onTryAgain: () => void;
   onStartGame: () => void;
+  onChangeGeneration: (generation: number) => void;
 };
 
 export type GameStateAction = {
@@ -42,5 +44,6 @@ export type GameStateAction = {
     isTip?: boolean;
     typedName?: string;
     status?: GameStatusEnum;
+    generation?: number;
   };
 };

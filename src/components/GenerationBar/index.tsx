@@ -1,3 +1,4 @@
+import { useAppContext } from '../../contexts/AppContext';
 import { GENERATIONS, IGeneration } from '../../utils/constants';
 import {
   StyledGenerationHeading,
@@ -14,9 +15,9 @@ import {
 } from './styles';
 
 export const GenerationBar = () => {
-  const selectedGeneration = +GENERATIONS[3].name;
+  const { gameState: { generation }, onChangeGeneration } = useAppContext()
   const trackFragment = 100 / (GENERATIONS.length - 1)
-  const trackWidth = (selectedGeneration * trackFragment) - trackFragment;
+  const trackWidth = (generation * trackFragment) - trackFragment;
   
   return (
     <>
@@ -34,7 +35,8 @@ export const GenerationBar = () => {
               <StyledGenerationItem key={`gen-${genName}`}>
                 <StyledGenerationButton
                   aria-label={`Generation ${genName}, total of ${pokemonsTotal} Pokémons.`}
-                  included={selectedGeneration >= genName}>
+                  included={generation >= genName}
+                  onClick={() => onChangeGeneration(genName)}>
                     {genName}
                 </StyledGenerationButton>
                 <StyledPokemonTotal>{gen.pokemonsTotal}</StyledPokemonTotal>
