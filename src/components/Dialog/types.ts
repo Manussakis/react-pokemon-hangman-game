@@ -8,4 +8,5 @@ export type DialogProps = {
   cancelButton?: string;
   confirmButton?: string;
   onConfirm: () => void;
+  onCancel?: () => void;
 }
