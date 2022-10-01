@@ -4,6 +4,7 @@ import { ContainerSizesEnum } from './enums';
 
 export const StyledContainer = styled.div<StyledContainerProps>`
   max-width: 34rem;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;

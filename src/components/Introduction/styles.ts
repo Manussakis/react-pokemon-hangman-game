@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { ReactComponent as Pokeball } from '../../assets/pokeball.svg';
 
 export const StyledWrapper =  styled.div`
+  max-width: 34rem;
+  width: 100%;
+  margin: 0 auto;
   padding-top: 2rem;
   padding-bottom: 3rem;
-  margin: 0 auto;
-  max-width: 34rem;
   text-align: center;
 
   @media screen and (min-width: 480px) {
