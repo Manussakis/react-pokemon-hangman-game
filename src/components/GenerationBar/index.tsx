@@ -28,7 +28,7 @@ export const GenerationBar = ({ generation, onChange }: GenerationBarProps) => {
 
   useEffect(() => {
     setSelectedGeneration(generation);
-  }, [])
+  }, [generation]);
   
   return (
     <StyledGenerationBarContainer>
