@@ -24,7 +24,7 @@ const customStyles = {
     border: '0',
     borderRadius: '8px',
     padding: '2rem',
-    maxWidth: '24rem',
+    maxWidth: '34rem',
   },
 };
 
@@ -35,6 +35,7 @@ export const Dialog = ({
   cancelButton = 'Cancel',
   confirmButton = 'Confirm',
   onConfirm,
+  onCancel,
   triggerRef,
 }: DialogProps) => {
   const { isOpen, open, close } = useDialogContext();
@@ -54,6 +55,13 @@ export const Dialog = ({
       }
     }
   });
+
+  function handleOnCancel() {
+    if (onCancel) {
+      onCancel();
+    }
+    close();
+  }
 
   function handleOnConfirm() {
     onConfirm();
@@ -76,7 +84,7 @@ export const Dialog = ({
       )}
       {children}
       <StyledFooter>
-        <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>{cancelButton}</Button>
+        <Button type={ButtonTypeEnum.LINK} onClick={handleOnCancel}>{cancelButton}</Button>
         <Button type={ButtonTypeEnum.PRIMARY} onClick={handleOnConfirm}>{confirmButton}</Button>
       </StyledFooter>
     </Modal>

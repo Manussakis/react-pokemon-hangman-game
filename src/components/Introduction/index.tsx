@@ -8,7 +8,11 @@ import { GenerationBar } from '../GenerationBar';
 import { StyledWrapper, StyledPokeball, StyledContent } from './styles';
 
 export const Introduction = () => {
-  const { onStartGame } = useAppContext();
+  const { gameState: { generation }, onStartGame, onChangeGeneration } = useAppContext();
+  
+  function onChange(generation: number) {
+    onChangeGeneration(generation);
+  }
 
   return (
     <StyledWrapper>
@@ -21,7 +25,7 @@ export const Introduction = () => {
         <Divider spacing={DividerSpacingEnum.MD} />
         <h2>Choose the Pokémon Generation</h2>
         <p>The higher the generation, the more uncommon Pokémons you will come across.</p>      
-        <GenerationBar></GenerationBar>
+        <GenerationBar generation={generation} onChange={onChange} />
       </StyledContent>
       <Button type={ButtonTypeEnum.PRIMARY} onClick={() => onStartGame()}>Start</Button>
     </StyledWrapper>

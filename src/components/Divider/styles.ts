@@ -4,7 +4,7 @@ import { DividerProps } from './types';
 
 export const StyledDivider = styled.div<DividerProps>`
     position: relative;
-    padding: ${props => props.spacing === DividerSpacingEnum.SM ? '1rem' : DividerSpacingEnum.MD ? '2rem' : 0};
+    padding: ${props => props.spacing === DividerSpacingEnum.SM ? '0.5rem' : DividerSpacingEnum.MD ? '2rem' : 0};
 
     &:after {
         content: '';

@@ -10,6 +10,7 @@ export const StyledGenerationBarContainer = styled.div`
   margin-right: -1rem;
   background-color: var(--white);
   text-align: center;
+  border: 1px solid var(--darksurface);
 
   @media only screen and (min-width: 440px) {
     border-radius: 8px;
