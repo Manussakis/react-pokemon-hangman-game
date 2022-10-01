@@ -43,7 +43,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     }
   }
 
-  const onChangeGeneration = (generation: number) => {
+  const onChangeGeneration = (generation: number) => {    
     dispatchGameState({
       type: GameActionTypeEnum.CHANGE_GENERATION,
       payload: {
@@ -74,12 +74,13 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, []);
 
   const onFindNewPokemon = useCallback(() => {
-    const totalPokemons = GENERATIONS.filter(gen => +gen.name === gameState.generation)[0].pokemonsTotal;
+    const { generation } = gameState;
+    const totalPokemons = GENERATIONS.filter(gen => +gen.name === generation)[0].pokemonsTotal;
     const randomPokemonId = randomIntFromInterval(1, totalPokemons);
 
     getNewPokemon(randomPokemonId);
 
-  }, [getNewPokemon]);
+  }, [getNewPokemon, gameState.generation]);
 
   const onTryAgain = useCallback(() => {
     dispatchGameState({
