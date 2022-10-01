@@ -13,7 +13,13 @@ export const StyledWrapper = styled.div`
 `;
 
 export const StyledHeaderTop = styled.div`
-  margin-top: 1rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
 `;
 
 export const StyledHeaderBottom = styled.div`
@@ -22,31 +28,6 @@ export const StyledHeaderBottom = styled.div`
   justify-content: space-between;
   margin-bottom: 2rem;
   padding-top: 0.5rem;
-`;
-
-export const StyledCollapsebleButton = styled.button<{isOpen: boolean}>`
-  display: inline-block;
-  vertical-align: middle;
-  padding: 0.2rem 0;
-  border: 0;
-  background-color: transparent;  
-  font-size: 1rem;
-  
-  svg {
-    vertical-align: middle;
-    transition: transform 0.2s ease-in-out;
-    transform: ${props => props.isOpen ? 'rotate(180deg) translate(0, 2px)' : 'rotate(0) translate(0)'};
-  }
-`;
-
-export const StyledGenerationBarOuter = styled.div`
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-`;
-
-export const StyledFooterGenerationBar = styled.div`
-  margin-top: 1rem;
-  text-align: right;
 `;
 
 export const StyledMain = styled.main`

@@ -1,5 +1,6 @@
-import { useAppContext } from '../../contexts/AppContext';
+import { useEffect, useState } from 'react';
 import { GENERATIONS, IGeneration } from '../../utils/constants';
+import { GenerationBarProps } from './types';
 import {
   StyledGenerationBarContainer,
   StyledGenerationHeading,
@@ -15,10 +16,19 @@ import {
   StyledGenerationTotalPokemonsHeading,
 } from './styles';
 
-export const GenerationBar = () => {
-  const { gameState: { generation }, onChangeGeneration } = useAppContext()
+export const GenerationBar = ({ generation, onChange }: GenerationBarProps) => {
+  const [selectedGeneration, setSelectedGeneration] = useState(1);
   const trackFragment = 100 / (GENERATIONS.length - 1)
-  const trackWidth = (generation * trackFragment) - trackFragment;
+  const trackWidth = (selectedGeneration * trackFragment) - trackFragment;
+
+  function handleClick(genName: number) {
+    setSelectedGeneration(genName);
+    onChange(genName);
+  }
+
+  useEffect(() => {
+    setSelectedGeneration(generation);
+  }, [])
   
   return (
     <StyledGenerationBarContainer>
@@ -36,8 +46,8 @@ export const GenerationBar = () => {
               <StyledGenerationItem key={`gen-${genName}`}>
                 <StyledGenerationButton
                   aria-label={`Generation ${genName}, total of ${pokemonsTotal} Pokémons.`}
-                  included={generation >= genName}
-                  onClick={() => onChangeGeneration(genName)}>
+                  included={selectedGeneration >= genName}
+                  onClick={() => handleClick(genName)}>
                     {genName}
                 </StyledGenerationButton>
                 <StyledPokemonTotal>{gen.pokemonsTotal}</StyledPokemonTotal>

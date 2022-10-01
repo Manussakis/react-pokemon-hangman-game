@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppContext } from './contexts/AppContext';
 import { DialogContextProvider } from './contexts/DialogContext';
 import { GenerationBar } from './components/GenerationBar';
@@ -13,7 +13,6 @@ import { GameConclusion } from './components/GameConclusion';
 import { Container } from './components/Container';
 import { Divider } from './components/Divider';
 import { ReactComponent as Github } from './assets/github-icon.svg';
-import { ReactComponent as ExpandMore } from './assets/expand-more-icon.svg';
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
 import { DividerSpacingEnum } from './components/Divider/enums';
@@ -23,9 +22,6 @@ import {
   StyledWrapper,
   StyledHeaderTop,
   StyledHeaderBottom,
-  StyledCollapsebleButton,
-  StyledGenerationBarOuter,
-  StyledFooterGenerationBar,
   StyledError,
   StyledMain,
   StyledButtons,
@@ -52,11 +48,13 @@ function App() {
     onFindNewPokemon,
     onClickLetter,
     onTryAgain,
+    onChangeGeneration,
   } = useAppContext();
 
-  const [isGenerationBarOpen, setIsGenerationBarOpen] = useState(false);
+  const [selectedGeneration, setSelectedGeneration] = useState(generation);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
+  const isFirstRender = useRef<boolean>(true);
 
   function handleUseMyTip() {
     const hiddenLetters = name.split('').filter(l => !wordInProgress.includes(l));
@@ -64,6 +62,26 @@ function App() {
 
     onClickLetter(letter, true);
   }
+
+  function onChangeGen(generation: number) {
+    setSelectedGeneration(generation);
+  }
+
+  function onConfirmLoadNewPokemon() {           
+    if (selectedGeneration === generation) {
+      onFindNewPokemon(); 
+    } else {
+      onChangeGeneration(selectedGeneration); 
+    }
+  }
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    } else {
+      onFindNewPokemon(); 
+    }
+  }, [generation]);
 
   return (
     <StyledWrapper>
@@ -80,23 +98,8 @@ function App() {
           <>
             <header>
               <StyledHeaderTop>
-                <StyledCollapsebleButton
-                  aria-label={isGenerationBarOpen ? 'Collapse generation bar' : 'Expand generation bar'}
-                  isOpen={isGenerationBarOpen}
-                  onClick={() => setIsGenerationBarOpen(() => !isGenerationBarOpen) }>
-                    Generation <span className="font-bold">{generation}</span> <ExpandMore />
-                </StyledCollapsebleButton>
-              </StyledHeaderTop>              
-              {isGenerationBarOpen && (
-                <StyledGenerationBarOuter>
-                  <GenerationBar></GenerationBar>
-                  <StyledFooterGenerationBar>
-                    <Button type={ButtonTypeEnum.PRIMARY} onClick={() => setIsGenerationBarOpen(false)}>
-                      Close generation bar
-                    </Button>
-                  </StyledFooterGenerationBar>
-                </StyledGenerationBarOuter>
-              )}
+                Generation <span className="font-bold">{generation}</span>                
+              </StyledHeaderTop>
               <Divider spacing={DividerSpacingEnum.SM} />
               <StyledHeaderBottom>
                 <AttemptsDisplay remainingAttempts={remainingAttempts} />
@@ -113,8 +116,9 @@ function App() {
                 {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
                 <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
                 <DialogContextProvider>
-                  <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onFindNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
-                    <p>After confirming it, a new random Pokémon will be loaded.</p>
+                  <Dialog title="Are you sure?" triggerRef={buttonRef} onConfirm={onConfirmLoadNewPokemon} confirmButton="Yes, confirm" cancelButton="No, cancel">
+                    <p>If you want, change the Generation.<br />After confirming it, a new random Pokémon will be loaded.</p>
+                    <GenerationBar generation={generation} onChange={onChangeGen} />
                   </Dialog>
                 </DialogContextProvider>
               </StyledButtons>
