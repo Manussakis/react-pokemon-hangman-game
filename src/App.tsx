@@ -92,7 +92,7 @@ function App() {
                   <GenerationBar></GenerationBar>
                   <StyledFooterGenerationBar>
                     <Button type={ButtonTypeEnum.PRIMARY} onClick={() => setIsGenerationBarOpen(false)}>
-                      Close
+                      Close generation bar
                     </Button>
                   </StyledFooterGenerationBar>
                 </StyledGenerationBarOuter>
