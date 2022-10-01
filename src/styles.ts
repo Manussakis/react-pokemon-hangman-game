@@ -24,6 +24,25 @@ export const StyledHeaderBottom = styled.div`
   padding-top: 1rem;
 `;
 
+type StyledCollapsebleButton = {
+  active: boolean;
+}
+
+export const StyledCollapsebleButton = styled.button<{isOpen: boolean}>`
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0.2rem 0;
+  border: 0;
+  background-color: transparent;  
+  font-size: 1rem;
+  
+  svg {
+    vertical-align: middle;
+    transition: transform 0.2s ease-in-out;
+    transform: ${props => props.isOpen ? 'rotate(180deg) translate(0, 2px)' : 'rotate(0) translate(0)'};
+  }
+`;
+
 export const StyledMain = styled.main`
   padding-bottom: 3rem;
 `;

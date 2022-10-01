@@ -12,6 +12,7 @@ import { Introduction } from './components/Introduction';
 import { GameConclusion } from './components/GameConclusion';
 import { Container } from './components/Container';
 import { ReactComponent as Github } from './assets/github-icon.svg';
+import { ReactComponent as ExpandMore } from './assets/expand-more-icon.svg';
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
 import { randomIntFromInterval } from './utils/functions';
@@ -20,6 +21,7 @@ import {
   StyledWrapper,
   StyledHeaderTop,
   StyledHeaderBottom,
+  StyledCollapsebleButton,
   StyledError,
   StyledMain,
   StyledButtons,
@@ -74,9 +76,12 @@ function App() {
           <>
             <header>
               <StyledHeaderTop>
-                Generation <span className="font-bold">{generation}</span>
-                {' '}
-                <button onClick={() => setIsGenerationBarOpen(() => !isGenerationBarOpen) }>{isGenerationBarOpen ? 'Close generation bar' : 'Open generation bar'}</button>
+                <StyledCollapsebleButton
+                  aria-label={isGenerationBarOpen ? 'Collapse generation bar' : 'Expand generation bar'}
+                  isOpen={isGenerationBarOpen}
+                  onClick={() => setIsGenerationBarOpen(() => !isGenerationBarOpen) }>
+                    Generation <span className="font-bold">{generation}</span> <ExpandMore />
+                </StyledCollapsebleButton>
               </StyledHeaderTop>
               {isGenerationBarOpen && (
                 <div style={{marginTop: '1rem'}}>
