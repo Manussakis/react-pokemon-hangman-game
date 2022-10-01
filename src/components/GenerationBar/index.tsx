@@ -1,5 +1,6 @@
 import { GENERATIONS, IGeneration } from '../../utils/constants';
 import {
+  StyledGenerationHeading,
   StyledGenerationBarWrapper,
   StyledRail,
   StyledTrack,
@@ -9,22 +10,33 @@ import {
   StyledGenerationItem,
   StyledGenerationMarker,
   StyledGenerationLine,
+  StyledGenerationTotalPokemonsHeading,
 } from './styles';
 
 export const GenerationBar = () => {
-  const trackWidth = 50;
+  const selectedGeneration = +GENERATIONS[3].name;
+  const trackFragment = 100 / (GENERATIONS.length - 1)
+  const trackWidth = (selectedGeneration * trackFragment) - trackFragment;
+  
   return (
     <>
-      Generations
+      <StyledGenerationHeading>Generations</StyledGenerationHeading>
       <StyledGenerationBarWrapper>
         <StyledRail>
-        <StyledTrack width={trackWidth} />
+          <StyledTrack width={trackWidth} />
         </StyledRail>
         <StyledGenerationBar>
           {GENERATIONS.map((gen: IGeneration) => {
+            const genName = +gen.name;
+            const pokemonsTotal = gen.pokemonsTotal;
+            
             return (
-              <StyledGenerationItem key={`gen-${gen.name}`}>
-                <StyledGenerationButton>{gen.name}</StyledGenerationButton>
+              <StyledGenerationItem key={`gen-${genName}`}>
+                <StyledGenerationButton
+                  aria-label={`Generation ${genName}, total of ${pokemonsTotal} Pokémons.`}
+                  included={selectedGeneration >= genName}>
+                    {genName}
+                </StyledGenerationButton>
                 <StyledPokemonTotal>{gen.pokemonsTotal}</StyledPokemonTotal>
                 <StyledGenerationMarker />
               </StyledGenerationItem>
@@ -32,7 +44,7 @@ export const GenerationBar = () => {
           })}
         </StyledGenerationBar>
         <StyledGenerationLine />
-        <p>Total Pokémons in generation</p>
+        <StyledGenerationTotalPokemonsHeading>Total Pokémons in generation</StyledGenerationTotalPokemonsHeading>
       </StyledGenerationBarWrapper>
     </>
   );

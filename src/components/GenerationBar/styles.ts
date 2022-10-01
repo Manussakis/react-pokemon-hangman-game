@@ -1,8 +1,13 @@
 import styled from "styled-components";
-import { StyledTrackProps } from "./types";
+import { StyledTrackProps, StyledGenerationButtonProps } from "./types";
 
-const buttonSizeSM = 1.4;
+const buttonSizeSM = 1.8;
 const buttonSizeMD = 2;
+
+export const StyledGenerationHeading = styled.div`
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+`;
 
 export const StyledGenerationBarWrapper = styled.div`
   position: relative;
@@ -15,7 +20,11 @@ export const StyledRail = styled.div`
   overflow: hidden;
   background-color: var(--darksurface);
   position: absolute;
-  top: 12px;
+  top: 10px;
+
+  @media only screen and (min-width: 550px) {
+    top: 12px;
+  }
 `;
 
 export const StyledTrack = styled.div<StyledTrackProps>`
@@ -34,7 +43,7 @@ export const StyledGenerationBar = styled.ul`
   justify-content: space-between;
 `;
 
-export const StyledGenerationButton = styled.button`
+export const StyledGenerationButton = styled.button<StyledGenerationButtonProps>`
   width: ${buttonSizeSM}rem;
   height: ${buttonSizeSM}rem;
   border-radius: ${buttonSizeSM}rem;
@@ -43,6 +52,15 @@ export const StyledGenerationButton = styled.button`
   align-items: center;
   justify-content: center;
   font-weight: 600;
+  background-color: ${props => props.included ? 'var(--lightgreen)' : ''};
+  transition: transform 0.2s ease-in-out;
+  transform: scale(1);
+
+  &:hover, 
+  &:active,
+  &:focus {
+    transform: scale(1.1);
+  }
 
   @media only screen and (min-width: 550px) {
     width: ${buttonSizeMD}rem;
@@ -52,7 +70,7 @@ export const StyledGenerationButton = styled.button`
 
 export const StyledPokemonTotal = styled.span`
   font-size: 0.625rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 
   @media only screen and (min-width: 550px) {
     font-size: 0.75rem;
@@ -85,3 +103,8 @@ export const StyledGenerationLine = styled.span`
     left: ${buttonSizeMD / 2}rem;
   }
 `;
+
+export const StyledGenerationTotalPokemonsHeading = styled.div`
+  font-weight: 600;
+  margin-top: 0.2rem;
+`
