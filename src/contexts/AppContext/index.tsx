@@ -36,7 +36,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       dispatchGameState({
         type: GameActionTypeEnum.CLICK_LETTER,
         payload: {
-          letter,
+          letter: letter.toLowerCase(),
           isTip,
         }
       });

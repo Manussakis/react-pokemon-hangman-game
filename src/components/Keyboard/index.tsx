@@ -1,6 +1,8 @@
+import { useCallback, useEffect } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { GameStatusEnum } from '../../contexts/AppContext/enums';
 import { KEYBOARD_LETTERS } from '../../utils/constants';
+import { isLetter } from '../../utils/functions';
 import { Key } from '../Key';
 
 import { StyledWrapper, StyledRow } from './styles';
@@ -16,6 +18,23 @@ export const Keyboard = () => {
   } = useAppContext();
 
   const disableKeyboard = status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
+
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {    
+    const { key: letter } = event;
+    const isDisable = guesses.includes(letter.toLowerCase());
+    
+    if(isLetter(letter) && !isDisable && !event.ctrlKey && !event.shiftKey) {
+      onClickLetter(letter);
+    }
+  }, [onClickLetter, guesses]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [handleKeyDown]);
 
   return (
     <StyledWrapper isDisabled={disableKeyboard} aria-hidden={disableKeyboard} data-testid="keyboard-wrapper">
