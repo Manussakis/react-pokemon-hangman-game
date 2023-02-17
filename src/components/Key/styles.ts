@@ -56,6 +56,7 @@ export const StyledKey = styled.button<StyledKeyProps>`
       background-color: var(--red);
       box-shadow: 0px 0px 0 var(--primary);
       transform: translate(1px, 1px);
+      color: var(--primary);
 
       @media only screen and (min-width: 550px) {
         box-shadow: 1px 1px 0 var(--primary);

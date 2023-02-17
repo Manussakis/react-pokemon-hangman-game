@@ -1,8 +1,20 @@
-import { render, screen} from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Keyboard } from './index';
 import { AppContext, AppContextProvider, gameStateInitialValue } from '../../contexts/AppContext';
 import { GameStatusEnum } from '../../contexts/AppContext/enums';
 import { AppContextValue } from '../../contexts/AppContext/type';
+
+const mockOnClickLetter = jest.fn();
+const appContexValue: AppContextValue = {
+  gameState: {...gameStateInitialValue},
+  hasError: false,
+  isLoadingPokemon: false,
+  onClickLetter: mockOnClickLetter,
+  onFindNewPokemon: () => {},
+  onTryAgain: () => {},
+  onStartGame: () => {},
+  onChangeGeneration: () => {},
+};
 
 describe('Keyboard component', () => {
   test('has 26 letters', () => {
@@ -18,17 +30,6 @@ describe('Keyboard component', () => {
   });
 
   test('is disabled', () => {
-    const appContexValue: AppContextValue = {
-      gameState: {...gameStateInitialValue},
-      hasError: false,
-      isLoadingPokemon: false,
-      onClickLetter: () => {},
-      onFindNewPokemon: () => {},
-      onTryAgain: () => {},
-      onStartGame: () => {},
-      onChangeGeneration: () => {},
-    };
-
     appContexValue.gameState.status = GameStatusEnum.WON;
 
     render(
@@ -40,5 +41,17 @@ describe('Keyboard component', () => {
     const wrapper = screen.getByTestId('keyboard-wrapper');
 
     expect(wrapper).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  test('invokes onClickLetter if keyboard is pressed', async () => {
+    render(
+      <AppContext.Provider value={{...appContexValue}}>
+        <Keyboard />
+      </AppContext.Provider>
+    );
+
+    fireEvent.keyDown(document, { key: 'p' });
+
+    expect(mockOnClickLetter).toHaveBeenCalledTimes(1);    
   });
 });
