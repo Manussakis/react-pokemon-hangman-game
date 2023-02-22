@@ -6,8 +6,12 @@ export const DialogContext = createContext<DialogContextValue>({} as DialogConte
 export const DialogContextProvider = ({children}: DialogContextProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  function open() {
+  function open(callback?: () => void) {
     setIsOpen(true);
+
+    if (typeof callback === 'function') {
+      callback();
+    }
   }
 
   function close() {

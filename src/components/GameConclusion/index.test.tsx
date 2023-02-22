@@ -15,7 +15,8 @@ const appContexValue: AppContextValue = {
   onFindNewPokemon: mockFindNewPokemon,
   onTryAgain: mockOnTryAgain,
   onStartGame: () => {},
-  onChangeGeneration: () => {}
+  onChangeGeneration: () => {},
+  onChangeGameStatus: () => {},
 }
 
 const renderWithAppContext = (result: GameStatusEnum) => {

@@ -49,6 +49,7 @@ function App() {
     onClickLetter,
     onTryAgain,
     onChangeGeneration,
+    onChangeGameStatus,
   } = useAppContext();
 
   const [selectedGeneration, setSelectedGeneration] = useState(generation);
@@ -75,8 +76,13 @@ function App() {
     }
   }
 
-  function onCancelLoadNewPokemon() {
+  function onCancelLoadNewPokemon() {    
     setSelectedGeneration(generation);
+    onChangeGameStatus(GameStatusEnum.RUNNING);
+  }
+
+  function onOpenLoadNewPokemonModal() {
+    onChangeGameStatus(GameStatusEnum.PAUSED);
   }
 
   useEffect(() => {
@@ -123,6 +129,7 @@ function App() {
                   <Dialog 
                     title="Are you sure?" 
                     triggerRef={buttonRef} 
+                    onOpen={onOpenLoadNewPokemonModal}
                     onConfirm={onConfirmLoadNewPokemon}
                     onCancel={onCancelLoadNewPokemon}
                     confirmButton="Yes, confirm"

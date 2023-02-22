@@ -100,6 +100,13 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     onFindNewPokemon();
   }, [onFindNewPokemon]);
 
+  const onChangeGameStatus = (status: GameStatusEnum) => {
+    dispatchGameState({
+      type: GameActionTypeEnum.UPDATE_STATUS,
+      payload: { status },
+    })
+  };
+
   useEffect(() => {
     if (gameState.remainingAttempts === 0) {
       setTimeout(() => {
@@ -123,7 +130,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
-    <AppContext.Provider value={{ gameState, isLoadingPokemon, hasError, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain, onChangeGeneration }}>
+    <AppContext.Provider value={{ gameState, isLoadingPokemon, hasError, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain, onChangeGeneration, onChangeGameStatus }}>
       {children}
     </AppContext.Provider>
   )

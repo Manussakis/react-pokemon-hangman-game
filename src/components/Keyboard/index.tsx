@@ -19,14 +19,16 @@ export const Keyboard = () => {
 
   const disableKeyboard = status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {    
-    const { key: letter } = event;
-    const isDisable = guesses.includes(letter.toLowerCase());
-    
-    if(isLetter(letter) && !isDisable && !event.ctrlKey && !event.shiftKey) {
-      onClickLetter(letter);
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (status === GameStatusEnum.RUNNING) {
+      const { key: letter } = event;
+      const isDisable = guesses.includes(letter.toLowerCase());
+      
+      if(isLetter(letter) && !isDisable && !event.ctrlKey && !event.shiftKey) {
+        onClickLetter(letter);
+      }
     }
-  }, [onClickLetter, guesses]);
+  }, [onClickLetter, guesses, status]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
