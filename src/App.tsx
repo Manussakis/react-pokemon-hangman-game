@@ -43,8 +43,6 @@ function App() {
       status,
       generation,
     },
-    isLoadingPokemon,
-    hasError,
     onFindNewPokemon,
     onClickLetter,
     onTryAgain,
@@ -99,7 +97,7 @@ function App() {
       {status === GameStatusEnum.BEFORE_STARTING ? (
         <Introduction />
       ) : (
-        hasError ? (
+        status === GameStatusEnum.ERROR ? (
           <StyledError style={{paddingTop: '1rem'}}>
             Ops! Something went wrong <br />
             It was not possible to load a Pokémon
@@ -119,7 +117,7 @@ function App() {
               </StyledHeaderBottom>
             </header>
             <StyledMain>
-              <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
+              <Avatar image={image} flavorText={flavorText} isLoading={status === GameStatusEnum.LOADING} />
               <WordInProgress wordInProgress={wordInProgress} />
               <Keyboard />
               <StyledButtons>

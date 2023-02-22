@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useCallback, useReducer, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useCallback, useReducer, useRef } from 'react';
 import { fetchPokemon } from '../../api';
 import { MAX_ATTEMPTS, DELAY_BEFORE_RESULT, GENERATIONS } from '../../utils/constants';
 import { randomIntFromInterval } from '../../utils/functions';
@@ -24,8 +24,6 @@ export const gameStateInitialValue: GameState = {
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const hasGameBeenStarted = useRef(false);
-  const [isLoadingPokemon, setIsLoadingPokemon] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [gameState, dispatchGameState] = useReducer(gameStateRuducer, gameStateInitialValue);
 
   const onClickLetter = (letter: string, isTip?: boolean) => {
@@ -53,8 +51,12 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }
 
   const getNewPokemon = useCallback(async (pokemonId: number) => {
-    setIsLoadingPokemon(true);
-    setHasError(false);
+    dispatchGameState({
+      type: GameActionTypeEnum.UPDATE_STATUS,
+      payload: {
+        status: GameStatusEnum.LOADING,
+      }
+    });
 
     try {
       const pokemonData = await fetchPokemon(pokemonId);
@@ -63,13 +65,17 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         type: GameActionTypeEnum.GET_NEW_POKEMON,
         payload: {
           pokemonData,
+          status: GameStatusEnum.RUNNING,
         }
       });
     } catch (error) {
-      setHasError(true);
+      dispatchGameState({
+        type: GameActionTypeEnum.UPDATE_STATUS,
+        payload: {
+          status: GameStatusEnum.ERROR,
+        }
+      });
       console.log(error);
-    } finally {
-      setIsLoadingPokemon(false);
     }
   }, []);
 
@@ -130,7 +136,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
 
   return (
-    <AppContext.Provider value={{ gameState, isLoadingPokemon, hasError, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain, onChangeGeneration, onChangeGameStatus }}>
+    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain, onChangeGeneration, onChangeGameStatus }}>
       {children}
     </AppContext.Provider>
   )

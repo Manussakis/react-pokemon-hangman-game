@@ -7,8 +7,6 @@ const onStartGame = jest.fn();
 
 const appContexValue: AppContextValue = {
   gameState: {...gameStateInitialValue},
-  hasError: false,
-  isLoadingPokemon: false,
   onClickLetter: () => {},
   onFindNewPokemon: () => {},
   onTryAgain: () => {},

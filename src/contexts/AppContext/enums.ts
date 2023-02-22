@@ -1,9 +1,11 @@
 export enum GameStatusEnum {
   BEFORE_STARTING,
+  LOADING,
   RUNNING,
   PAUSED,
   WON,
   LOST,
+  ERROR,
 }
 
 export enum GameActionTypeEnum {
