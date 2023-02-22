@@ -1,5 +1,4 @@
 import { gameStateRuducer } from './reducer';
-import { gameStateInitialValue } from './index';
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { GameState, PokemonData } from './type';
 import { MAX_ATTEMPTS } from '../../utils/constants';
@@ -17,19 +16,6 @@ const murkrowPokemonData: PokemonData = {
 };
 
 describe('Game state reducer', () => {
-  test('starts game', () => {
-    const action = {
-      type: GameActionTypeEnum.START_GAME
-    };
-    const expectedState = {
-      ...gameStateInitialValue,
-      status: GameStatusEnum.RUNNING,
-    };
-    const newState = gameStateRuducer(gameStateInitialValue, action);
-
-    expect(newState).toStrictEqual(expectedState);
-  });
-
   test('updates game', () => {
     const clickedLetter = 'm';
     const action = {
@@ -62,7 +48,8 @@ describe('Game state reducer', () => {
     const action = {
       type: GameActionTypeEnum.GET_NEW_POKEMON,
       payload: {
-        pokemonData: { ...pikachuPokemonData }
+        pokemonData: { ...pikachuPokemonData },
+        status: GameStatusEnum.RUNNING,
       }
     };
     const runningState: GameState = {

@@ -9,14 +9,12 @@ const mockFindNewPokemon = jest.fn();
 
 const appContexValue: AppContextValue = {
   gameState: {...gameStateInitialValue},
-  hasError: false,
-  isLoadingPokemon: false,
   onClickLetter: () => {},
   onFindNewPokemon: mockFindNewPokemon,
   onTryAgain: mockOnTryAgain,
-  onStartGame: () => {},
   onChangeGeneration: () => {},
   onChangeGameStatus: () => {},
+  onResetGame: () => {},
 }
 
 const renderWithAppContext = (result: GameStatusEnum) => {

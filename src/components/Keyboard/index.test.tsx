@@ -7,14 +7,12 @@ import { AppContextValue } from '../../contexts/AppContext/type';
 const mockOnClickLetter = jest.fn();
 const appContexValue: AppContextValue = {
   gameState: {...gameStateInitialValue},
-  hasError: false,
-  isLoadingPokemon: false,
   onClickLetter: mockOnClickLetter,
   onFindNewPokemon: () => {},
   onTryAgain: () => {},
-  onStartGame: () => {},
   onChangeGeneration: () => {},
   onChangeGameStatus: () => {},
+  onResetGame: () => {},
 };
 
 describe('Keyboard component', () => {

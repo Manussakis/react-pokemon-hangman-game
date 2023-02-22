@@ -71,9 +71,9 @@ describe('App component', () => {
 
     mockedFetchPokemon.mockReturnValueOnce(promiseNewPokemonData);
 
-    const resetButton = screen.getByRole('button', { name: /load new pokémon/i});
+    const loadNewPokemonBtn = screen.getByRole('button', { name: /load new pokémon/i});
 
-    fireEvent.click(resetButton);
+    fireEvent.click(loadNewPokemonBtn);
 
     const dialog = await screen.findByRole('dialog');
     const dialogConfirmButton = within(dialog).getByRole('button', { name: /confirm/i} );
@@ -86,6 +86,23 @@ describe('App component', () => {
     const letters = within(wordInprogress).getAllByRole('listitem');
 
     expect(letters).toHaveLength(8);
+  });
+
+  test('resets game', async () => {
+    await initGame();
+
+    const resetBtn = await screen.findByLabelText(/go back to home/i);
+
+    fireEvent.click(resetBtn);
+
+    const dialog = await screen.findByRole('dialog');
+    const dialogConfirmButton = within(dialog).getByRole('button', { name: /confirm/i} );
+
+    fireEvent.click(dialogConfirmButton);
+
+    const heading1 = await screen.findByRole('heading', { level: 1 });
+
+    expect(heading1).toBeInTheDocument();
   });
 
   test('renders footer links', async () => {

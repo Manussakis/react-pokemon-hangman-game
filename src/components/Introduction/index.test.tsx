@@ -3,18 +3,16 @@ import { Introduction } from './index';
 import { AppContext, gameStateInitialValue } from '../../contexts/AppContext';
 import { AppContextValue } from '../../contexts/AppContext/type';
 
-const onStartGame = jest.fn();
+const onFindNewPokemon = jest.fn();
 
 const appContexValue: AppContextValue = {
   gameState: {...gameStateInitialValue},
-  hasError: false,
-  isLoadingPokemon: false,
   onClickLetter: () => {},
-  onFindNewPokemon: () => {},
+  onFindNewPokemon,
   onTryAgain: () => {},
-  onStartGame,
   onChangeGeneration: () => {},
   onChangeGameStatus: () => {},
+  onResetGame: () => {},
 }
 
 const renderComponent = () => {
@@ -41,6 +39,6 @@ describe('Introduction component', () => {
 
     fireEvent.click(button);
 
-    expect(onStartGame).toBeCalledTimes(1);
+    expect(onFindNewPokemon).toBeCalledTimes(1);
   });
 });

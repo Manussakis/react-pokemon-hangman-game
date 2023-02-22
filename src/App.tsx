@@ -13,6 +13,7 @@ import { GameConclusion } from './components/GameConclusion';
 import { Container } from './components/Container';
 import { Divider } from './components/Divider';
 import { ReactComponent as Github } from './assets/github-icon.svg';
+import { ReactComponent as Home } from './assets/home-icon.svg';
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
 import { DividerSpacingEnum } from './components/Divider/enums';
@@ -20,6 +21,7 @@ import { randomIntFromInterval } from './utils/functions';
 
 import {
   StyledWrapper,
+  StyledHomeButton,
   StyledHeaderTop,
   StyledHeaderBottom,
   StyledError,
@@ -43,19 +45,18 @@ function App() {
       status,
       generation,
     },
-    isLoadingPokemon,
-    hasError,
     onFindNewPokemon,
     onClickLetter,
     onTryAgain,
     onChangeGeneration,
     onChangeGameStatus,
+    onResetGame,
   } = useAppContext();
 
   const [selectedGeneration, setSelectedGeneration] = useState(generation);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const loadNewPokemonBtnRef = useRef<HTMLButtonElement>(null);
+  const resetBtnRef = useRef<HTMLButtonElement>(null);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
-  const isFirstRender = useRef<boolean>(true);
 
   function handleUseMyTip() {
     const hiddenLetters = name.split('').filter(l => !wordInProgress.includes(l));
@@ -72,7 +73,8 @@ function App() {
     if (selectedGeneration === generation) {
       onFindNewPokemon(); 
     } else {
-      onChangeGeneration(selectedGeneration); 
+      onChangeGeneration(selectedGeneration);
+      onFindNewPokemon(selectedGeneration);
     }
   }
 
@@ -81,17 +83,9 @@ function App() {
     onChangeGameStatus(GameStatusEnum.RUNNING);
   }
 
-  function onOpenLoadNewPokemonModal() {
-    onChangeGameStatus(GameStatusEnum.PAUSED);
-  }
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    } else {
-      onFindNewPokemon(); 
-    }
-  }, [generation, onFindNewPokemon]);
+  useEffect(() => {    
+    setSelectedGeneration(generation);   
+  }, [generation]);
 
   return (
     <StyledWrapper>
@@ -99,7 +93,7 @@ function App() {
       {status === GameStatusEnum.BEFORE_STARTING ? (
         <Introduction />
       ) : (
-        hasError ? (
+        status === GameStatusEnum.ERROR ? (
           <StyledError style={{paddingTop: '1rem'}}>
             Ops! Something went wrong <br />
             It was not possible to load a Pokémon
@@ -108,6 +102,9 @@ function App() {
           <>
             <header>
               <StyledHeaderTop>
+                <StyledHomeButton ref={resetBtnRef} aria-label="Go back to home">
+                  <Home />
+                </StyledHomeButton>
                 Generation <span className="font-bold">{generation}</span>                
               </StyledHeaderTop>
               <Divider spacing={DividerSpacingEnum.SM} />
@@ -119,23 +116,35 @@ function App() {
               </StyledHeaderBottom>
             </header>
             <StyledMain>
-              <Avatar image={image} flavorText={flavorText} isLoading={isLoadingPokemon} />
+              <Avatar image={image} flavorText={flavorText} isLoading={status === GameStatusEnum.LOADING} />
               <WordInProgress wordInProgress={wordInProgress} />
               <Keyboard />
               <StyledButtons>
                 {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
-                <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
+                <Button ref={loadNewPokemonBtnRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
                 <DialogContextProvider>
                   <Dialog 
                     title="Are you sure?" 
-                    triggerRef={buttonRef} 
-                    onOpen={onOpenLoadNewPokemonModal}
+                    triggerRef={loadNewPokemonBtnRef} 
+                    onOpen={() => onChangeGameStatus(GameStatusEnum.PAUSED)}
                     onConfirm={onConfirmLoadNewPokemon}
                     onCancel={onCancelLoadNewPokemon}
                     confirmButton="Yes, confirm"
                     cancelButton="No, cancel">
                       <p>If you want, change the Generation.<br />After confirming it, a new random Pokémon will be loaded.</p>
                     <GenerationBar generation={generation} onChange={onChangeGen} />
+                  </Dialog>
+                </DialogContextProvider>
+                <DialogContextProvider>
+                  <Dialog 
+                    title="Are you sure?" 
+                    triggerRef={resetBtnRef}
+                    onOpen={() => onChangeGameStatus(GameStatusEnum.PAUSED)}
+                    onConfirm={() => onResetGame(generation)}
+                    onCancel={() => onChangeGameStatus(GameStatusEnum.RUNNING)}
+                    confirmButton="Yes, confirm"
+                    cancelButton="No, cancel">
+                      <p>Your current game will be reset.</p>
                   </Dialog>
                 </DialogContextProvider>
               </StyledButtons>

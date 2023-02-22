@@ -10,7 +10,7 @@ export const POKEMON_IMG_BASE_URL = 'https://assets.pokemon.com/assets/cms2/img/
 
 export const POKEMON_IMG_FILE_EXT = 'png';
 
-export const DELAY_BEFORE_RESULT = 1000;
+export const DELAY_BEFORE_RESULT = 500;
 
 export interface IGeneration {
   name: string;
