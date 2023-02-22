@@ -53,7 +53,6 @@ function App() {
   const [selectedGeneration, setSelectedGeneration] = useState(generation);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
-  const isFirstRender = useRef<boolean>(true);
 
   function handleUseMyTip() {
     const hiddenLetters = name.split('').filter(l => !wordInProgress.includes(l));
@@ -83,11 +82,17 @@ function App() {
     onChangeGameStatus(GameStatusEnum.PAUSED);
   }
 
+  // Whenever the generation changes while the game status is 
+  // whether paused, lost or won, a new Pokémon must be loaded.
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    } else {
-      onFindNewPokemon(); 
+    setSelectedGeneration(generation);
+    
+    if (
+      status === GameStatusEnum.PAUSED || 
+      status === GameStatusEnum.WON || 
+      status === GameStatusEnum.LOST
+    ) {
+      onFindNewPokemon();
     }
   }, [generation, onFindNewPokemon]);
 
