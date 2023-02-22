@@ -73,7 +73,8 @@ function App() {
     if (selectedGeneration === generation) {
       onFindNewPokemon(); 
     } else {
-      onChangeGeneration(selectedGeneration); 
+      onChangeGeneration(selectedGeneration);
+      onFindNewPokemon(selectedGeneration);
     }
   }
 
@@ -86,19 +87,9 @@ function App() {
     onChangeGameStatus(GameStatusEnum.PAUSED);
   }
 
-  // Whenever the generation changes while the game status is 
-  // whether paused, lost or won, a new Pokémon must be loaded.
-  useEffect(() => {
-    setSelectedGeneration(generation);
-    
-    if (
-      status === GameStatusEnum.PAUSED || 
-      status === GameStatusEnum.WON || 
-      status === GameStatusEnum.LOST
-    ) {
-      onFindNewPokemon();
-    }
-  }, [generation, onFindNewPokemon]);
+  useEffect(() => {    
+    setSelectedGeneration(generation);   
+  }, [generation]);
 
   return (
     <StyledWrapper>

@@ -28,7 +28,7 @@ export type ErrorObj = {
 export type AppContextValue = {
   gameState: GameState;
   onClickLetter: (letter: string, isTip?: boolean) => void;
-  onFindNewPokemon: () => void;
+  onFindNewPokemon: (generation?: number) => void;
   onTryAgain: () => void;
   onChangeGeneration: (generation: number) => void;
   onChangeGameStatus: (status: GameStatusEnum) => void;

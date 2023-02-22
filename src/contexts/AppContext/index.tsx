@@ -49,8 +49,9 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     });
   }
 
-  const onFindNewPokemon = useCallback(async() => {
-    const totalPokemons = GENERATIONS.filter(gen => +gen.name === gameState.generation)[0].pokemonsTotal;
+  const onFindNewPokemon = useCallback(async(generation?: number) => {
+    const currentGeneration = !!generation ? generation : gameState.generation;
+    const totalPokemons = GENERATIONS.filter(gen => +gen.name === currentGeneration)[0].pokemonsTotal;
     const randomPokemonId = randomIntFromInterval(1, totalPokemons);
 
     dispatchGameState({
