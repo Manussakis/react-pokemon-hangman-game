@@ -90,7 +90,8 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     dispatchGameState({
       type: GameActionTypeEnum.GET_NEW_POKEMON,
       payload: {
-        pokemonData: gameState.pokemonData
+        pokemonData: gameState.pokemonData,
+        status: GameStatusEnum.RUNNING,
       }
     });
   }, [gameState.pokemonData]);

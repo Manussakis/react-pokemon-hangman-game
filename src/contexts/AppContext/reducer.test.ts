@@ -1,5 +1,4 @@
 import { gameStateRuducer } from './reducer';
-import { gameStateInitialValue } from './index';
 import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { GameState, PokemonData } from './type';
 import { MAX_ATTEMPTS } from '../../utils/constants';
@@ -49,7 +48,8 @@ describe('Game state reducer', () => {
     const action = {
       type: GameActionTypeEnum.GET_NEW_POKEMON,
       payload: {
-        pokemonData: { ...pikachuPokemonData }
+        pokemonData: { ...pikachuPokemonData },
+        status: GameStatusEnum.RUNNING,
       }
     };
     const runningState: GameState = {
