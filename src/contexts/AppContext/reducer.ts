@@ -2,6 +2,7 @@ import { GameActionTypeEnum } from './enums';
 import { GameState, GameStateAction, PokemonData } from './type';
 import { MAX_ATTEMPTS } from '../../utils/constants';
 import { convertStrToEmptyArray } from '../../utils/functions';
+import { gameStateInitialValue } from '.';
 
 export const gameStateRuducer = (state: GameState, action: GameStateAction): GameState => {
   let newRemainingAttempts: number;
@@ -83,6 +84,16 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
         ...state,
         generation: action.payload.generation,
       }
+
+      case GameActionTypeEnum.RESET_GAME:
+        if (!action.payload?.generation) {
+          throw new Error(`The action type ${GameActionTypeEnum.RESET_GAME} requires a payload object with the property "generation".`)
+        }
+  
+        return {
+          ...gameStateInitialValue,
+          generation: action.payload.generation,
+        }
 
     default:
       throw new Error("This action type doesn't exist.");

@@ -12,6 +12,21 @@ export const StyledWrapper = styled.div`
   min-height: 100vh;
 `;
 
+export const StyledHomeButton = styled.button`
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: transparent;
+  border: 0;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  svg {
+    width: 100%;
+  }
+`;
+
 export const StyledHeaderTop = styled.div`
   margin-top: 0.6rem;
   margin-bottom: 0.1rem;
@@ -20,6 +35,7 @@ export const StyledHeaderTop = styled.div`
   font-weight: 600;
   letter-spacing: 0.08em;
   text-align: center;
+  position: relative;
 `;
 
 export const StyledHeaderBottom = styled.div`

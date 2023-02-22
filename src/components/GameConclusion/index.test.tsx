@@ -14,6 +14,7 @@ const appContexValue: AppContextValue = {
   onTryAgain: mockOnTryAgain,
   onChangeGeneration: () => {},
   onChangeGameStatus: () => {},
+  onResetGame: () => {},
 }
 
 const renderWithAppContext = (result: GameStatusEnum) => {

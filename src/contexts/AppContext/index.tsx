@@ -92,6 +92,15 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     });
   }, [gameState.pokemonData]);
 
+  const onResetGame = (generation: number) => {
+    dispatchGameState({
+      type: GameActionTypeEnum.RESET_GAME,
+      payload: {
+        generation,
+      }
+    });
+  };
+
   const onChangeGameStatus = (status: GameStatusEnum) => {
     dispatchGameState({
       type: GameActionTypeEnum.UPDATE_STATUS,
@@ -135,7 +144,17 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   ]);
 
   return (
-    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon, onTryAgain, onChangeGeneration, onChangeGameStatus }}>
+    <AppContext.Provider value={
+      {
+        gameState,
+        onClickLetter,
+        onFindNewPokemon,
+        onTryAgain,
+        onChangeGeneration,
+        onChangeGameStatus,
+        onResetGame,
+      }
+    }>
       {children}
     </AppContext.Provider>
   )

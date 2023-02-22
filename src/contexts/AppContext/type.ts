@@ -32,6 +32,7 @@ export type AppContextValue = {
   onTryAgain: () => void;
   onChangeGeneration: (generation: number) => void;
   onChangeGameStatus: (status: GameStatusEnum) => void;
+  onResetGame: (generation: number) => void;
 };
 
 export type GameStateAction = {

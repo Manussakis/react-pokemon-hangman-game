@@ -13,6 +13,7 @@ import { GameConclusion } from './components/GameConclusion';
 import { Container } from './components/Container';
 import { Divider } from './components/Divider';
 import { ReactComponent as Github } from './assets/github-icon.svg';
+import { ReactComponent as Home } from './assets/home-icon.svg';
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
 import { DividerSpacingEnum } from './components/Divider/enums';
@@ -20,6 +21,7 @@ import { randomIntFromInterval } from './utils/functions';
 
 import {
   StyledWrapper,
+  StyledHomeButton,
   StyledHeaderTop,
   StyledHeaderBottom,
   StyledError,
@@ -48,10 +50,12 @@ function App() {
     onTryAgain,
     onChangeGeneration,
     onChangeGameStatus,
+    onResetGame,
   } = useAppContext();
 
   const [selectedGeneration, setSelectedGeneration] = useState(generation);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const loadNewPokemonBtnRef = useRef<HTMLButtonElement>(null);
+  const resetBtnRef = useRef<HTMLButtonElement>(null);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
 
   function handleUseMyTip() {
@@ -111,6 +115,9 @@ function App() {
           <>
             <header>
               <StyledHeaderTop>
+                <StyledHomeButton ref={resetBtnRef} aria-label="Go back to home">
+                  <Home />
+                </StyledHomeButton>
                 Generation <span className="font-bold">{generation}</span>                
               </StyledHeaderTop>
               <Divider spacing={DividerSpacingEnum.SM} />
@@ -127,11 +134,11 @@ function App() {
               <Keyboard />
               <StyledButtons>
                 {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
-                <Button ref={buttonRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
+                <Button ref={loadNewPokemonBtnRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
                 <DialogContextProvider>
                   <Dialog 
                     title="Are you sure?" 
-                    triggerRef={buttonRef} 
+                    triggerRef={loadNewPokemonBtnRef} 
                     onOpen={onOpenLoadNewPokemonModal}
                     onConfirm={onConfirmLoadNewPokemon}
                     onCancel={onCancelLoadNewPokemon}
@@ -139,6 +146,16 @@ function App() {
                     cancelButton="No, cancel">
                       <p>If you want, change the Generation.<br />After confirming it, a new random Pokémon will be loaded.</p>
                     <GenerationBar generation={generation} onChange={onChangeGen} />
+                  </Dialog>
+                </DialogContextProvider>
+                <DialogContextProvider>
+                  <Dialog 
+                    title="Are you sure?" 
+                    triggerRef={resetBtnRef} 
+                    onConfirm={() => onResetGame(generation)}
+                    confirmButton="Yes, confirm"
+                    cancelButton="No, cancel">
+                      <p>Your current game will be reset.</p>
                   </Dialog>
                 </DialogContextProvider>
               </StyledButtons>

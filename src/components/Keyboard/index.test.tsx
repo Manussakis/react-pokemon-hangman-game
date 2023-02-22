@@ -12,6 +12,7 @@ const appContexValue: AppContextValue = {
   onTryAgain: () => {},
   onChangeGeneration: () => {},
   onChangeGameStatus: () => {},
+  onResetGame: () => {},
 };
 
 describe('Keyboard component', () => {
