@@ -49,7 +49,10 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     });
   }
 
-  const getNewPokemon = useCallback(async (pokemonId: number) => {
+  const onFindNewPokemon = useCallback(async() => {
+    const totalPokemons = GENERATIONS.filter(gen => +gen.name === gameState.generation)[0].pokemonsTotal;
+    const randomPokemonId = randomIntFromInterval(1, totalPokemons);
+
     dispatchGameState({
       type: GameActionTypeEnum.UPDATE_STATUS,
       payload: {
@@ -58,7 +61,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     });
 
     try {
-      const pokemonData = await fetchPokemon(pokemonId);
+      const pokemonData = await fetchPokemon(randomPokemonId);
 
       dispatchGameState({
         type: GameActionTypeEnum.GET_NEW_POKEMON,
@@ -75,16 +78,9 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         }
       });
       console.log(error);
-    }
-  }, []);
+    };
 
-  const onFindNewPokemon = useCallback(async() => {
-    const totalPokemons = GENERATIONS.filter(gen => +gen.name === gameState.generation)[0].pokemonsTotal;
-    const randomPokemonId = randomIntFromInterval(1, totalPokemons);
-
-    await getNewPokemon(randomPokemonId);
-
-  }, [getNewPokemon, gameState.generation]);
+  }, [gameState.generation]);
 
   const onTryAgain = useCallback(() => {
     dispatchGameState({
