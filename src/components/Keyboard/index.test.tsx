@@ -14,6 +14,7 @@ const appContexValue: AppContextValue = {
   onTryAgain: () => {},
   onStartGame: () => {},
   onChangeGeneration: () => {},
+  onChangeGameStatus: () => {},
 };
 
 describe('Keyboard component', () => {
@@ -44,6 +45,8 @@ describe('Keyboard component', () => {
   });
 
   test('invokes onClickLetter if keyboard is pressed', async () => {
+    appContexValue.gameState.status = GameStatusEnum.RUNNING;
+    
     render(
       <AppContext.Provider value={{...appContexValue}}>
         <Keyboard />
@@ -52,6 +55,6 @@ describe('Keyboard component', () => {
 
     fireEvent.keyDown(document, { key: 'p' });
 
-    expect(mockOnClickLetter).toHaveBeenCalledTimes(1);    
+    expect(mockOnClickLetter).toHaveBeenCalledTimes(1);
   });
 });

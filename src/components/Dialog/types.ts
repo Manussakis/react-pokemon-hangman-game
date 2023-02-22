@@ -9,4 +9,5 @@ export type DialogProps = {
   confirmButton?: string;
   onConfirm: () => void;
   onCancel?: () => void;
+  onOpen?: () => void;
 }

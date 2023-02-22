@@ -1,6 +1,7 @@
 export enum GameStatusEnum {
   BEFORE_STARTING,
   RUNNING,
+  PAUSED,
   WON,
   LOST,
 }

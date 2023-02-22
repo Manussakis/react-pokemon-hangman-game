@@ -13,7 +13,8 @@ const appContexValue: AppContextValue = {
   onFindNewPokemon: () => {},
   onTryAgain: () => {},
   onStartGame,
-  onChangeGeneration: () => {}
+  onChangeGeneration: () => {},
+  onChangeGameStatus: () => {},
 }
 
 const renderComponent = () => {

@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 export type DialogContextValue = {
   isOpen: boolean;
-  open: () => void;
+  open: (callback?: () => void) => void;
   close: () => void;
 }
 

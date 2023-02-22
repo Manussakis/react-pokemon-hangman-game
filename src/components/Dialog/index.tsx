@@ -36,9 +36,14 @@ export const Dialog = ({
   confirmButton = 'Confirm',
   onConfirm,
   onCancel,
+  onOpen,
   triggerRef,
 }: DialogProps) => {
   const { isOpen, open, close } = useDialogContext();
+
+  function handleOnOpen() {
+    open(onOpen);
+  }
 
   useEffect(() => {
     let trigger: HTMLElement;
@@ -46,18 +51,18 @@ export const Dialog = ({
     if (triggerRef.current) {
       trigger = triggerRef.current;
 
-      trigger.addEventListener('click', open);
+      trigger.addEventListener('click', handleOnOpen);
     }
 
     return () => {
       if (trigger) {
-        trigger.removeEventListener('click', open);
+        trigger.removeEventListener('click', handleOnOpen);
       }
     }
   });
 
   function handleOnCancel() {
-    if (onCancel) {
+    if (typeof onCancel === 'function') {
       onCancel();
     }
     close();
@@ -71,7 +76,7 @@ export const Dialog = ({
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={close}
+      onRequestClose={handleOnCancel}
       style={customStyles}
       contentLabel={label}
       // https://github.com/reactjs/react-modal/issues/632#issuecomment-421114610
