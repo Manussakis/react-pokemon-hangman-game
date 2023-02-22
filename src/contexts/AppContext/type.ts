@@ -30,7 +30,6 @@ export type AppContextValue = {
   onClickLetter: (letter: string, isTip?: boolean) => void;
   onFindNewPokemon: () => void;
   onTryAgain: () => void;
-  onStartGame: () => void;
   onChangeGeneration: (generation: number) => void;
   onChangeGameStatus: (status: GameStatusEnum) => void;
 };

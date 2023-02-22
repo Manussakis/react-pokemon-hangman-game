@@ -12,7 +12,6 @@ const appContexValue: AppContextValue = {
   onClickLetter: () => {},
   onFindNewPokemon: mockFindNewPokemon,
   onTryAgain: mockOnTryAgain,
-  onStartGame: () => {},
   onChangeGeneration: () => {},
   onChangeGameStatus: () => {},
 }

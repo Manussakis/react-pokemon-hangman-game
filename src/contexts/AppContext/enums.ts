@@ -9,7 +9,6 @@ export enum GameStatusEnum {
 }
 
 export enum GameActionTypeEnum {
-  START_GAME = 'START_GAME',
   GET_NEW_POKEMON = 'GET_NEW_POKEMON',
   CLICK_LETTER = 'CLICK_LETTER',
   UPDATE_STATUS = 'UPDATE_STATUS',

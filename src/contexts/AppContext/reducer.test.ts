@@ -17,19 +17,6 @@ const murkrowPokemonData: PokemonData = {
 };
 
 describe('Game state reducer', () => {
-  test('starts game', () => {
-    const action = {
-      type: GameActionTypeEnum.START_GAME
-    };
-    const expectedState = {
-      ...gameStateInitialValue,
-      status: GameStatusEnum.RUNNING,
-    };
-    const newState = gameStateRuducer(gameStateInitialValue, action);
-
-    expect(newState).toStrictEqual(expectedState);
-  });
-
   test('updates game', () => {
     const clickedLetter = 'm';
     const action = {

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useCallback, useReducer, useRef } from 'react';
+import { createContext, useContext, useEffect, useCallback, useReducer } from 'react';
 import { fetchPokemon } from '../../api';
 import { MAX_ATTEMPTS, DELAY_BEFORE_RESULT, GENERATIONS } from '../../utils/constants';
 import { randomIntFromInterval } from '../../utils/functions';
@@ -23,7 +23,6 @@ export const gameStateInitialValue: GameState = {
 };
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const hasGameBeenStarted = useRef(false);
   const [gameState, dispatchGameState] = useReducer(gameStateRuducer, gameStateInitialValue);
 
   const onClickLetter = (letter: string, isTip?: boolean) => {
@@ -79,11 +78,11 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     }
   }, []);
 
-  const onFindNewPokemon = useCallback(() => {
+  const onFindNewPokemon = useCallback(async() => {
     const totalPokemons = GENERATIONS.filter(gen => +gen.name === gameState.generation)[0].pokemonsTotal;
     const randomPokemonId = randomIntFromInterval(1, totalPokemons);
 
-    getNewPokemon(randomPokemonId);
+    await getNewPokemon(randomPokemonId);
 
   }, [getNewPokemon, gameState.generation]);
 
@@ -96,16 +95,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     });
   }, [gameState.pokemonData]);
 
-  const onStartGame = useCallback(() => {
-    dispatchGameState({
-      type: GameActionTypeEnum.START_GAME,
-    });
-    
-    hasGameBeenStarted.current = true;
-
-    onFindNewPokemon();
-  }, [onFindNewPokemon]);
-
   const onChangeGameStatus = (status: GameStatusEnum) => {
     dispatchGameState({
       type: GameActionTypeEnum.UPDATE_STATUS,
@@ -114,7 +103,11 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   };
 
   useEffect(() => {
-    if (gameState.remainingAttempts === 0) {
+    if (
+        gameState.status === GameStatusEnum.RUNNING &&
+        gameState.remainingAttempts === 0
+      )
+    {
       setTimeout(() => {
         dispatchGameState({
           type: GameActionTypeEnum.UPDATE_STATUS,
@@ -123,7 +116,11 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
           }
         });
       }, DELAY_BEFORE_RESULT);
-    } else if (hasGameBeenStarted.current && gameState.wordInProgress.join('') === gameState.pokemonData.name) {
+    } else if (
+        gameState.status ===GameStatusEnum.RUNNING && 
+        gameState.wordInProgress.join('') === gameState.pokemonData.name
+      )
+    {
       setTimeout(() => {
         dispatchGameState({
           type: GameActionTypeEnum.UPDATE_STATUS,
@@ -133,10 +130,15 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         });
       }, DELAY_BEFORE_RESULT);
     }
-  }, [gameState.remainingAttempts, gameState.wordInProgress, gameState.pokemonData.name]);
+  }, [
+    gameState.remainingAttempts,
+    gameState.wordInProgress,
+    gameState.pokemonData.name,
+    gameState.status
+  ]);
 
   return (
-    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon, onStartGame, onTryAgain, onChangeGeneration, onChangeGameStatus }}>
+    <AppContext.Provider value={{ gameState, onClickLetter, onFindNewPokemon, onTryAgain, onChangeGeneration, onChangeGameStatus }}>
       {children}
     </AppContext.Provider>
   )

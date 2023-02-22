@@ -8,12 +8,6 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
   let pokemonData: PokemonData;
 
   switch (action.type) {
-    case GameActionTypeEnum.START_GAME:
-      return {
-        ...state,
-        status: GameStatusEnum.RUNNING,
-      }
-
     case GameActionTypeEnum.GET_NEW_POKEMON:
       if (!action.payload?.pokemonData) {
         throw new Error(`The action type ${GameActionTypeEnum.GET_NEW_POKEMON} requires a payload object with the property "pokemonData".`)
