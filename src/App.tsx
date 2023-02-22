@@ -83,10 +83,6 @@ function App() {
     onChangeGameStatus(GameStatusEnum.RUNNING);
   }
 
-  function onOpenLoadNewPokemonModal() {
-    onChangeGameStatus(GameStatusEnum.PAUSED);
-  }
-
   useEffect(() => {    
     setSelectedGeneration(generation);   
   }, [generation]);
@@ -130,7 +126,7 @@ function App() {
                   <Dialog 
                     title="Are you sure?" 
                     triggerRef={loadNewPokemonBtnRef} 
-                    onOpen={onOpenLoadNewPokemonModal}
+                    onOpen={() => onChangeGameStatus(GameStatusEnum.PAUSED)}
                     onConfirm={onConfirmLoadNewPokemon}
                     onCancel={onCancelLoadNewPokemon}
                     confirmButton="Yes, confirm"
@@ -142,8 +138,10 @@ function App() {
                 <DialogContextProvider>
                   <Dialog 
                     title="Are you sure?" 
-                    triggerRef={resetBtnRef} 
+                    triggerRef={resetBtnRef}
+                    onOpen={() => onChangeGameStatus(GameStatusEnum.PAUSED)}
                     onConfirm={() => onResetGame(generation)}
+                    onCancel={() => onChangeGameStatus(GameStatusEnum.RUNNING)}
                     confirmButton="Yes, confirm"
                     cancelButton="No, cancel">
                       <p>Your current game will be reset.</p>
