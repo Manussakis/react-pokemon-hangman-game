@@ -15,6 +15,7 @@ const appContexValue: AppContextValue = {
   onChangeGeneration: () => {},
   onChangeGameStatus: () => {},
   onResetGame: () => {},
+  onRevealPokemonName: () => {},
 }
 
 const renderWithAppContext = (result: GameStatusEnum) => {

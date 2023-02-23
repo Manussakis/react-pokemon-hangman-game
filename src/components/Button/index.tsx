@@ -16,6 +16,7 @@ export const Button = forwardRef<any, ButtonProps>(({
   icon,
   href = '',
   target = '_blank',
+  ariaLabel,
 }, ref) => {
   const buttonContent = icon ? (
     <>
@@ -30,11 +31,25 @@ export const Button = forwardRef<any, ButtonProps>(({
 
   return (
     href ? (
-      <StyledLinkButton buttonType={type} href={href} target={target} ref={ref} isDisabled={disabled} onClick={onClick}>
+      <StyledLinkButton 
+        buttonType={type}
+        href={href}
+        target={target}
+        ref={ref}
+        isDisabled={disabled}
+        onClick={onClick}
+        aria-label={ariaLabel}
+      >
         {buttonContent}
       </StyledLinkButton>
     ) : (
-      <StyledButton buttonType={type} ref={ref} onClick={onClick} disabled={disabled}>
+      <StyledButton 
+        buttonType={type}
+        ref={ref}
+        onClick={onClick}
+        disabled={disabled}
+        aria-label={ariaLabel}
+      >
         {buttonContent}
       </StyledButton>
     )

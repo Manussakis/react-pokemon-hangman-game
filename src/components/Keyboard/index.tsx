@@ -17,7 +17,11 @@ export const Keyboard = () => {
     onClickLetter,
   } = useAppContext();
 
-  const disableKeyboard = status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
+  const disableKeyboard = (
+    status === GameStatusEnum.WON || 
+    status === GameStatusEnum.LOST || 
+    status === GameStatusEnum.REVEALED
+  );
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (status === GameStatusEnum.RUNNING) {

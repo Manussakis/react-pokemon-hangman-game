@@ -12,6 +12,9 @@ export const POKEMON_IMG_FILE_EXT = 'png';
 
 export const DELAY_BEFORE_RESULT = 500;
 
+export const REVEAL_NAME_BUTTON_LABEL = 'Reveal Pokémon name';
+export const REVEALED_NAME_BUTTON_LABEL = 'Pokémon name revealed';
+
 export interface IGeneration {
   name: string;
   pokemonsTotal: number;

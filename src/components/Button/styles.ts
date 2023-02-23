@@ -69,6 +69,15 @@ const buttonPrimaryStyle = css`
 const buttonLinkStyle = css`
   border: 0;
   background-color: transparent;
+
+  &[disabled] {
+    text-decoration: line-through;
+    opacity: 1;
+
+    span {
+      text-decoration: line-through;
+    }
+  }
 `;
 
 export const StyledLinkButton = styled.a<StyledLinkButtonType>`

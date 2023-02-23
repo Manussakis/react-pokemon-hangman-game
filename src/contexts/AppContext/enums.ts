@@ -5,6 +5,7 @@ export enum GameStatusEnum {
   PAUSED,
   WON,
   LOST,
+  REVEALED,
   ERROR,
 }
 
@@ -14,4 +15,5 @@ export enum GameActionTypeEnum {
   UPDATE_STATUS = 'UPDATE_STATUS',
   CHANGE_GENERATION = 'CHANGE_GENERATION',
   RESET_GAME = 'RESET_GAME',
+  REVEAL_NAME = 'REVEAL_NAME',
 }
