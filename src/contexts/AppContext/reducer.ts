@@ -1,4 +1,4 @@
-import { GameActionTypeEnum } from './enums';
+import { GameActionTypeEnum, GameStatusEnum } from './enums';
 import { GameState, GameStateAction, PokemonData } from './type';
 import { MAX_ATTEMPTS } from '../../utils/constants';
 import { convertStrToEmptyArray } from '../../utils/functions';
@@ -94,6 +94,16 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
           ...gameStateInitialValue,
           generation: action.payload.generation,
         }
+
+    case GameActionTypeEnum.REVEAL_NAME:
+      const revealedWordInProgress = state.pokemonData.name.split('');
+      
+      return {
+        ...state,
+        wordInProgress: revealedWordInProgress,
+        hasTip: false,
+        status: GameStatusEnum.REVEALED,
+      }
 
     default:
       throw new Error("This action type doesn't exist.");

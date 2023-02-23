@@ -9,7 +9,8 @@ export type ButtonProps = {
   target?: string;
   disabled?: boolean|undefined;
   onClick?: (e: MouseEvent) => void;
-  ref?: HTMLAnchorElement | HTMLButtonElement | undefined
+  ref?: HTMLAnchorElement | HTMLButtonElement | undefined;
+  ariaLabel?: string;
 }
 
 export interface StyledButtonType {

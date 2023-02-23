@@ -102,4 +102,29 @@ describe('Game state reducer', () => {
 
     expect(newState).toStrictEqual(expectedState);
   });
+
+  test('reveals Pokémon name', () => {
+    const action = {
+      type: GameActionTypeEnum.REVEAL_NAME,
+    };
+    const runningState: GameState = {
+      pokemonData: { ...pikachuPokemonData },
+      wordInProgress: [ '', '', '', '', '', '', '' ],
+      guesses: [],
+      remainingAttempts: 6,
+      hasTip: true,
+      status: GameStatusEnum.RUNNING,
+      generation: 1
+    };
+    const expectedState = {
+      ...runningState,
+      wordInProgress: [ 'p', 'i', 'k', 'a', 'c', 'h', 'u' ],
+      hasTip: false,
+      status: GameStatusEnum.REVEALED,
+    };
+
+    const newState = gameStateRuducer(runningState, action);
+
+    expect(newState).toStrictEqual(expectedState);
+  });
 });

@@ -106,7 +106,13 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     dispatchGameState({
       type: GameActionTypeEnum.UPDATE_STATUS,
       payload: { status },
-    })
+    });
+  };
+
+  const onRevealPokemonName = () => {
+    dispatchGameState({
+      type: GameActionTypeEnum.REVEAL_NAME,
+    });
   };
 
   useEffect(() => {
@@ -154,6 +160,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
         onChangeGeneration,
         onChangeGameStatus,
         onResetGame,
+        onRevealPokemonName,
       }
     }>
       {children}

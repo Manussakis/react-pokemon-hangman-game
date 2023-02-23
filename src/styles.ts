@@ -56,8 +56,12 @@ export const StyledButtons = styled.div`
   align-items: center;
   flex-direction: column;
 
-  button:first-of-type {
+  button {
     margin-bottom: 1rem;
+  }
+
+  button:last-of-type {
+    margin-bottom: 0;
   }
 `;
 

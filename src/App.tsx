@@ -14,6 +14,7 @@ import { Container } from './components/Container';
 import { Divider } from './components/Divider';
 import { ReactComponent as Github } from './assets/github-icon.svg';
 import { ReactComponent as Home } from './assets/home-icon.svg';
+import { ReactComponent as Eye } from './assets/eye-icon.svg';
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
 import { DividerSpacingEnum } from './components/Divider/enums';
@@ -30,6 +31,7 @@ import {
   StyledFooter,
   StyledFooterContent
 } from './styles';
+import { REVEALED_NAME_BUTTON_LABEL, REVEAL_NAME_BUTTON_LABEL } from './utils/constants';
 
 function App() {
   const {
@@ -51,11 +53,13 @@ function App() {
     onChangeGeneration,
     onChangeGameStatus,
     onResetGame,
+    onRevealPokemonName,
   } = useAppContext();
 
   const [selectedGeneration, setSelectedGeneration] = useState(generation);
   const loadNewPokemonBtnRef = useRef<HTMLButtonElement>(null);
   const resetBtnRef = useRef<HTMLButtonElement>(null);
+  const previousStatus = useRef<GameStatusEnum>(status);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
 
   function handleUseMyTip() {
@@ -80,7 +84,28 @@ function App() {
 
   function onCancelLoadNewPokemon() {    
     setSelectedGeneration(generation);
-    onChangeGameStatus(GameStatusEnum.RUNNING);
+    onChangeGameStatus(previousStatus.current);
+  }
+
+  function onOpenModals() {
+    previousStatus.current = status;
+    onChangeGameStatus(GameStatusEnum.PAUSED);
+  }
+
+  function shouldShowRevealButton() {
+    return (
+      status === GameStatusEnum.RUNNING || 
+      status === GameStatusEnum.PAUSED || 
+      status === GameStatusEnum.LOST || 
+      status === GameStatusEnum.REVEALED
+    );
+  }
+
+  function shouldShowTryAgainButton() {
+    return (
+      status === GameStatusEnum.LOST || 
+      status === GameStatusEnum.REVEALED
+    );
   }
 
   useEffect(() => {    
@@ -120,13 +145,24 @@ function App() {
               <WordInProgress wordInProgress={wordInProgress} />
               <Keyboard />
               <StyledButtons>
-                {status === GameStatusEnum.LOST && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
+                {shouldShowRevealButton() && (
+                  <Button
+                    icon={<Eye />}
+                    type={ButtonTypeEnum.LINK}
+                    onClick={onRevealPokemonName}
+                    disabled={status === GameStatusEnum.REVEALED}
+                    ariaLabel={status === GameStatusEnum.REVEALED ? REVEALED_NAME_BUTTON_LABEL : REVEAL_NAME_BUTTON_LABEL}
+                  >
+                    {status === GameStatusEnum.REVEALED ? REVEALED_NAME_BUTTON_LABEL : REVEAL_NAME_BUTTON_LABEL}
+                  </Button>
+                )}
+                {shouldShowTryAgainButton() && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
                 <Button ref={loadNewPokemonBtnRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
                 <DialogContextProvider>
                   <Dialog 
                     title="Are you sure?" 
                     triggerRef={loadNewPokemonBtnRef} 
-                    onOpen={() => onChangeGameStatus(GameStatusEnum.PAUSED)}
+                    onOpen={onOpenModals}
                     onConfirm={onConfirmLoadNewPokemon}
                     onCancel={onCancelLoadNewPokemon}
                     confirmButton="Yes, confirm"
@@ -139,9 +175,9 @@ function App() {
                   <Dialog 
                     title="Are you sure?" 
                     triggerRef={resetBtnRef}
-                    onOpen={() => onChangeGameStatus(GameStatusEnum.PAUSED)}
+                    onOpen={onOpenModals}
                     onConfirm={() => onResetGame(generation)}
-                    onCancel={() => onChangeGameStatus(GameStatusEnum.RUNNING)}
+                    onCancel={() => onChangeGameStatus(previousStatus.current)}
                     confirmButton="Yes, confirm"
                     cancelButton="No, cancel">
                       <p>Your current game will be reset.</p>

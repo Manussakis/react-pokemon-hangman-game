@@ -33,6 +33,7 @@ export type AppContextValue = {
   onChangeGeneration: (generation: number) => void;
   onChangeGameStatus: (status: GameStatusEnum) => void;
   onResetGame: (generation: number) => void;
+  onRevealPokemonName: () => void;
 };
 
 export type GameStateAction = {

@@ -13,6 +13,7 @@ const appContexValue: AppContextValue = {
   onChangeGeneration: () => {},
   onChangeGameStatus: () => {},
   onResetGame: () => {},
+  onRevealPokemonName: () => {},
 }
 
 const renderComponent = () => {
