@@ -59,6 +59,7 @@ function App() {
   const [selectedGeneration, setSelectedGeneration] = useState(generation);
   const loadNewPokemonBtnRef = useRef<HTMLButtonElement>(null);
   const resetBtnRef = useRef<HTMLButtonElement>(null);
+  const previousStatus = useRef<GameStatusEnum>(status);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
 
   function handleUseMyTip() {
@@ -83,7 +84,12 @@ function App() {
 
   function onCancelLoadNewPokemon() {    
     setSelectedGeneration(generation);
-    onChangeGameStatus(GameStatusEnum.RUNNING);
+    onChangeGameStatus(previousStatus.current);
+  }
+
+  function onOpenModals() {
+    previousStatus.current = status;
+    onChangeGameStatus(GameStatusEnum.PAUSED);
   }
 
   function shouldShowRevealButton() {
@@ -156,7 +162,7 @@ function App() {
                   <Dialog 
                     title="Are you sure?" 
                     triggerRef={loadNewPokemonBtnRef} 
-                    onOpen={() => onChangeGameStatus(GameStatusEnum.PAUSED)}
+                    onOpen={onOpenModals}
                     onConfirm={onConfirmLoadNewPokemon}
                     onCancel={onCancelLoadNewPokemon}
                     confirmButton="Yes, confirm"
@@ -169,9 +175,9 @@ function App() {
                   <Dialog 
                     title="Are you sure?" 
                     triggerRef={resetBtnRef}
-                    onOpen={() => onChangeGameStatus(GameStatusEnum.PAUSED)}
+                    onOpen={onOpenModals}
                     onConfirm={() => onResetGame(generation)}
-                    onCancel={() => onChangeGameStatus(GameStatusEnum.RUNNING)}
+                    onCancel={() => onChangeGameStatus(previousStatus.current)}
                     confirmButton="Yes, confirm"
                     cancelButton="No, cancel">
                       <p>Your current game will be reset.</p>
