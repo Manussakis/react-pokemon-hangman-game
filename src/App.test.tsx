@@ -3,7 +3,7 @@ import { AppContextProvider } from './contexts/AppContext';
 import { fireEvent, render, screen, waitForElementToBeRemoved, within } from '@testing-library/react';
 import { PokemonData } from './contexts/AppContext/type';
 import { fetchPokemon} from './api/index';
-import { REVEALED_NAME_BUTTON_LABEL, REVEAL_NAME_BUTTON_LABEL } from './utils/constants';
+import { FIND_NEW_POKEMON_BUTTON_LABEL, REVEALED_NAME_BUTTON_LABEL, REVEAL_NAME_BUTTON_LABEL } from './utils/constants';
 
 const WORD_IN_PROGRESS_NAME = /word in progress/i;
 const LOADING_POKEMON_IMAGE_NAME = /loading pokémon/i;
@@ -72,9 +72,9 @@ describe('App component', () => {
 
     mockedFetchPokemon.mockReturnValueOnce(promiseNewPokemonData);
 
-    const loadNewPokemonBtn = screen.getByRole('button', { name: /load new pokémon/i});
+    const findNewPokemonBtn = screen.getByLabelText(FIND_NEW_POKEMON_BUTTON_LABEL);
 
-    fireEvent.click(loadNewPokemonBtn);
+    fireEvent.click(findNewPokemonBtn);
 
     const dialog = await screen.findByRole('dialog');
     const dialogConfirmButton = within(dialog).getByRole('button', { name: /confirm/i} );
@@ -104,24 +104,6 @@ describe('App component', () => {
     const heading1 = await screen.findByRole('heading', { level: 1 });
 
     expect(heading1).toBeInTheDocument();
-  });
-
-  test('reveals Pokémon game', async () => {
-    await initGame();
-
-    const revealBtn = await screen.findByLabelText(REVEAL_NAME_BUTTON_LABEL);
-
-    fireEvent.click(revealBtn);
-
-    const wordInprogress = await screen.findByRole('list', { name: WORD_IN_PROGRESS_NAME });
-    const letters = within(wordInprogress).getAllByRole('listitem');
-    const pokemonName = letters.map(item => item.textContent).join('');
-
-    expect(pokemonName).toEqual('pikachu');
-
-    const revealedBtn = await screen.findByLabelText(REVEALED_NAME_BUTTON_LABEL);
-
-    expect(revealedBtn).toBeInTheDocument();
   });
 
   test('renders footer links', async () => {

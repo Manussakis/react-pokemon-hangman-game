@@ -15,6 +15,8 @@ import { Divider } from './components/Divider';
 import { ReactComponent as Github } from './assets/github-icon.svg';
 import { ReactComponent as Home } from './assets/home-icon.svg';
 import { ReactComponent as Eye } from './assets/eye-icon.svg';
+import { ReactComponent as Search } from './assets/search-icon.svg';
+import { ReactComponent as Restart } from './assets/restart-icon.svg';
 import { GameStatusEnum } from './contexts/AppContext/enums';
 import { ButtonTypeEnum } from './components/Button/enums';
 import { DividerSpacingEnum } from './components/Divider/enums';
@@ -31,7 +33,12 @@ import {
   StyledFooter,
   StyledFooterContent
 } from './styles';
-import { REVEALED_NAME_BUTTON_LABEL, REVEAL_NAME_BUTTON_LABEL } from './utils/constants';
+import { 
+  FIND_NEW_POKEMON_BUTTON_LABEL,
+  REVEALED_NAME_BUTTON_LABEL,
+  REVEAL_NAME_BUTTON_LABEL,
+  TRY_AGAIN_BUTTON_LABEL
+} from './utils/constants';
 
 function App() {
   const {
@@ -57,7 +64,7 @@ function App() {
   } = useAppContext();
 
   const [selectedGeneration, setSelectedGeneration] = useState(generation);
-  const loadNewPokemonBtnRef = useRef<HTMLButtonElement>(null);
+  const findNewPokemonBtnRef = useRef<HTMLButtonElement>(null);
   const resetBtnRef = useRef<HTMLButtonElement>(null);
   const previousStatus = useRef<GameStatusEnum>(status);
   const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
@@ -73,7 +80,7 @@ function App() {
     setSelectedGeneration(generation);
   }
 
-  function onConfirmLoadNewPokemon() {           
+  function onConfirmFindNewPokemon() {           
     if (selectedGeneration === generation) {
       onFindNewPokemon(); 
     } else {
@@ -82,7 +89,7 @@ function App() {
     }
   }
 
-  function onCancelLoadNewPokemon() {    
+  function onCancelFindNewPokemon() {    
     setSelectedGeneration(generation);
     onChangeGameStatus(previousStatus.current);
   }
@@ -94,18 +101,13 @@ function App() {
 
   function shouldShowRevealButton() {
     return (
-      status === GameStatusEnum.RUNNING || 
-      status === GameStatusEnum.PAUSED || 
       status === GameStatusEnum.LOST || 
       status === GameStatusEnum.REVEALED
     );
   }
 
   function shouldShowTryAgainButton() {
-    return (
-      status === GameStatusEnum.LOST || 
-      status === GameStatusEnum.REVEALED
-    );
+    return status === GameStatusEnum.LOST;
   }
 
   useEffect(() => {    
@@ -121,7 +123,7 @@ function App() {
         status === GameStatusEnum.ERROR ? (
           <StyledError style={{paddingTop: '1rem'}}>
             Ops! Something went wrong <br />
-            It was not possible to load a Pokémon
+            It was not possible to find a Pokémon.
           </StyledError>
         ) : (
           <>
@@ -145,26 +147,41 @@ function App() {
               <WordInProgress wordInProgress={wordInProgress} />
               <Keyboard />
               <StyledButtons>
+                {shouldShowTryAgainButton() && (
+                  <Button
+                    type={ButtonTypeEnum.PRIMARY}
+                    onClick={onTryAgain}
+                    icon={<Restart />}
+                    ariaLabel={TRY_AGAIN_BUTTON_LABEL}
+                  >
+                    {TRY_AGAIN_BUTTON_LABEL}
+                  </Button>)}
                 {shouldShowRevealButton() && (
                   <Button
                     icon={<Eye />}
-                    type={ButtonTypeEnum.LINK}
+                    type={ButtonTypeEnum.PRIMARY}
                     onClick={onRevealPokemonName}
                     disabled={status === GameStatusEnum.REVEALED}
                     ariaLabel={status === GameStatusEnum.REVEALED ? REVEALED_NAME_BUTTON_LABEL : REVEAL_NAME_BUTTON_LABEL}
                   >
                     {status === GameStatusEnum.REVEALED ? REVEALED_NAME_BUTTON_LABEL : REVEAL_NAME_BUTTON_LABEL}
                   </Button>
-                )}
-                {shouldShowTryAgainButton() && <Button type={ButtonTypeEnum.PRIMARY} onClick={onTryAgain}>Try again</Button>}
-                <Button ref={loadNewPokemonBtnRef} type={ButtonTypeEnum.PRIMARY}>Load new Pokémon</Button>
+                )}                
+                  <Button 
+                    ref={findNewPokemonBtnRef}
+                    type={ButtonTypeEnum.PRIMARY}
+                    icon={<Search />}
+                    ariaLabel={FIND_NEW_POKEMON_BUTTON_LABEL}
+                  >
+                    {FIND_NEW_POKEMON_BUTTON_LABEL}
+                  </Button>
                 <DialogContextProvider>
                   <Dialog 
                     title="Are you sure?" 
-                    triggerRef={loadNewPokemonBtnRef} 
+                    triggerRef={findNewPokemonBtnRef} 
                     onOpen={onOpenModals}
-                    onConfirm={onConfirmLoadNewPokemon}
-                    onCancel={onCancelLoadNewPokemon}
+                    onConfirm={onConfirmFindNewPokemon}
+                    onCancel={onCancelFindNewPokemon}
                     confirmButton="Yes, confirm"
                     cancelButton="No, cancel">
                       <p>If you want, change the Generation.<br />After confirming it, a new random Pokémon will be loaded.</p>
