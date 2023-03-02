@@ -119,7 +119,6 @@ describe('Game state reducer', () => {
     const expectedState = {
       ...runningState,
       wordInProgress: [ 'p', 'i', 'k', 'a', 'c', 'h', 'u' ],
-      hasTip: false,
       status: GameStatusEnum.REVEALED,
     };
 

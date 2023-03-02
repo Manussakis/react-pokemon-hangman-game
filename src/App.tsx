@@ -67,7 +67,12 @@ function App() {
   const findNewPokemonBtnRef = useRef<HTMLButtonElement>(null);
   const resetBtnRef = useRef<HTMLButtonElement>(null);
   const previousStatus = useRef<GameStatusEnum>(status);
-  const useTipDisabled = !hasTip || status === GameStatusEnum.WON || status === GameStatusEnum.LOST;
+  const useTipDisabled = (
+    !hasTip || 
+    status === GameStatusEnum.WON || 
+    status === GameStatusEnum.LOST || 
+    status === GameStatusEnum.REVEALED
+  );
 
   function handleUseMyTip() {
     const hiddenLetters = name.split('').filter(l => !wordInProgress.includes(l));

@@ -101,7 +101,6 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
       return {
         ...state,
         wordInProgress: revealedWordInProgress,
-        hasTip: false,
         status: GameStatusEnum.REVEALED,
       }
 
