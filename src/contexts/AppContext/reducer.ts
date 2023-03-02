@@ -9,13 +9,13 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
   let pokemonData: PokemonData;
 
   switch (action.type) {
-    case GameActionTypeEnum.GET_NEW_POKEMON:
+    case GameActionTypeEnum.FIND_NEW_POKEMON:
       if (!action.payload?.pokemonData) {
-        throw new Error(`The action type ${GameActionTypeEnum.GET_NEW_POKEMON} requires a payload object with the property "pokemonData".`)
+        throw new Error(`The action type ${GameActionTypeEnum.FIND_NEW_POKEMON} requires a payload object with the property "pokemonData".`)
       }
 
       if (!action.payload?.status) {
-        throw new Error(`The action type ${GameActionTypeEnum.GET_NEW_POKEMON} requires a payload object with the property "status".`)
+        throw new Error(`The action type ${GameActionTypeEnum.FIND_NEW_POKEMON} requires a payload object with the property "status".`)
       }
 
       pokemonData = action.payload.pokemonData;
@@ -101,7 +101,6 @@ export const gameStateRuducer = (state: GameState, action: GameStateAction): Gam
       return {
         ...state,
         wordInProgress: revealedWordInProgress,
-        hasTip: false,
         status: GameStatusEnum.REVEALED,
       }
 

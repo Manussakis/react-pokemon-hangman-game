@@ -12,6 +12,9 @@ export const POKEMON_IMG_FILE_EXT = 'png';
 
 export const DELAY_BEFORE_RESULT = 500;
 
+export const TRY_AGAIN_BUTTON_LABEL = 'Try again';
+export const FIND_NEW_POKEMON_BUTTON_LABEL = 'Find new Pokémon';
+export const GO_BACK_BUTTON_LABEL = 'Go back';
 export const REVEAL_NAME_BUTTON_LABEL = 'Reveal Pokémon name';
 export const REVEALED_NAME_BUTTON_LABEL = 'Pokémon name revealed';
 

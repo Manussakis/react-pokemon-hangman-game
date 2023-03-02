@@ -3,6 +3,7 @@ import { GameConclusion } from '.';
 import { AppContext, gameStateInitialValue } from '../../contexts/AppContext';
 import { GameStatusEnum } from '../../contexts/AppContext/enums';
 import { AppContextValue } from '../../contexts/AppContext/type';
+import { FIND_NEW_POKEMON_BUTTON_LABEL, TRY_AGAIN_BUTTON_LABEL } from '../../utils/constants';
 
 const mockOnTryAgain = jest.fn();
 const mockFindNewPokemon = jest.fn();
@@ -33,32 +34,23 @@ const renderWithAppContext = (result: GameStatusEnum) => {
 describe('GameConclusion component', () => {
   test('renders won result and keeps playing', () => {
     const { dialog } = renderWithAppContext(GameStatusEnum.WON);
-    const nextButton = within(dialog).getByRole('button', {name: /next pokémon/i});
+    const findNewPokemonButton = within(dialog).getByLabelText(FIND_NEW_POKEMON_BUTTON_LABEL);
 
-    expect(nextButton).toBeInTheDocument();
+    expect(findNewPokemonButton).toBeInTheDocument();
 
-    fireEvent.click(nextButton);
+    fireEvent.click(findNewPokemonButton);
 
     expect(mockFindNewPokemon).toHaveBeenCalledTimes(1);
   });
 
   test('renders lost result and tries again', () => {
     const { dialog } = renderWithAppContext(GameStatusEnum.LOST);
-    const tryAgainButton = within(dialog).getByRole('button', {name: /try again/i});
+    const tryAgainButton = within(dialog).getByLabelText(TRY_AGAIN_BUTTON_LABEL);
 
     expect(tryAgainButton).toBeInTheDocument();
 
     fireEvent.click(tryAgainButton);
 
     expect(mockOnTryAgain).toHaveBeenCalledTimes(1);
-  });
-
-  test('closes', () => {
-    const { dialog } = renderWithAppContext(GameStatusEnum.LOST);
-    const closeButton = within(dialog).getByRole('button', {name: /close/i});
-
-    fireEvent.click(closeButton);
-
-    expect(dialog).not.toBeInTheDocument();
   });
 });
