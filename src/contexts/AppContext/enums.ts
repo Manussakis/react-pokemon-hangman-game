@@ -7,6 +7,8 @@ export enum GameStatusEnum {
   LOST,
   REVEALED,
   ERROR,
+  STANDBY_WON,
+  STANDBY_LOST,
 }
 
 export enum GameActionTypeEnum {

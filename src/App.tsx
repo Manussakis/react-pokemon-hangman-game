@@ -71,7 +71,9 @@ function App() {
     !hasTip || 
     status === GameStatusEnum.WON || 
     status === GameStatusEnum.LOST || 
-    status === GameStatusEnum.REVEALED
+    status === GameStatusEnum.REVEALED ||
+    status === GameStatusEnum.STANDBY_LOST ||
+    status === GameStatusEnum.STANDBY_WON
   );
 
   function handleUseMyTip() {
@@ -106,13 +108,13 @@ function App() {
 
   function shouldShowRevealButton() {
     return (
-      status === GameStatusEnum.LOST || 
+      status === GameStatusEnum.STANDBY_LOST || 
       status === GameStatusEnum.REVEALED
     );
   }
 
   function shouldShowTryAgainButton() {
-    return status === GameStatusEnum.LOST;
+    return status === GameStatusEnum.STANDBY_LOST;
   }
 
   useEffect(() => {    

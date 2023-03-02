@@ -36,7 +36,13 @@ const customStyles = {
 export const GameConclusion = ({ result }: GameConclusionProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { gameState: { status }, onFindNewPokemon, onTryAgain, onRevealPokemonName } = useAppContext();
+  const { 
+    gameState: { status }, 
+    onFindNewPokemon, 
+    onTryAgain,
+    onRevealPokemonName,
+    onChangeGameStatus,
+  } = useAppContext();
 
   let content;
 
@@ -56,6 +62,16 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
 
   function handleRevealPokemonName() {
     onRevealPokemonName();
+    close();
+  }
+
+  function handleCloseGameConclusion() {
+    if (status === GameStatusEnum.WON) {
+      onChangeGameStatus(GameStatusEnum.STANDBY_WON);
+    } else {
+      onChangeGameStatus(GameStatusEnum.STANDBY_LOST);
+    }
+    
     close();
   }
 
@@ -82,7 +98,7 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
         <Button 
           icon={<Back />}
           type={ButtonTypeEnum.LINK} 
-          onClick={() => close()}
+          onClick={() => handleCloseGameConclusion()}
           ariaLabel={GO_BACK_BUTTON_LABEL}
         >
           {GO_BACK_BUTTON_LABEL}
@@ -122,7 +138,7 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
       <img style={{display: 'none'}} src="https://media2.giphy.com/media/xuXzcHMkuwvf2/giphy.gif" alt="" />
       <Modal
         isOpen={isOpen}
-        onRequestClose={close}
+        onRequestClose={handleCloseGameConclusion}
         overlayClassName="game-conclusion__overlay"
         style={customStyles}
         contentLabel="Game result"
