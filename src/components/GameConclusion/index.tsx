@@ -3,10 +3,15 @@ import Modal from 'react-modal';
 import { useAppContext } from '../../contexts/AppContext';
 import { Button } from '../Button';
 import { Container } from '../Container';
+import { ReactComponent as Eye } from '../../assets/eye-icon.svg';
+import { ReactComponent as Search } from '../../assets/search-icon.svg';
+import { ReactComponent as Restart } from '../../assets/restart-icon.svg';
+import { ReactComponent as Back } from '../../assets/arrow-back-icon.svg';
 import { GameConclusionProps } from './type';
 import { GameStatusEnum } from '../../contexts/AppContext/enums';
 import { ButtonTypeEnum } from '../Button/enums';
 import { ContainerSizesEnum } from '../Container/enums';
+import { FIND_NEW_POKEMON_BUTTON_LABEL, GO_BACK_BUTTON_LABEL, REVEAL_NAME_BUTTON_LABEL, TRY_AGAIN_BUTTON_LABEL } from '../../utils/constants';
 
 import { StyledContent, StyledImage, StyledButtons } from './styles';
 import './styles.scss';
@@ -31,7 +36,7 @@ const customStyles = {
 export const GameConclusion = ({ result }: GameConclusionProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { onFindNewPokemon, onTryAgain } = useAppContext();
+  const { gameState: { status }, onFindNewPokemon, onTryAgain, onRevealPokemonName } = useAppContext();
 
   let content;
 
@@ -49,6 +54,11 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
     close();
   }
 
+  function handleRevealPokemonName() {
+    onRevealPokemonName();
+    close();
+  }
+
   useEffect(() => {
     if (result === GameStatusEnum.WON || result === GameStatusEnum.LOST) {
       setIsOpen(true);
@@ -61,19 +71,47 @@ export const GameConclusion = ({ result }: GameConclusionProps) => {
       <h2>You're a Pokémon expert!</h2>
       <p>Let's see how you do with the next Pokémon.</p>
       <StyledButtons>
-        <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Next Pokémon</Button>
-        <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>Close</Button>
+        <Button 
+          type={ButtonTypeEnum.PRIMARY}
+          icon={<Search />}
+          onClick={handleFindNewPokemon}
+          ariaLabel={FIND_NEW_POKEMON_BUTTON_LABEL}
+        >
+          {FIND_NEW_POKEMON_BUTTON_LABEL}
+        </Button>
+        <Button 
+          icon={<Back />}
+          type={ButtonTypeEnum.LINK} 
+          onClick={() => close()}
+          ariaLabel={GO_BACK_BUTTON_LABEL}
+        >
+          {GO_BACK_BUTTON_LABEL}
+        </Button>
       </StyledButtons>
     </StyledContent>
   } else if (result === GameStatusEnum.LOST) {
     content = <StyledContent>
       <StyledImage src="https://media3.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="Pikachu is happy" />
-      <h2>Game Over!<br />Your available attempts have gone.</h2>
-      <p>You can either try again or load a new Pokémon.</p>
+      <h2>Game Over!</h2>
+      <p>You can either try again or reveal the Pokémon name.</p>
       <StyledButtons>
-        <Button type={ButtonTypeEnum.PRIMARY} onClick={handleTryAgain}>Try again</Button>
-        <Button type={ButtonTypeEnum.PRIMARY} onClick={handleFindNewPokemon}>Load new Pokémon</Button>
-        <Button type={ButtonTypeEnum.LINK} onClick={() => close()}>Close</Button>
+        <Button 
+          icon={<Restart />}
+          type={ButtonTypeEnum.PRIMARY}
+          onClick={handleTryAgain}
+          ariaLabel={TRY_AGAIN_BUTTON_LABEL}
+        >
+          {TRY_AGAIN_BUTTON_LABEL}
+        </Button>
+        <Button
+          icon={<Eye />}
+          type={ButtonTypeEnum.PRIMARY}
+          onClick={handleRevealPokemonName}
+          disabled={status === GameStatusEnum.REVEALED}
+          ariaLabel={REVEAL_NAME_BUTTON_LABEL}
+        >
+          {REVEAL_NAME_BUTTON_LABEL}
+        </Button>
       </StyledButtons>
     </StyledContent>
   }
