@@ -65,7 +65,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       const pokemonData = await fetchPokemon(randomPokemonId);
 
       dispatchGameState({
-        type: GameActionTypeEnum.GET_NEW_POKEMON,
+        type: GameActionTypeEnum.FIND_NEW_POKEMON,
         payload: {
           pokemonData,
           status: GameStatusEnum.RUNNING,
@@ -85,7 +85,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   const onTryAgain = useCallback(() => {
     dispatchGameState({
-      type: GameActionTypeEnum.GET_NEW_POKEMON,
+      type: GameActionTypeEnum.FIND_NEW_POKEMON,
       payload: {
         pokemonData: gameState.pokemonData,
         status: GameStatusEnum.RUNNING,

@@ -46,7 +46,7 @@ describe('Game state reducer', () => {
 
   test('loads new Pokémon', () => {
     const action = {
-      type: GameActionTypeEnum.GET_NEW_POKEMON,
+      type: GameActionTypeEnum.FIND_NEW_POKEMON,
       payload: {
         pokemonData: { ...pikachuPokemonData },
         status: GameStatusEnum.RUNNING,
